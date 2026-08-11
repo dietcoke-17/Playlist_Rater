@@ -1,0 +1,120 @@
+/* ═══════════════════════════════════════════
+   NVG8 Left-Aligned Statement in Centered Boundary Box Styles
+   ═══════════════════════════════════════════ */
+
+.home-statement-section {
+  position: relative;
+  background: #0B0B10;
+  color: #FFFFFF;
+  padding: 160px 24px 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: left;
+}
+
+/* Centered boundary box on screen, but text inside is LEFT aligned */
+.home-statement-container {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 52px;
+  text-align: left;
+}
+
+.statement-block {
+  width: 100%;
+  text-align: left;
+  will-change: opacity, transform, filter;
+}
+
+.statement-text {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  font-weight: 850;
+  line-height: 1.38;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  text-align: left;
+}
+
+/* ── Progressive Word Reveal Loading States ── */
+.reveal-word {
+  display: inline-block;
+  opacity: 0.18;
+  filter: blur(2px);
+  will-change: opacity, filter, transform;
+}
+
+/* ── Clean Single Green Badge Pill "❖ Your playlists" (No inner violet box) ── */
+.badge-inline-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #3EC96A;
+  color: #0A0A0E;
+  padding: 4px 16px 4px 12px;
+  border-radius: 12px;
+  vertical-align: middle;
+  font-size: clamp(1.4rem, 2.6vw, 2.3rem);
+  font-weight: 850;
+  box-shadow: 0 8px 25px rgba(62, 201, 106, 0.35);
+  margin-right: 6px;
+}
+
+.badge-icon {
+  font-size: 0.85em;
+  color: #0A0A0E;
+}
+
+/* ── Secondary Statement Block ── */
+.statement-heading-sub {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.8vw, 2.4rem);
+  font-weight: 850;
+  color: #FFFFFF;
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.statement-text-secondary {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+  font-weight: 850;
+  line-height: 1.38;
+  letter-spacing: -0.02em;
+  color: #FFFFFF;
+  text-align: left;
+}
+
+/* ── Brand Badge Pill "🟧 Playlist Rater" ── */
+.brand-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #FF5733;
+  color: #FFFFFF;
+  padding: 4px 16px;
+  border-radius: 12px;
+  vertical-align: middle;
+  font-weight: 900;
+  font-size: 0.9em;
+  box-shadow: 0 8px 20px rgba(255, 87, 51, 0.4);
+  margin: 0 6px;
+}
+
+@media (max-width: 768px) {
+  .home-statement-section {
+    padding: 100px 18px 80px;
+  }
+  .home-statement-container {
+    gap: 36px;
+    max-width: 100%;
+  }
+}

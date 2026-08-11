@@ -1,0 +1,250 @@
+/* ═══════════════════════════════════════════
+   Hero Component & Absorption Trajectory Styles
+   ═══════════════════════════════════════════ */
+
+.hero-section {
+  position: relative;
+  min-height: 190vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background: #0A0A0E;
+  color: #FFFFFF;
+  padding: 150px 24px 140px;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* ── Decorative NVG8 Side Graphic Arrows ── */
+.hero-side-shapes {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 25vw;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.shape-arrow {
+  width: 100%;
+  height: 28vh;
+  border-top-right-radius: 120px;
+  border-bottom-right-radius: 120px;
+}
+
+.shape-red {
+  background: #FF5733;
+  transform: translateX(-35%);
+}
+
+.shape-blue {
+  background: #5B51FF;
+  transform: translateX(-45%);
+}
+
+.shape-yellow {
+  background: #FFB830;
+  transform: translateX(-55%);
+}
+
+.hero-container {
+  position: relative;
+  z-index: 2;
+  max-width: 1250px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+/* ── Bold Display Headline ── */
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6.5vw, 5.8rem);
+  font-weight: 850;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: #FFFFFF;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-title span {
+  display: block;
+}
+
+/* ── Subtitle ── */
+.hero-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.8vw, 1.3rem);
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 36px;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+/* ── Lime Green CTA Pill Button ── */
+.hero-cta-wrap {
+  margin-bottom: 20px;
+}
+
+.lime-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #A3FF12;
+  color: #0A0A0A;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 1.05rem;
+  padding: 16px 36px;
+  border-radius: 100px;
+  text-decoration: none;
+  box-shadow: 0 0 45px rgba(163, 255, 18, 0.45), inset 0 2px 0 rgba(255, 255, 255, 0.6);
+  transition: all 0.3s var(--ease-spring);
+}
+
+.lime-btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(10, 10, 10, 0.1);
+  border-radius: 50%;
+}
+
+.lime-pill-btn:hover {
+  transform: scale(1.06) translateY(-2px);
+  background: #b5ff36;
+  box-shadow: 0 0 65px rgba(163, 255, 18, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* ── 5 Physical Interacting Vector Icons (Starts under button) ── */
+.hero-icons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3.5vw, 32px);
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 15px;
+  margin-bottom: 140px;
+  padding: 10px 0;
+  will-change: transform;
+  z-index: 20;
+}
+
+.hero-icon-card {
+  position: relative;
+  width: clamp(65px, 8.5vw, 95px);
+  height: clamp(65px, 8.5vw, 95px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  cursor: pointer;
+  will-change: transform, filter;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.4));
+  transition: filter 0.3s ease;
+}
+
+.hero-icon-card svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── NVG8 Absorption Target Section ── */
+.hero-nvg8-absorption-wrap {
+  margin-top: 80px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.caption-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 28px;
+  font-family: var(--font-body);
+}
+
+.caption-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.caption-sub {
+  font-size: 15px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.nvg8-title-display {
+  font-family: var(--font-display);
+  font-size: clamp(2.0rem, 4.2vw, 3.8rem);
+  font-weight: 850;
+  line-height: 1.28;
+  letter-spacing: -0.025em;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+/* Inline Target Slot Element inside text lines */
+.inline-target-slot {
+  position: relative;
+  display: inline-block;
+  width: clamp(48px, 6.5vw, 68px);
+  height: clamp(48px, 6.5vw, 68px);
+  vertical-align: middle;
+  flex-shrink: 0;
+  margin: 0 6px;
+  pointer-events: none;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .hero-section {
+    padding-top: 120px;
+    padding-bottom: 60px;
+    min-height: 150vh;
+  }
+  .title-row {
+    gap: 8px;
+  }
+  .inline-target-slot {
+    width: clamp(38px, 9vw, 50px);
+    height: clamp(38px, 9vw, 50px);
+  }
+  .hero-icon-card {
+    width: clamp(42px, 11vw, 58px);
+    height: clamp(42px, 11vw, 58px);
+  }
+}

@@ -1,0 +1,131 @@
+/* ═══════════════════════════════════════════
+   Icons Finale Section Styles
+   ═══════════════════════════════════════════ */
+
+.finale-scroll-container {
+  position: relative;
+  height: 300vh;
+  background: #08080C;
+  color: #FFFFFF;
+}
+
+.finale-pin-wrapper {
+  position: sticky;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.finale-bg-aura {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80vw;
+  height: 80vh;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: background 0.8s ease;
+  z-index: 1;
+}
+
+.finale-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1100px;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.finale-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+  font-weight: 850;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 12px;
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.title-gradient {
+  background: linear-gradient(135deg, #7B61FF, #3EC96A, #FF5733, #FFB830, #4A90FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.finale-subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 50px;
+  max-width: 540px;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* ── Centered Icons Row ── */
+.finale-icons-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 36px);
+  width: 100%;
+}
+
+.finale-icon-card {
+  position: relative;
+  width: clamp(75px, 14vw, 140px);
+  height: clamp(75px, 14vw, 140px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  will-change: transform, opacity, box-shadow;
+  transition: filter 0.3s ease;
+}
+
+.finale-icon-card svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.card-label {
+  position: absolute;
+  bottom: -32px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.finale-icon-card:hover {
+  filter: brightness(1.2);
+}
+
+@media (max-width: 640px) {
+  .finale-icons-grid {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .finale-icon-card {
+    width: clamp(55px, 16vw, 75px);
+    height: clamp(55px, 16vw, 75px);
+  }
+}

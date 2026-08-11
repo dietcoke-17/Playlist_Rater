@@ -1,0 +1,130 @@
+/* ═══════════════════════════════════════════
+   SVG Transitions — Chevron Section Dividers
+   ═══════════════════════════════════════════ */
+
+.svg-transition {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  font-size: 0;
+  z-index: 2;
+  margin-top: -1px;
+  margin-bottom: -1px;
+}
+
+.svg-transition__svg {
+  display: block;
+  width: 100%;
+  height: clamp(160px, 26vw, 380px);
+}
+
+/* ── Chevron base ── */
+.svg-chevron {
+  will-change: transform, opacity;
+  transform-origin: center center;
+}
+
+/* ── Keyframes ── */
+@keyframes chevronFloat {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(18px); }
+}
+
+@keyframes chevronPulse {
+  0%, 100% { opacity: 0.1; transform: scale(1); }
+  50% { opacity: 0.38; transform: scale(1.04); }
+}
+
+/* ── Default: hidden, slide from left ── */
+.svg-transition .svg-chevron {
+  opacity: 0;
+  transform: translateX(-450px) scaleX(0.65);
+  transition: transform 1.2s var(--ease-spring), opacity 0.7s var(--ease-smooth);
+}
+
+.svg-transition .svg-reveal-bg {
+  opacity: 0;
+  transform: translateX(-350px) scaleX(0.75);
+  transition: transform 1.4s var(--ease-spring) 0.18s, opacity 0.5s var(--ease-smooth) 0.18s;
+}
+
+/* ── In-view: animate in ── */
+.svg-transition.in-view .svg-chevron {
+  opacity: 1;
+  transform: translateX(0) scaleX(1);
+}
+
+.svg-transition.in-view .svg-reveal-bg {
+  opacity: 1;
+  transform: translateX(0) scaleX(1);
+}
+
+/* Staggered delays */
+.svg-transition.in-view .svg-chevron:nth-child(1) { transition-delay: 0s; }
+.svg-transition.in-view .svg-chevron:nth-child(2) { transition-delay: 0.14s; }
+.svg-transition.in-view .svg-chevron:nth-child(3) { transition-delay: 0.28s; }
+
+/* Gentle float after settling */
+.svg-transition.in-view .svg-chevron {
+  animation: chevronFloat 7s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+.svg-transition.in-view .svg-chevron:nth-child(2) { animation-delay: 2.2s; animation-duration: 8s; }
+.svg-transition.in-view .svg-chevron:nth-child(3) { animation-delay: 2.8s; animation-duration: 9s; }
+
+/* ── Reverse: slide from right ── */
+.svg-transition--reverse .svg-chevron {
+  transform: translateX(450px) scaleX(0.65) !important;
+}
+
+.svg-transition--reverse.in-view .svg-chevron {
+  transform: translateX(0) scaleX(1) !important;
+}
+
+.svg-transition--reverse .svg-reveal-bg {
+  transform: translateX(350px) scaleX(0.75) !important;
+}
+
+.svg-transition--reverse.in-view .svg-reveal-bg {
+  transform: translateX(0) scaleX(1) !important;
+}
+
+/* ── Glow variant ── */
+.svg-transition--glow .svg-chevron {
+  opacity: 0 !important;
+  transform: translateX(0) scaleX(1) !important;
+  animation: none !important;
+  transition: opacity 0.8s var(--ease-smooth) !important;
+}
+
+.svg-transition--glow.in-view .svg-chevron {
+  opacity: 1 !important;
+  animation: chevronPulse 4.5s ease-in-out infinite !important;
+}
+
+.svg-transition--glow.in-view .svg-chevron:nth-child(1) { animation-delay: 0s !important; }
+.svg-transition--glow.in-view .svg-chevron:nth-child(2) { animation-delay: 0.7s !important; }
+.svg-transition--glow.in-view .svg-chevron:nth-child(3) { animation-delay: 1.4s !important; }
+
+/* ── Scroll-linked parallax via CSS custom prop ── */
+.svg-transition.in-view:not(.svg-transition--glow) .svg-chevron:nth-child(1) {
+  transform: translateX(calc(var(--scroll-progress, 0) * -55px)) scaleX(1);
+}
+.svg-transition.in-view:not(.svg-transition--glow) .svg-chevron:nth-child(2) {
+  transform: translateX(calc(var(--scroll-progress, 0) * -28px)) scaleX(1);
+}
+.svg-transition.in-view:not(.svg-transition--glow) .svg-chevron:nth-child(3) {
+  transform: translateX(calc(var(--scroll-progress, 0) * -12px)) scaleX(1);
+}
+
+/* ── Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .svg-transition .svg-chevron,
+  .svg-transition .svg-reveal-bg {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+}
