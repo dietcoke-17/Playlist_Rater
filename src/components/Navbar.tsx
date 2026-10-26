@@ -3,13 +3,14 @@ import './Navbar.css';
 
 const NAV_LINKS = [
   { label: 'Home', id: 'home' },
+  { label: 'Benefits', id: 'features' },
+  { label: 'How it works', id: 'how-it-works' },
   { label: 'Playlists', id: 'playlists' },
-  { label: 'Top playlists', id: 'top-playlists' },
   { label: 'FAQ', id: 'faq' },
 ];
 
 // IDs observed for scroll-spy (superset of nav links)
-const OBSERVED_SECTIONS = ['home', 'how-it-works', 'features', 'playlists', 'top-playlists', 'faq'];
+const OBSERVED_SECTIONS = ['home', 'problem-solution', 'features', 'how-it-works', 'playlists', 'top-playlists', 'tagline', 'faq', 'cta'];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

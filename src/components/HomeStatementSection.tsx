@@ -18,12 +18,12 @@ export default function HomeStatementSection() {
     if (prefersReduced) return;
 
     const words = container.querySelectorAll<HTMLSpanElement>('.reveal-word');
-    const exitBlock1 = container.querySelector<HTMLDivElement>('.block-1');
-    const exitBlock2 = container.querySelector<HTMLDivElement>('.block-2');
+    const exitBlock1 = container.querySelector<HTMLDivElement>('.block-problem');
+    const exitBlock2 = container.querySelector<HTMLDivElement>('.block-solution');
 
     if (!words.length) return;
 
-    // 1. Entrance Scroll: Progressive word-by-word text lighting reveal ("loading screen" effect)
+    // Entrance Scroll: Progressive word by word reveal
     gsap.timeline({
       scrollTrigger: {
         trigger: section,
@@ -34,11 +34,11 @@ export default function HomeStatementSection() {
     }).to(words, {
       opacity: 1,
       filter: 'blur(0px)',
-      stagger: 0.05,
+      stagger: 0.04,
       ease: 'power1.out',
     });
 
-    // 2. Exit Scroll: Top text hides smoothly from the top as user scrolls past ("hiding from up")
+    // Exit Scroll: Smooth upward recess
     if (exitBlock1) {
       gsap.to(exitBlock1, {
         scrollTrigger: {
@@ -47,9 +47,9 @@ export default function HomeStatementSection() {
           end: 'bottom 10%',
           scrub: 0.8,
         },
-        opacity: 0.15,
-        y: -40,
-        filter: 'blur(4px)',
+        opacity: 0.2,
+        y: -32,
+        filter: 'blur(3px)',
         ease: 'power2.in',
       });
     }
@@ -62,8 +62,8 @@ export default function HomeStatementSection() {
           end: 'bottom 5%',
           scrub: 0.8,
         },
-        opacity: 0.25,
-        y: -25,
+        opacity: 0.3,
+        y: -20,
         ease: 'power2.in',
       });
     }
@@ -74,10 +74,13 @@ export default function HomeStatementSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="home-statement-section">
+    <section ref={sectionRef} id="problem-solution" className="home-statement-section" aria-label="Problem and solution">
       <div ref={containerRef} className="home-statement-container">
-        {/* Main Left-Aligned Dark Statement 1 Inside Centered Boundary Box */}
-        <div className="statement-block block-1">
+        {/* 1. Problem Statement */}
+        <div className="statement-block block-problem">
+          <div className="statement-tag problem-tag">
+            <span className="statement-tag-dot" aria-hidden="true" /> The problem
+          </div>
           <h2 className="statement-text">
             <span className="badge-inline-pill">
               <span className="badge-icon">❖</span> Your playlists
@@ -87,71 +90,72 @@ export default function HomeStatementSection() {
             <span className="reveal-word">true</span>{' '}
             <span className="reveal-word">musical</span>{' '}
             <span className="reveal-word">identity,</span>{' '}
-            <span className="reveal-word">but</span>{' '}
+            <span className="reveal-word">yet</span>{' '}
             <span className="reveal-word">streaming</span>{' '}
             <span className="reveal-word">algorithms</span>{' '}
             <span className="reveal-word">flatten</span>{' '}
-            <span className="reveal-word">your</span>{' '}
-            <span className="reveal-word">taste</span>{' '}
+            <span className="reveal-word">everything</span>{' '}
             <span className="reveal-word">into</span>{' '}
-            <span className="reveal-word">generic</span>{' '}
+            <span className="reveal-word">monotonous</span>{' '}
             <span className="reveal-word">recommendations</span>{' '}
             <span className="reveal-word">without</span>{' '}
+            <span className="reveal-word">ever</span>{' '}
             <span className="reveal-word">giving</span>{' '}
-            <span className="reveal-word">your</span>{' '}
-            <span className="reveal-word">curated</span>{' '}
-            <span className="reveal-word">taste</span>{' '}
+            <span className="reveal-word">independent</span>{' '}
+            <span className="reveal-word">curators</span>{' '}
             <span className="reveal-word">the</span>{' '}
-            <span className="reveal-word">credit</span>{' '}
-            <span className="reveal-word">it</span>{' '}
-            <span className="reveal-word">deserves.</span>
+            <span className="reveal-word">recognition</span>{' '}
+            <span className="reveal-word">they</span>{' '}
+            <span className="reveal-word">earn.</span>
           </h2>
         </div>
 
-        {/* Main Left-Aligned Dark Statement 2 Inside Centered Boundary Box */}
-        <div className="statement-block block-2">
+        {/* 2. Solution Statement */}
+        <div className="statement-block block-solution">
+          <div className="statement-tag solution-tag">
+            <span className="statement-tag-dot solution-dot" aria-hidden="true" /> The solution
+          </div>
           <h3 className="statement-heading-sub">
-            <span className="reveal-word">It's</span>{' '}
-            <span className="reveal-word">time</span>{' '}
-            <span className="reveal-word">for</span>{' '}
-            <span className="reveal-word">a</span>{' '}
-            <span className="reveal-word">change.</span>
+            <span className="reveal-word">A</span>{' '}
+            <span className="reveal-word">transparent</span>{' '}
+            <span className="reveal-word">community</span>{' '}
+            <span className="reveal-word">scoring</span>{' '}
+            <span className="reveal-word">system.</span>
           </h3>
           <p className="statement-text-secondary">
             <span className="reveal-word">With</span>{' '}
             <span className="brand-badge-pill">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <rect width="24" height="24" rx="6" fill="#FF5733" />
                 <path d="M7 17L17 7M17 7H9M17 7V15" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span>Playlist Rater</span>
+              <span>PlaylistIQ</span>
             </span>{' '}
             <span className="reveal-word">you</span>{' '}
-            <span className="reveal-word">join</span>{' '}
-            <span className="reveal-word">an</span>{' '}
-            <span className="reveal-word">intelligent</span>{' '}
-            <span className="reveal-word">music</span>{' '}
-            <span className="reveal-word">analytics</span>{' '}
-            <span className="reveal-word">platform</span>{' '}
-            <span className="reveal-word">that</span>{' '}
-            <span className="reveal-word">rates</span>{' '}
-            <span className="reveal-word">your</span>{' '}
-            <span className="reveal-word">playlists,</span>{' '}
-            <span className="reveal-word">ranks</span>{' '}
-            <span className="reveal-word">your</span>{' '}
-            <span className="reveal-word">curated</span>{' '}
-            <span className="reveal-word">tracks</span>{' '}
-            <span className="reveal-word">across</span>{' '}
-            <span className="reveal-word">global</span>{' '}
-            <span className="reveal-word">community</span>{' '}
-            <span className="reveal-word">leaderboards,</span>{' '}
+            <span className="reveal-word">explore</span>{' '}
+            <span className="reveal-word">playlists</span>{' '}
+            <span className="reveal-word">scored</span>{' '}
+            <span className="reveal-word">1</span>{' '}
+            <span className="reveal-word">to</span>{' '}
+            <span className="reveal-word">10</span>{' '}
+            <span className="reveal-word">by</span>{' '}
+            <span className="reveal-word">real</span>{' '}
+            <span className="reveal-word">listeners,</span>{' '}
+            <span className="reveal-word">inspect</span>{' '}
+            <span className="reveal-word">harmonic</span>{' audio '}
+            <span className="reveal-word">analytics,</span>{' '}
             <span className="reveal-word">and</span>{' '}
-            <span className="reveal-word">rewards</span>{' '}
-            <span className="reveal-word">you</span>{' '}
-            <span className="reveal-word">for</span>{' '}
-            <span className="reveal-word">discovering</span>{' '}
-            <span className="reveal-word">top-tier</span>{' '}
-            <span className="reveal-word">music.</span>
+            <span className="reveal-word">climb</span>{' '}
+            <span className="reveal-word">global</span>{' '}
+            <span className="reveal-word">charts</span>{' '}
+            <span className="reveal-word">based</span>{' '}
+            <span className="reveal-word">strictly</span>{' '}
+            <span className="reveal-word">on</span>{' '}
+            <span className="reveal-word">track</span>{' '}
+            <span className="reveal-word">flow</span>{' '}
+            <span className="reveal-word">and</span>{' '}
+            <span className="reveal-word">sonic</span>{' '}
+            <span className="reveal-word">quality.</span>
           </p>
         </div>
       </div>

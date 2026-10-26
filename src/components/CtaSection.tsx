@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './Sections.css';
+import './CtaSection.css';
 
 export default function CtaSection() {
   const [submitted, setSubmitted] = useState(false);
@@ -10,11 +10,12 @@ export default function CtaSection() {
     e.preventDefault();
     setError('');
 
-    if (!email) {
+    const trimmed = email.trim();
+    if (!trimmed) {
       setError('Please enter your email address.');
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       setError('Please enter a valid email address.');
       return;
     }
@@ -23,42 +24,63 @@ export default function CtaSection() {
     setTimeout(() => {
       setSubmitted(false);
       setEmail('');
-    }, 5000);
+    }, 6000);
   };
 
   return (
-    <section id="cta" className="section section--dark section--cta">
-      <div className="section-inner section-inner--cta">
+    <section id="cta" className="cta-section" aria-label="Join early access">
+      <div className="cta-container">
+        <div className="pill-badge pill-badge--dark">
+          <span className="badge-dot dot-green" aria-hidden="true" /> Early access open
+        </div>
+
         <h2 className="cta-headline">
-          Ready to find your next<br />favourite playlist?
+          Ready to find your next favourite playlist?
         </h2>
         <p className="cta-sub">
-          Join the early access list. It's free and works with the Spotify account you already have.
+          Join over 14,000 curators and listeners discovering authentic music without algorithm distortion.
         </p>
 
-        <form className="cta-form" onSubmit={handleSubmit} aria-label="Request early access" noValidate>
-          <input
-            type="email"
-            className={`cta-input ${error ? 'cta-input--error' : ''}`}
-            placeholder="Your email address"
-            value={email}
-            onChange={(e) => { setEmail(e.target.value); setError(''); }}
-            aria-label="Email address"
-            aria-describedby={error ? 'cta-form-error' : undefined}
-          />
-          <button
-            type="submit"
-            className={`btn btn--primary btn--large ${submitted ? 'btn--success' : ''}`}
-          >
-            {submitted ? '✓ You\'re on the list!' : 'Get early access'}
-          </button>
+        <form className="cta-form-wrapper" onSubmit={handleSubmit} aria-label="Request early access" noValidate>
+          <div className="cta-input-group">
+            <input
+              type="email"
+              className={`cta-email-input ${error ? 'cta-email-input--error' : ''}`}
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                if (error) setError('');
+              }}
+              aria-label="Email address"
+              aria-describedby={error ? 'cta-form-error' : undefined}
+              required
+            />
+            <button
+              type="submit"
+              className={`cta-submit-btn ${submitted ? 'cta-submit-btn--success' : ''}`}
+              disabled={submitted}
+            >
+              {submitted ? '✓ You are on the list' : 'Get early access'}
+            </button>
+          </div>
+
+          {error && (
+            <p id="cta-form-error" className="cta-form-error" role="alert">
+              {error}
+            </p>
+          )}
+
+          {submitted && (
+            <p className="cta-form-success" role="status">
+              Welcome aboard. We will send you an invite to rate your first playlist shortly.
+            </p>
+          )}
         </form>
 
-        {error && (
-          <p id="cta-form-error" className="cta-form-error" role="alert">{error}</p>
-        )}
-
-        <p className="cta-note">No credit card · No new account · Just your email</p>
+        <p className="cta-guarantee-note">
+          Free forever · No credit card required · Instant Spotify library sync
+        </p>
       </div>
     </section>
   );

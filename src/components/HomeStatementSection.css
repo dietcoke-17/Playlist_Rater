@@ -1,21 +1,22 @@
 /* ═══════════════════════════════════════════
-   NVG8 Left-Aligned Statement in Centered Boundary Box Styles
+   Problem and Solution Section (HomeStatementSection)
    ═══════════════════════════════════════════ */
 
 .home-statement-section {
   position: relative;
-  background: #0B0B10;
+  background: var(--bg-dark); /* #000000 flat background */
   color: #FFFFFF;
-  padding: 160px 24px 140px;
+  padding: 120px 24px 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
   text-align: left;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-/* Centered boundary box on screen, but text inside is LEFT aligned */
 .home-statement-container {
   max-width: 720px;
   width: 100%;
@@ -23,7 +24,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 52px;
+  gap: 64px;
   text-align: left;
 }
 
@@ -33,88 +34,133 @@
   will-change: opacity, transform, filter;
 }
 
+.statement-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.problem-tag {
+  background: #272727;
+  color: #FF8566;
+}
+
+.statement-tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FF5733;
+}
+
+.solution-tag {
+  background: #272727;
+  color: #6CE391;
+}
+
+.solution-dot {
+  background: #3EC96A;
+}
+
 .statement-text {
   font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
-  font-weight: 850;
-  line-height: 1.38;
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.35;
   letter-spacing: -0.02em;
   color: #FFFFFF;
   text-align: left;
+  text-wrap: balance;
 }
 
-/* ── Progressive Word Reveal Loading States ── */
+/* Progressive Word Reveal Loading States */
 .reveal-word {
   display: inline-block;
-  opacity: 0.18;
+  opacity: 0.22;
   filter: blur(2px);
   will-change: opacity, filter, transform;
 }
 
-/* ── Clean Single Green Badge Pill "❖ Your playlists" (No inner violet box) ── */
+/* Green Badge Pill "❖ Your playlists" */
 .badge-inline-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   background: #3EC96A;
-  color: #0A0A0E;
-  padding: 4px 16px 4px 12px;
-  border-radius: 12px;
+  color: #000000;
+  padding: 4px 14px;
+  border-radius: var(--radius-lg);
   vertical-align: middle;
-  font-size: clamp(1.4rem, 2.6vw, 2.3rem);
-  font-weight: 850;
-  box-shadow: 0 8px 25px rgba(62, 201, 106, 0.35);
+  font-size: clamp(1.25rem, 2.4vw, 2rem);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(62, 201, 106, 0.3);
   margin-right: 6px;
 }
 
 .badge-icon {
   font-size: 0.85em;
-  color: #0A0A0E;
+  color: #000000;
 }
 
-/* ── Secondary Statement Block ── */
+/* Secondary Statement Block */
 .statement-heading-sub {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.8vw, 2.4rem);
-  font-weight: 850;
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  font-weight: 700;
   color: #FFFFFF;
   margin-bottom: 16px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
   text-align: left;
+  text-wrap: balance;
 }
 
 .statement-text-secondary {
-  font-family: var(--font-display);
-  font-size: clamp(1.75rem, 3.4vw, 2.75rem);
-  font-weight: 850;
-  line-height: 1.38;
-  letter-spacing: -0.02em;
-  color: #FFFFFF;
+  font-family: var(--font-body);
+  font-size: clamp(1.125rem, 2vw, 1.35rem);
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+  color: rgba(255, 255, 255, 0.82);
   text-align: left;
+  text-wrap: pretty;
 }
 
-/* ── Brand Badge Pill "🟧 Playlist Rater" ── */
+/* Brand Badge Pill "🟧 PlaylistIQ" */
 .brand-badge-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   background: #FF5733;
   color: #FFFFFF;
-  padding: 4px 16px;
-  border-radius: 12px;
+  padding: 4px 14px;
+  border-radius: var(--radius-lg);
   vertical-align: middle;
-  font-weight: 900;
-  font-size: 0.9em;
-  box-shadow: 0 8px 20px rgba(255, 87, 51, 0.4);
+  font-weight: 700;
+  font-size: 0.95em;
+  box-shadow: 0 4px 16px rgba(255, 87, 51, 0.35);
   margin: 0 6px;
 }
 
 @media (max-width: 768px) {
   .home-statement-section {
-    padding: 100px 18px 80px;
+    padding: 80px 16px 64px;
   }
   .home-statement-container {
-    gap: 36px;
+    gap: 40px;
     max-width: 100%;
+  }
+  .statement-text {
+    font-size: 1.5rem;
+  }
+  .badge-inline-pill {
+    font-size: 1.25rem;
   }
 }

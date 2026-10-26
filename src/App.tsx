@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Lenis from 'lenis';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -6,33 +6,17 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import HomeStatementSection from './components/HomeStatementSection';
-import ScrollExperienceSection from './components/ScrollExperienceSection';
-import PlaylistsSection from './components/PlaylistsSection';
-import TopRatedSection from './components/TopRatedSection';
-import FeaturesSection from './components/FeaturesSection';
+import BenefitsSection from './components/BenefitsSection';
+import HowItWorksSection from './components/HowItWorksSection';
+import ProductProofSection from './components/ProductProofSection';
+import TaglineSection from './components/TaglineSection';
 import FaqSection from './components/FaqSection';
 import CtaSection from './components/CtaSection';
+import Footer from './components/Footer';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function App() {
-  const [route, setRoute] = useState<string>(() => {
-    const hash = window.location.hash.replace('#', '');
-    return hash || 'home';
-  });
-
-  // Handle URL hash routing
-  useEffect(() => {
-    const onHashChange = () => {
-      const newHash = window.location.hash.replace('#', '') || 'home';
-      setRoute(newHash);
-      window.scrollTo(0, 0);
-    };
-
-    window.addEventListener('hashchange', onHashChange);
-    return () => window.removeEventListener('hashchange', onHashChange);
-  }, []);
-
   // Initialize Lenis Smooth Scroll synced with GSAP ScrollTrigger
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -59,51 +43,57 @@ export default function App() {
     gsap.ticker.add(tickerCb);
     gsap.ticker.lagSmoothing(0);
 
+    // Initial hash scroll support
+    if (window.location.hash) {
+      const id = window.location.hash.replace('#', '');
+      const target = document.getElementById(id);
+      if (target) {
+        setTimeout(() => {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    }
+
     return () => {
       cancelAnimationFrame(reqId);
       gsap.ticker.remove(tickerCb);
       lenis.destroy();
     };
-  }, [route]);
+  }, []);
 
   return (
     <div className="app">
       {/* Liquid Glass Centered Navbar */}
-      <Navbar currentRoute={route} />
+      <Navbar />
 
-      {/* Render Home Route Flow */}
-      {route === 'home' && (
-        <>
-          {/* Main Hero Landing & Character-Aligned Icon Text Absorption Section */}
-          <Hero />
+      <main id="main-content">
+        {/* Above the fold: Hero Landing Section */}
+        <Hero />
 
-          {/* Dark NVG8 Data Statement & Platform Mission Canvas */}
-          <HomeStatementSection />
+        {/* 1. Problem and solution */}
+        <HomeStatementSection />
 
-          {/* GSAP ScrollTrigger Interactive Wave Canvas */}
-          <ScrollExperienceSection />
-        </>
-      )}
+        {/* 2. Three to five benefits tied to real product outcomes */}
+        <BenefitsSection />
 
-      {route === 'playlists' && (
-        <div style={{ paddingTop: '80px' }}>
-          <PlaylistsSection />
-        </div>
-      )}
+        {/* 3. How the product works, using three clear steps */}
+        <HowItWorksSection />
 
-      {route === 'top-playlists' && (
-        <div style={{ paddingTop: '80px' }}>
-          <TopRatedSection />
-          <FeaturesSection />
-        </div>
-      )}
+        {/* 4. Product proof, screenshots or real customer evidence */}
+        <ProductProofSection />
 
-      {route === 'faq' && (
-        <div style={{ paddingTop: '80px' }}>
-          <FaqSection />
-          <CtaSection />
-        </div>
-      )}
+        {/* 5. A distinctive benefit or tagline section */}
+        <TaglineSection />
+
+        {/* 6. FAQ addressing the actual objections */}
+        <FaqSection />
+
+        {/* 7. Final CTA */}
+        <CtaSection />
+      </main>
+
+      {/* Complete Footer */}
+      <Footer />
     </div>
   );
 }

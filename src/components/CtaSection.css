@@ -1,0 +1,167 @@
+/* ═══════════════════════════════════════════
+   Final CTA Section Styles
+   ═══════════════════════════════════════════ */
+
+.cta-section {
+  position: relative;
+  background: var(--bg-dark); /* #000000 flat background */
+  color: #FFFFFF;
+  padding: 120px 24px 100px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.cta-container {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cta-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: #FFFFFF;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  text-wrap: balance;
+}
+
+.cta-sub {
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 36px;
+  text-wrap: pretty;
+}
+
+/* ── Form Layout ── */
+.cta-form-wrapper {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.cta-input-group {
+  display: flex;
+  align-items: center;
+  background: #181818;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  padding: 6px;
+  transition: border-color 200ms var(--ease-base), box-shadow 200ms var(--ease-base);
+}
+
+.cta-input-group:focus-within {
+  border-color: #3EC96A;
+  box-shadow: 0 0 16px rgba(62, 201, 106, 0.2);
+}
+
+.cta-email-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 12px 20px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: #FFFFFF;
+}
+
+.cta-email-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.cta-email-input--error {
+  color: #FF5733;
+}
+
+.cta-submit-btn {
+  background: #3EC96A;
+  color: #000000;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 12px 24px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 200ms var(--ease-base), background-color 200ms var(--ease-base);
+}
+
+.cta-submit-btn:hover:not(:disabled) {
+  background: #4CE07B;
+  transform: translateY(-1px);
+}
+
+.cta-submit-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.cta-submit-btn:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 2px;
+}
+
+.cta-submit-btn--success {
+  background: #272727;
+  color: #3EC96A;
+  cursor: default;
+}
+
+.cta-form-error {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #FF5733;
+  margin: 0;
+  text-align: left;
+  padding-left: 16px;
+}
+
+.cta-form-success {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #3EC96A;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.cta-guarantee-note {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .cta-section {
+    padding: 80px 16px 64px;
+  }
+  .cta-input-group {
+    flex-direction: column;
+    border-radius: var(--radius-xl);
+    padding: 8px;
+    gap: 8px;
+  }
+  .cta-email-input {
+    width: 100%;
+    padding: 10px 12px;
+  }
+  .cta-submit-btn {
+    width: 100%;
+    padding: 12px;
+  }
+}

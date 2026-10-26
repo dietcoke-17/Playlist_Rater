@@ -1,75 +1,136 @@
+import { useState } from 'react';
 import { useInView } from '../hooks/useAnimations';
-import './Sections.css';
+import './HowItWorksSection.css';
 
-const steps = [
+interface Step {
+  step: string;
+  badge: string;
+  title: string;
+  description: string;
+  accent: string;
+  visualType: 'connect' | 'rate' | 'discover';
+}
+
+const steps: Step[] = [
   {
-    number: '01',
-    icon: '🔗',
-    title: 'Connect Spotify',
-    description: 'Link your account in one click. Your playlists import automatically — nothing to upload.',
-    color: '#3EC96A',
+    step: '01',
+    badge: 'Step one',
+    title: 'Connect your library in one click',
+    description: 'Link your Spotify account securely. Your public and saved playlists import automatically within seconds without manual uploads.',
+    accent: '#3EC96A',
+    visualType: 'connect',
   },
   {
-    number: '02',
-    icon: '⭐',
-    title: 'Rate and review',
-    description: 'Score any playlist from 1 to 10 and write a short review. Community votes shape the charts in real time.',
-    color: '#FFD700',
+    step: '02',
+    badge: 'Step two',
+    title: 'Rate playlists on a 1 to 10 scale',
+    description: 'Score curation quality, tempo consistency, and track progression. Your votes feed the live charts and help genuine curation rise.',
+    accent: '#7B61FF',
+    visualType: 'rate',
   },
   {
-    number: '03',
-    icon: '📊',
-    title: 'Discover top playlists',
-    description: 'Browse the leaderboard by genre, score, or mood. Every entry is ranked by real listener votes.',
-    color: '#A855F7',
-  },
-  {
-    number: '04',
-    icon: '🏅',
-    title: 'Build your reputation',
-    description: 'Earn Navigator badges as your playlists climb the charts. Your curation record is public and permanent.',
-    color: '#FF6B35',
+    step: '03',
+    badge: 'Step three',
+    title: 'Explore the leaderboard and climb the charts',
+    description: 'Browse the top 250 playlists by genre and mood. Maintain an average above 9.0 to earn verified curator badges on your profile.',
+    accent: '#FFB830',
+    visualType: 'discover',
   },
 ];
 
 export default function HowItWorksSection() {
   const { ref, isInView } = useInView();
+  const [activeStep, setActiveStep] = useState(0);
 
   return (
-    <section id="how-it-works" className="section section--dark" ref={ref}>
-      <div className="section-inner section-inner--text">
-        <div className={`hiw-intro ${isInView ? 'revealed' : ''}`}>
-          <p className="hiw-lead">
-            <span className="highlight-badge-icon">🎧</span>
-            <span className="highlight-text">Your playlists</span> are more than background noise.
-            They're curated experiences, sonic journeys, and cultural artefacts.
-            Yet there's no way to rate, review, and discover them — until now.
+    <section id="how-it-works" className="how-it-works-section" ref={ref} aria-label="How PlaylistIQ works">
+      <div className="hiw-container">
+        {/* Header */}
+        <div className="hiw-header">
+          <div className="pill-badge pill-badge--dark">
+            <span className="badge-dot dot-green" aria-hidden="true" /> Three step process
+          </div>
+          <h2 className={`hiw-title ${isInView ? 'revealed' : ''}`}>
+            How PlaylistIQ works
+          </h2>
+          <p className="hiw-subtitle">
+            From library connection to community leaderboard in under two minutes.
           </p>
         </div>
 
-        <div className={`hiw-cta-text ${isInView ? 'revealed' : ''}`}>
-          <p>
-            It's time for a change.<br />
-            With <span className="brand-badge">PlaylistIQ</span> you get the IMDB experience
-            for music playlists — discover what's truly worth your ears.
-          </p>
-        </div>
-      </div>
+        {/* 3 Step Timeline Container */}
+        <div className="hiw-timeline-wrapper">
+          <div className="hiw-steps-row" role="list">
+            {steps.map((item, index) => {
+              const isSelected = activeStep === index;
+              return (
+                <div
+                  key={item.step}
+                  role="listitem"
+                  className={`hiw-step-card ${isSelected ? 'active' : ''}`}
+                  onClick={() => setActiveStep(index)}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setActiveStep(index);
+                    }
+                  }}
+                  aria-label={`${item.badge}: ${item.title}`}
+                >
+                  <div className="step-card-header">
+                    <span className="step-badge" style={{ color: item.accent, borderColor: `${item.accent}40` }}>
+                      {item.badge}
+                    </span>
+                    <span className="step-number-watermark" aria-hidden="true">
+                      {item.step}
+                    </span>
+                  </div>
 
-      <div className="section-inner">
-        <div className={`hiw-grid ${isInView ? 'revealed' : ''}`}>
-          {steps.map((step, i) => (
-            <div
-              key={step.number}
-              className="hiw-card reveal-item"
-              style={{ transitionDelay: `${i * 0.12}s` }}
-            >
-              <div className="hiw-card__number" style={{ color: step.color }}>{step.number}</div>
-              <div className="hiw-card__icon">{step.icon}</div>
-              <h3 className="hiw-card__title">{step.title}</h3>
-              <p className="hiw-card__desc">{step.description}</p>
-            </div>
-          ))}
+                  <h3 className="step-title">{item.title}</h3>
+                  <p className="step-desc">{item.description}</p>
+
+                  {/* Contextual Visual Card Snippet */}
+                  <div className="step-preview-box">
+                    {item.visualType === 'connect' && (
+                      <div className="preview-connect">
+                        <div className="connect-provider-badge">
+                          <span className="connect-dot" aria-hidden="true" />
+                          <span>Spotify library synced</span>
+                        </div>
+                        <span className="connect-count">24 playlists ready to rate</span>
+                      </div>
+                    )}
+
+                    {item.visualType === 'rate' && (
+                      <div className="preview-rate">
+                        <div className="rate-scale-row">
+                          {[7, 8, 9, 10].map((num) => (
+                            <span
+                              key={num}
+                              className={`rate-num-pill ${num === 9 ? 'highlight' : ''}`}
+                            >
+                              {num === 9 ? '9.4 ★' : `${num}.0`}
+                            </span>
+                          ))}
+                        </div>
+                        <span className="rate-caption">Curation harmony: 9.4/10</span>
+                      </div>
+                    )}
+
+                    {item.visualType === 'discover' && (
+                      <div className="preview-discover">
+                        <div className="discover-rank-pill">
+                          <span className="trophy-icon">🏆</span>
+                          <span>#3 Global Synthwave Chart</span>
+                        </div>
+                        <span className="discover-badge-text">Gold Curator Status Active</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
