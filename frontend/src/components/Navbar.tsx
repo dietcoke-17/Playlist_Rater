@@ -14,10 +14,18 @@ const OBSERVED_SECTIONS = ['home', 'converter', 'popular-playlists', 'playlists'
 interface NavbarProps {
   onOpenLogin?: () => void;
   onOpenLeaderboard?: () => void;
-  currentView?: 'home' | 'login' | 'leaderboard';
+  onOpenPopular?: () => void;
+  onGoHome?: () => void;
+  currentView?: 'home' | 'login' | 'leaderboard' | 'popular';
 }
 
-export default function Navbar({ onOpenLogin, onOpenLeaderboard, currentView = 'home' }: NavbarProps) {
+export default function Navbar({
+  onOpenLogin,
+  onOpenLeaderboard,
+  onOpenPopular,
+  onGoHome,
+  currentView = 'home',
+}: NavbarProps) {
   const { user, isLoggedIn } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
@@ -52,15 +60,25 @@ export default function Navbar({ onOpenLogin, onOpenLeaderboard, currentView = '
   }, [currentView]);
 
   const scrollTo = useCallback((id: string) => {
-    if (id === 'leaderboard-page' && onOpenLeaderboard) {
+    if (id === 'popular-playlists' && onOpenPopular) {
+      onOpenPopular();
+      setMenuOpen(false);
+      return;
+    }
+    if (id === 'playlists' && onOpenLeaderboard) {
       onOpenLeaderboard();
+      setMenuOpen(false);
+      return;
+    }
+    if (currentView !== 'home' && onGoHome) {
+      onGoHome();
       setMenuOpen(false);
       return;
     }
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
     setMenuOpen(false);
-  }, [onOpenLeaderboard]);
+  }, [currentView, onGoHome, onOpenLeaderboard, onOpenPopular]);
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -75,7 +93,12 @@ export default function Navbar({ onOpenLogin, onOpenLeaderboard, currentView = '
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
-  const isActive = (id: string) => activeSection === id;
+  const isActive = (id: string) => {
+    if (currentView === 'popular' && id === 'popular-playlists') return true;
+    if (currentView === 'leaderboard' && id === 'playlists') return true;
+    if (currentView === 'home' && activeSection === id) return true;
+    return false;
+  };
 
   return (
     <>
@@ -85,15 +108,21 @@ export default function Navbar({ onOpenLogin, onOpenLeaderboard, currentView = '
         aria-label="Primary navigation"
       >
         <div className="liquid-nav-container">
-          {/* Brand Logo (Timmo capsule style) */}
+          {/* Brand Logo (Crisp black and white P logo) */}
           <button
             className="nav-logo-pill"
-            onClick={() => scrollTo('home')}
+            onClick={() => {
+              if (currentView !== 'home' && onGoHome) {
+                onGoHome();
+              } else {
+                scrollTo('home');
+              }
+            }}
             aria-label="Playlitfy go to top"
           >
-            <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
-              <rect width="36" height="36" rx="9" fill="#ffffff" />
-              <path d="M12 24 L24 12 M24 12 H15 M24 12 V21" stroke="#000000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            <svg width="26" height="26" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+              <rect width="36" height="36" rx="8" fill="#FFFFFF" />
+              <path fillRule="evenodd" clipRule="evenodd" d="M11 8H20.5C24.5 8 27.5 11 27.5 15C27.5 19 24.5 22 20.5 22H15.5V28H11V8ZM15.5 12V18H20C21.6 18 23 16.7 23 15C23 13.3 21.6 12 20 12H15.5Z" fill="#000000" />
             </svg>
             <span className="nav-logo-name">Playlitfy</span>
           </button>

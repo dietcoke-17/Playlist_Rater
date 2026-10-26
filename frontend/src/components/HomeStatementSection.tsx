@@ -127,8 +127,8 @@ export default function HomeStatementSection() {
             <span className="reveal-word">With</span>{' '}
             <span className="brand-badge-pill">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect width="24" height="24" rx="6" fill="#FF5500" />
-                <path d="M7 17L17 7M17 7H9M17 7V15" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <rect width="24" height="24" rx="5" fill="#FFFFFF" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M7 5H13.5C16.5 5 18.5 7 18.5 10C18.5 13 16.5 15 13.5 15H10V19H7V5ZM10 8V12H13C14.2 12 15.2 11.2 15.2 10C15.2 8.8 14.2 8 13 8H10Z" fill="#000000" />
               </svg>
               <span>Playlitfy</span>
             </span>{' '}

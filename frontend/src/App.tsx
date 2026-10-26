@@ -16,16 +16,18 @@ import CtaSection from './components/CtaSection';
 import Footer from './components/Footer';
 import LoginPage from './components/LoginPage';
 import LeaderboardPage from './components/LeaderboardPage';
+import PopularPage from './components/PopularPage';
 import type { Playlist } from './data/playlists';
 
 gsap.registerPlugin(ScrollTrigger);
 
-type AppView = 'home' | 'login' | 'leaderboard';
+type AppView = 'home' | 'login' | 'leaderboard' | 'popular';
 
 function getInitialView(): AppView {
   const path = window.location.pathname;
   if (path === '/login' || window.location.hash === '#login') return 'login';
   if (path === '/leaderboard' || window.location.hash === '#leaderboard') return 'leaderboard';
+  if (path === '/popular' || window.location.hash === '#popular') return 'popular';
   return 'home';
 }
 
@@ -99,6 +101,15 @@ function MainAppContent() {
     return <LoginPage onBack={() => navigateTo('home')} />;
   }
 
+  if (view === 'popular') {
+    return (
+      <PopularPage
+        onBack={() => navigateTo('home')}
+        onSelectPlaylist={handleSelectPlaylist}
+      />
+    );
+  }
+
   if (view === 'leaderboard') {
     return (
       <LeaderboardPage
@@ -114,7 +125,9 @@ function MainAppContent() {
       <Navbar
         onOpenLogin={() => navigateTo('login')}
         onOpenLeaderboard={() => navigateTo('leaderboard')}
-        currentView="home"
+        onOpenPopular={() => navigateTo('popular')}
+        onGoHome={() => navigateTo('home')}
+        currentView={view}
       />
 
       <main id="main-content">
@@ -128,7 +141,10 @@ function MainAppContent() {
         <BenefitsSection />
 
         {/* 3. Spotify Cards for Popular and Top Playlists */}
-        <SpotifyPlaylistsSection onSelectPlaylist={handleSelectPlaylist} />
+        <SpotifyPlaylistsSection
+          onSelectPlaylist={handleSelectPlaylist}
+          onOpenPopularPage={() => navigateTo('popular')}
+        />
 
         {/* 4. Spotify Charts Table for Current Leaderboard Standings */}
         <SpotifyLeaderboardSection

@@ -1,21 +1,22 @@
 import { useState } from 'react';
-import { Play, Star } from '@phosphor-icons/react';
+import { ArrowUpRight, Play, Star } from '@phosphor-icons/react';
 import { popularSpotifyPlaylists, type Playlist } from '../data/playlists';
 import './SpotifyPlaylistsSection.css';
 
 interface SpotifyPlaylistsSectionProps {
   onSelectPlaylist?: (playlist: Playlist) => void;
+  onOpenPopularPage?: () => void;
 }
 
-const CATEGORIES = ['All Playlists', 'Chill & Lo-Fi', 'Electronic & Dance', 'Classical & Acoustic', 'City Pop & Funk'];
+const CATEGORIES = ['All Playlists', 'Chill & Lo Fi', 'Electronic & Dance', 'Classical & Acoustic', 'City Pop & Funk'];
 
-export default function SpotifyPlaylistsSection({ onSelectPlaylist }: SpotifyPlaylistsSectionProps) {
+export default function SpotifyPlaylistsSection({ onSelectPlaylist, onOpenPopularPage }: SpotifyPlaylistsSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All Playlists');
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const filteredPlaylists = popularSpotifyPlaylists.filter((item) => {
     if (selectedCategory === 'All Playlists') return true;
-    if (selectedCategory === 'Chill & Lo-Fi') return item.genre.toLowerCase().includes('chill') || item.genre.toLowerCase().includes('lo-fi');
+    if (selectedCategory === 'Chill & Lo Fi') return item.genre.toLowerCase().includes('chill') || item.genre.toLowerCase().includes('lo fi');
     if (selectedCategory === 'Electronic & Dance') return item.genre.toLowerCase().includes('house') || item.genre.toLowerCase().includes('electronic');
     if (selectedCategory === 'Classical & Acoustic') return item.genre.toLowerCase().includes('classical') || item.genre.toLowerCase().includes('acoustic');
     if (selectedCategory === 'City Pop & Funk') return item.genre.toLowerCase().includes('city') || item.genre.toLowerCase().includes('funk');
@@ -41,9 +42,21 @@ export default function SpotifyPlaylistsSection({ onSelectPlaylist }: SpotifyPla
               Browse top community rated playlists across Spotify, Apple Music, and YouTube Music.
             </p>
           </div>
-          <div className="spotify-stats-pill">
-            <span className="stats-dot" />
-            <span>Updated live by curators</span>
+          <div className="spotify-header-right">
+            {onOpenPopularPage && (
+              <button
+                type="button"
+                className="spotify-show-all-btn"
+                onClick={onOpenPopularPage}
+              >
+                <span>View All Popular Playlists</span>
+                <ArrowUpRight size={14} weight="bold" />
+              </button>
+            )}
+            <div className="spotify-stats-pill">
+              <span className="stats-dot" />
+              <span>Updated live by curators</span>
+            </div>
           </div>
         </div>
 

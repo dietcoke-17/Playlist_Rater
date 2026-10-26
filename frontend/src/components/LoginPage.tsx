@@ -79,9 +79,9 @@ export default function LoginPage({ onBack }: LoginPageProps) {
           {/* Top Brand Tag */}
           <div className="login-showcase-top">
             <div className="login-brand-pill">
-              <svg width="22" height="22" viewBox="0 0 36 36" fill="none">
-                <rect width="36" height="36" rx="9" fill="#FF5500" />
-                <path d="M12 24 L24 12 M24 12 H15 M24 12 V21" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width="22" height="22" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                <rect width="36" height="36" rx="8" fill="#FFFFFF" />
+                <path fillRule="evenodd" clipRule="evenodd" d="M11 8H20.5C24.5 8 27.5 11 27.5 15C27.5 19 24.5 22 20.5 22H15.5V28H11V8ZM15.5 12V18H20C21.6 18 23 16.7 23 15C23 13.3 21.6 12 20 12H15.5Z" fill="#000000" />
               </svg>
               <span className="login-brand-text">PLAYLITFY WORKSPACE</span>
             </div>
