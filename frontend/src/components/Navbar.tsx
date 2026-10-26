@@ -89,13 +89,13 @@ export default function Navbar({ onOpenLogin, onOpenLeaderboard, currentView = '
           <button
             className="nav-logo-pill"
             onClick={() => scrollTo('home')}
-            aria-label="PlaylistIQ go to top"
+            aria-label="Playlitfy go to top"
           >
             <svg width="26" height="26" viewBox="0 0 36 36" fill="none">
               <rect width="36" height="36" rx="9" fill="#ffffff" />
               <path d="M12 24 L24 12 M24 12 H15 M24 12 V21" stroke="#000000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            <span className="nav-logo-name">PlaylistIQ</span>
+            <span className="nav-logo-name">Playlitfy</span>
           </button>
 
           {/* Desktop nav links */}

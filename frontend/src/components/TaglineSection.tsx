@@ -6,9 +6,9 @@ import './TaglineSection.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const TAGLINE_LINES = [
-  'Music curation is an art form.',
-  'It belongs to human listeners,',
-  'not advertising algorithms.',
+  'Your music, your way.',
+  'Universal sync and community curation,',
+  'without boundaries or algorithms.',
 ];
 
 export default function TaglineSection() {
@@ -47,10 +47,10 @@ export default function TaglineSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="tagline" className="tagline-section" aria-label="Core mission statement">
+    <section ref={sectionRef} id="tagline" className="tagline-section" aria-label="Playlitfy mission statement">
       <div className="tagline-container">
         <div className="tagline-eyebrow">
-          <span className="tagline-pill">Independent sound</span>
+          <span className="tagline-pill">Playlitfy</span>
         </div>
 
         <h2 ref={textRef} className="tagline-statement">

@@ -83,7 +83,7 @@ export default function LoginPage({ onBack }: LoginPageProps) {
                 <rect width="36" height="36" rx="9" fill="#FF5500" />
                 <path d="M12 24 L24 12 M24 12 H15 M24 12 V21" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className="login-brand-text">PLAYLISTIQ WORKSPACE</span>
+              <span className="login-brand-text">PLAYLITFY WORKSPACE</span>
             </div>
             <span className="login-status-indicator">
               <span className="login-status-dot" />
@@ -97,7 +97,7 @@ export default function LoginPage({ onBack }: LoginPageProps) {
               "Music curation is the art of knowing what connects across cultures, vibes, and platforms."
             </p>
             <div className="login-quote-divider" />
-            <p className="login-quote-author">PLAYLISTIQ CORE ENGINE</p>
+            <p className="login-quote-author">PLAYLITFY CORE ENGINE</p>
             <p className="login-quote-sub">Universal synchronization for Spotify, Apple Music, and YouTube</p>
           </div>
 
@@ -140,7 +140,7 @@ export default function LoginPage({ onBack }: LoginPageProps) {
           <div className="login-center-pane">
             {/* Title - Large spaced typography (matching Timmo) */}
             <div className="login-title-group">
-              <h1 className="login-title">PLAYLISTIQ</h1>
+              <h1 className="login-title">PLAYLITFY</h1>
               <p className="login-subtitle">MUSIC WORKSPACE</p>
             </div>
 
@@ -149,8 +149,8 @@ export default function LoginPage({ onBack }: LoginPageProps) {
 
             {/* Tagline */}
             <div className="login-tagline-group">
-              <p className="login-tagline-main">Universal playlist sync.</p>
-              <p className="login-tagline-accent">All in one.</p>
+              <p className="login-tagline-main">Your music your way.</p>
+              <p className="login-tagline-accent">Universal sync and ratings.</p>
             </div>
 
             {isLoggedIn && user ? (

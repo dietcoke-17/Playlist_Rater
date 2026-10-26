@@ -33,7 +33,7 @@ export default function Footer() {
             <button
               className="footer-logo-btn"
               onClick={() => scrollTo('home')}
-              aria-label="PlaylistIQ, go to top"
+              aria-label="Playlitfy, go to top"
             >
               <div className="footer-logo-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -41,10 +41,10 @@ export default function Footer() {
                   <path d="M7 17L17 7M17 7H9M17 7V15" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
-              <span className="footer-brand-name">PlaylistIQ</span>
+              <span className="footer-brand-name">Playlitfy</span>
             </button>
             <p className="footer-tagline">
-              The universal cross platform playlist hub and community rating platform.
+              Your music your way. The universal cross platform playlist hub and community rating platform.
             </p>
           </div>
 
@@ -86,7 +86,7 @@ export default function Footer() {
         {/* Bottom Disclaimer & Copyright Row */}
         <div className="footer-bottom-row">
           <p className="footer-copyright">
-            © {new Date().getFullYear()} PlaylistIQ. Not affiliated with Spotify, Apple, or Google. All rights reserved.
+            © {new Date().getFullYear()} Playlitfy. Not affiliated with Spotify, Apple, or Google. All rights reserved.
           </p>
           <div className="footer-status-pill">
             <span className="status-indicator" aria-hidden="true" />
@@ -128,10 +128,10 @@ export default function Footer() {
                     <strong>Effective date:</strong> October 2026.
                   </p>
                   <p>
-                    PlaylistIQ values your privacy. We collect only information required to provide community playlist rating, cross platform recreation, and leaderboard rankings.
+                    Playlitfy values your privacy. We collect only information required to provide community playlist rating, cross platform recreation, and leaderboard rankings.
                   </p>
                   <p>
-                    <strong>Library access:</strong> When you connect Spotify, Apple Music, or YouTube Music accounts, PlaylistIQ requests read only access to fetch public and saved playlist metadata (titles, track counts, and cover images). We never alter, overwrite, or sell your listening data.
+                    <strong>Library access:</strong> When you connect Spotify, Apple Music, or YouTube Music accounts, Playlitfy requests read only access to fetch public and saved playlist metadata (titles, track counts, and cover images). We never alter, overwrite, or sell your listening data.
                   </p>
                   <p>
                     <strong>Analytics:</strong> All scores are aggregated into public community consensus metrics without storing personal listening timestamps.
@@ -143,13 +143,13 @@ export default function Footer() {
                     <strong>Effective date:</strong> October 2026.
                   </p>
                   <p>
-                    By accessing or using PlaylistIQ, you agree to these Terms of Service.
+                    By accessing or using Playlitfy, you agree to these Terms of Service.
                   </p>
                   <p>
                     <strong>Community guidelines:</strong> Ratings must represent genuine human evaluation. Attempted vote brigading or automated scraping is prohibited and will result in immediate exclusion from the leaderboard.
                   </p>
                   <p>
-                    <strong>Intellectual property:</strong> All playlist titles and cover assets belong to their respective creators and streaming platforms. PlaylistIQ is an independent rating directory and cross platform bridge.
+                    <strong>Intellectual property:</strong> All playlist titles and cover assets belong to their respective creators and streaming platforms. Playlitfy is an independent rating directory and cross platform bridge.
                   </p>
                 </>
               )}

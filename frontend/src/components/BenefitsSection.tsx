@@ -49,7 +49,7 @@ export default function BenefitsSection() {
           </h2>
           <p className="benefits-subtitle">
             Streaming platforms keep you locked in walled gardens and push sponsored algorithms.
-            PlaylistIQ connects all music players at one endpoint and rewards genuine track flow.
+            Playlitfy connects all music players at one endpoint and rewards genuine track flow.
           </p>
         </div>
 

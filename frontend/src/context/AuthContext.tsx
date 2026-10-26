@@ -71,7 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
 
       const resolvedName = emailInput ? emailInput.split('@')[0] : 'Alex Rivera';
-      const resolvedEmail = emailInput || (provider === 'google' ? 'alex.curator@gmail.com' : 'alex.curator@playlistiq.com');
+      const resolvedEmail = emailInput || (provider === 'google' ? 'alex.curator@gmail.com' : 'alex.curator@playlitfy.com');
 
       const newUser: UserProfile = {
         id: `usr_${Date.now()}`,
@@ -88,7 +88,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         totalRatingsCount: 88,
       };
 
-      localStorage.setItem('token', `pliq_token_${Date.now()}`);
+      localStorage.setItem('token', `playlitfy_token_${Date.now()}`);
       localStorage.setItem('user', JSON.stringify(newUser));
       setUser(newUser);
       setToastMessage(`Connected via ${providerNames[provider]}. Library ready to sync.`);
@@ -100,7 +100,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
-    setToastMessage('Signed out of PlaylistIQ workspace.');
+    setToastMessage('Signed out of Playlitfy workspace.');
   }, []);
 
   const toggleService = useCallback((service: keyof ConnectedServices) => {

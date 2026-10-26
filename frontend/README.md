@@ -1,6 +1,6 @@
-# PlaylistIQ — Frontend
+# Playlitfy — Frontend
 
-This directory contains the client-side single page application for **PlaylistIQ**, built with React 19, TypeScript, and Vite.
+This directory contains the client-side single page application for **Playlitfy** (*your music your way*), built with React 19, TypeScript, and Vite.
 
 ## Tech Stack
 - **Framework:** React 19 + TypeScript

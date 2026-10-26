@@ -130,7 +130,7 @@ export default function HomeStatementSection() {
                 <rect width="24" height="24" rx="6" fill="#FF5500" />
                 <path d="M7 17L17 7M17 7H9M17 7V15" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span>PlaylistIQ</span>
+              <span>Playlitfy</span>
             </span>{' '}
             <span className="reveal-word">you</span>{' '}
             <span className="reveal-word">can</span>{' '}

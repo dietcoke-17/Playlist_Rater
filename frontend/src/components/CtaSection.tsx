@@ -26,7 +26,7 @@ export default function CtaSection({ onOpenLogin }: CtaSectionProps) {
   };
 
   return (
-    <section id="cta" className="cta-section" aria-label="Get started with PlaylistIQ">
+    <section id="cta" className="cta-section" aria-label="Get started with Playlitfy">
       {/* Timmo style graphic grid overlay */}
       <div className="cta-grid-lines" aria-hidden="true" />
       <div className="cta-ambient-glow" aria-hidden="true" />

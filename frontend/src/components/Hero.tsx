@@ -69,7 +69,7 @@ export default function Hero({ onOpenLogin }: HeroProps) {
   };
 
   const handleCopyLink = () => {
-    const shareUrl = `https://playlistiq.app/p/${detectedPreset.title.toLowerCase().replace(/[^a-z0-9]+/g, '')}`;
+    const shareUrl = `https://playlitfy.com/p/${detectedPreset.title.toLowerCase().replace(/[^a-z0-9]+/g, '')}`;
     navigator.clipboard?.writeText(shareUrl).catch(() => {});
     setCopiedLink(true);
     setTimeout(() => {
@@ -93,7 +93,7 @@ export default function Hero({ onOpenLogin }: HeroProps) {
 
         {/* Minimal, necessary subheadline */}
         <p className="hero-subtitle">
-          Universal playlist conversion across Spotify, Apple Music, and YouTube Music.
+          Your music, your way. Universal playlist conversion across Spotify, Apple Music, and YouTube Music.
           One click transfer with community curation ratings on a pure 1 to 10 scale.
         </p>
 

@@ -13,19 +13,19 @@ const faqData: FaqItem[] = [
   {
     id: 'faq-0',
     question: 'How does cross platform playlist recreation work if I do not have the creator music app?',
-    answer: 'If someone shares a Spotify playlist but you listen on Apple Music or YouTube Music, PlaylistIQ matches the track titles, artist names, and audio metadata against your target service catalogue. You can save and recreate the exact playlist in your personal music app in seconds with over 98% track accuracy.',
+    answer: 'If someone shares a Spotify playlist but you listen on Apple Music or YouTube Music, Playlitfy matches the track titles, artist names, and audio metadata against your target service catalogue. You can save and recreate the exact playlist in your personal music app in seconds with over 98% track accuracy.',
     category: 'Conversion',
   },
   {
     id: 'faq-1',
     question: 'Which music apps and streaming platforms are currently supported?',
-    answer: 'PlaylistIQ connects with Spotify, Apple Music, YouTube Music, TIDAL, Amazon Music, and SoundCloud. You can paste public playlist links from any of these services or link your personal accounts to manage your entire curation in one place.',
+    answer: 'Playlitfy connects with Spotify, Apple Music, YouTube Music, TIDAL, Amazon Music, and SoundCloud. You can paste public playlist links from any of these services or link your personal accounts to manage your entire curation in one place.',
     category: 'Compatibility',
   },
   {
     id: 'faq-2',
     question: 'Can I open any playlist directly inside my native music application?',
-    answer: 'Yes. Every playlist on PlaylistIQ includes direct deep links that launch the collection inside your installed desktop or mobile app with one click, so you never lose your native listening experience.',
+    answer: 'Yes. Every playlist on Playlitfy includes direct deep links that launch the collection inside your installed desktop or mobile app with one click, so you never lose your native listening experience.',
     category: 'Playback',
   },
   {
@@ -37,13 +37,13 @@ const faqData: FaqItem[] = [
   {
     id: 'faq-4',
     question: 'Will linking my streaming accounts alter or delete my existing playlists?',
-    answer: 'Never. PlaylistIQ requests standard read access to import your public track titles, playlist names, and cover art. We never delete tracks, alter your saved library, or modify your streaming account without explicit permission.',
+    answer: 'Never. Playlitfy requests standard read access to import your public track titles, playlist names, and cover art. We never delete tracks, alter your saved library, or modify your streaming account without explicit permission.',
     category: 'Security',
   },
   {
     id: 'faq-5',
-    question: 'Is PlaylistIQ free or is a paid subscription required?',
-    answer: 'PlaylistIQ is completely free. You can convert playlist links, browse the top 250 leaderboards, launch native music apps, and rate curations without ever entering payment details or signing up for a trial.',
+    question: 'Is Playlitfy free or is a paid subscription required?',
+    answer: 'Playlitfy is completely free. You can convert playlist links, browse the top 250 leaderboards, launch native music apps, and rate curations without ever entering payment details or signing up for a trial.',
     category: 'Pricing',
   },
 ];

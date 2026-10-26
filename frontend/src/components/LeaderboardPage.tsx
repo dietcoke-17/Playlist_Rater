@@ -48,7 +48,7 @@ export default function LeaderboardPage({ onBack, onSelectPlaylist }: Leaderboar
           </button>
 
           <div className="full-lb-brand">
-            <span className="full-lb-brand-title">PLAYLISTIQ CHARTS</span>
+            <span className="full-lb-brand-title">PLAYLITFY CHARTS</span>
             <span className="full-lb-live-pill">
               <span className="live-dot" />
               LIVE RANKINGS
