@@ -1,8 +1,3 @@
-/* ═══════════════════════════════════════════
-   Benefits Section (Asymmetrical Layout)
-   Inspired by timmo.co.in, videocaptions.ai, and make.design
-   ═══════════════════════════════════════════ */
-
 .benefits-section {
   position: relative;
   background: #181818;
@@ -44,14 +39,12 @@
   text-wrap: pretty;
 }
 
-/* ── Asymmetrical Showcase Layout ── */
 .benefits-showcase {
   display: flex;
   flex-direction: column;
   gap: 32px;
 }
 
-/* ── 1. Hero Split Feature Card ── */
 .benefit-hero-card {
   display: grid;
   grid-template-columns: 1.15fr 0.85fr;
@@ -126,7 +119,6 @@
   border-radius: 8px;
 }
 
-/* ── Interactive Score & Heatmap Widget ── */
 .benefit-hero-widget {
   background: #181818;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -263,9 +255,6 @@
   text-align: right;
 }
 
-/* ═══════════════════════════════════════════
-   Curator Heatmap Panel (Timmo style)
-   ═══════════════════════════════════════════ */
 .heatmap-panel {
   display: flex;
   flex-direction: column;
@@ -380,7 +369,6 @@
   border-radius: 2px;
 }
 
-/* ── 3 Outcome Grid Cards ── */
 .benefits-trio {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -455,10 +443,6 @@
   padding: 14px;
 }
 
-/* ═══════════════════════════════════════════
-   Sonic EQ Spectrum Visualizer
-   (Timmo & Mascofast style)
-   ═══════════════════════════════════════════ */
 .sonic-visualizer-container {
   background: #181818;
   border: 1px solid rgba(255, 255, 255, 0.08);
