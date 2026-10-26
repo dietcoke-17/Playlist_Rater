@@ -6,11 +6,10 @@ const NAV_LINKS = [
   { label: 'Converter', id: 'converter' },
   { label: 'Popular', id: 'popular-playlists' },
   { label: 'Leaderboard', id: 'playlists' },
-  { label: 'Reviews', id: 'reviews' },
   { label: 'FAQ', id: 'faq' },
 ];
 
-const OBSERVED_SECTIONS = ['home', 'converter', 'popular-playlists', 'playlists', 'reviews', 'faq', 'cta'];
+const OBSERVED_SECTIONS = ['home', 'converter', 'popular-playlists', 'playlists', 'faq', 'cta'];
 
 interface NavbarProps {
   onOpenLogin?: () => void;

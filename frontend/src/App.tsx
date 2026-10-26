@@ -10,7 +10,6 @@ import HomeStatementSection from './components/HomeStatementSection';
 import BenefitsSection from './components/BenefitsSection';
 import SpotifyPlaylistsSection from './components/SpotifyPlaylistsSection';
 import SpotifyLeaderboardSection from './components/SpotifyLeaderboardSection';
-import TwitterReviewsSection from './components/TwitterReviewsSection';
 import TaglineSection from './components/TaglineSection';
 import FaqSection from './components/FaqSection';
 import CtaSection from './components/CtaSection';
@@ -137,10 +136,7 @@ function MainAppContent() {
           onSelectPlaylist={handleSelectPlaylist}
         />
 
-        {/* 5. Authentic Twitter / X UI Cards for Community Sentiment */}
-        <TwitterReviewsSection />
-
-        {/* 6. A distinctive benefit or tagline section */}
+        {/* 5. A distinctive benefit or tagline section */}
         <TaglineSection />
 
         {/* 7. FAQ addressing the actual objections */}
