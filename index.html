@@ -4,13 +4,86 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PlaylistIQ — Rate, Discover & Share Spotify Playlists</title>
+    <title>PlaylistIQ — Rate, Discover &amp; Share Spotify Playlists</title>
     <meta name="description" content="PlaylistIQ is IMDB for Spotify playlists. Rate playlists, discover hidden gems, and share your musical taste with the world." />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="PlaylistIQ — Rate, Discover &amp; Share Spotify Playlists" />
+    <meta property="og:description" content="Community-rated charts for Spotify playlists. Find what's actually worth your ears." />
+    <meta property="og:image" content="/og-image.png" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PlaylistIQ — Rate, Discover &amp; Share Spotify Playlists" />
+    <meta name="twitter:description" content="Community-rated charts for Spotify playlists. Find what's actually worth your ears." />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <!-- Manrope — single approved typeface -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+    <!-- FAQ Schema (AEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is this different from Spotify's own recommendations?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Spotify's algorithm is built to keep you inside Spotify's catalogue. PlaylistIQ is ranked by real listeners with no commercial incentive — the top playlist is there because thousands of people rated it above 9.0, not because a label paid for placement."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does PlaylistIQ score and rank playlists?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The algorithm combines community ratings (1 to 10 stars), track cohesion metrics, playback repeat frequency, and verified curator reviews to deliver an unbiased 9.0+ Hall of Fame score."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I connect Spotify, Apple Music, or YouTube Music?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Connect your favourite streaming provider with one click to instantly import your playlists, share ratings, and sync listening activity across devices."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are Navigators and Curator Badges?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Navigators are top playlist creators in the community. As your submitted playlists gain community votes, you earn coloured spatial badges and unlock rewards."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is PlaylistIQ completely free to use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "100% free. Anyone can browse, rate, and discover playlists. Verified curators can also access advanced analytics on playlist retention and listener engagement."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do the spatial web SVG transitions work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The spatial visual engine uses GPU-accelerated SVG chevrons and CSS view-timelines to transform colours and sections dynamically as you scroll."
+          }
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

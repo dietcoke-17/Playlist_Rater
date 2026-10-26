@@ -1,70 +1,64 @@
 import { useState } from 'react';
-import { useCounter, useInView } from '../hooks/useAnimations';
 import './Sections.css';
 
 export default function CtaSection() {
-  const { ref, isInView } = useInView();
   const [submitted, setSubmitted] = useState(false);
   const [email, setEmail] = useState('');
-
-  const { ref: refUsers, count: countUsers } = useCounter(14200);
-  const { ref: refPlaylists, count: countPlaylists } = useCounter(48500);
-  const { ref: refRatings, count: countRatings } = useCounter(230000);
+  const [error, setError] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
+    setError('');
+
+    if (!email) {
+      setError('Please enter your email address.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
       setEmail('');
-    }, 4000);
+    }, 5000);
   };
 
   return (
-    <section id="cta" className="section section--dark section--cta" ref={ref}>
+    <section id="cta" className="section section--dark section--cta">
       <div className="section-inner section-inner--cta">
-        {/* Stats */}
-        <div className={`cta-stats ${isInView ? 'revealed' : ''}`}>
-          <div className="stat-item" ref={refUsers}>
-            <div className="stat-number">{countUsers.toLocaleString()}+</div>
-            <div className="stat-label">Active Curators</div>
-          </div>
-          <div className="stat-item" ref={refPlaylists}>
-            <div className="stat-number">{countPlaylists.toLocaleString()}+</div>
-            <div className="stat-label">Playlists Rated</div>
-          </div>
-          <div className="stat-item" ref={refRatings}>
-            <div className="stat-number">{countRatings.toLocaleString()}+</div>
-            <div className="stat-label">Community Reviews</div>
-          </div>
-        </div>
-
         <h2 className="cta-headline">
-          Ready to find your next<br />favorite playlist?
+          Ready to find your next<br />favourite playlist?
         </h2>
         <p className="cta-sub">
-          Join thousands of music lovers rating and reviewing Spotify playlists today.
+          Join the early access list. It's free and works with the Spotify account you already have.
         </p>
 
-        <form className="cta-form" onSubmit={handleSubmit} aria-label="Request early access">
+        <form className="cta-form" onSubmit={handleSubmit} aria-label="Request early access" noValidate>
           <input
             type="email"
-            className="cta-input"
-            placeholder="Enter your Spotify email"
+            className={`cta-input ${error ? 'cta-input--error' : ''}`}
+            placeholder="Your email address"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            onChange={(e) => { setEmail(e.target.value); setError(''); }}
+            aria-label="Email address"
+            aria-describedby={error ? 'cta-form-error' : undefined}
           />
           <button
             type="submit"
             className={`btn btn--primary btn--large ${submitted ? 'btn--success' : ''}`}
           >
-            {submitted ? '✓ You\'re on the list!' : 'Get Early Access'}
+            {submitted ? '✓ You\'re on the list!' : 'Get early access'}
           </button>
         </form>
 
-        <p className="cta-note">Instant setup · Works with your existing Spotify account</p>
+        {error && (
+          <p id="cta-form-error" className="cta-form-error" role="alert">{error}</p>
+        )}
+
+        <p className="cta-note">No credit card · No new account · Just your email</p>
       </div>
     </section>
   );

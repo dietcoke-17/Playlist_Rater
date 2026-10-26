@@ -36,29 +36,16 @@ export default function Hero() {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced) return;
 
-    // Initial Entrance Spring Pop-In under CTA button
+    // Initial entrance spring pop-in
     gsap.fromTo(
       cards,
-      {
-        scale: 0,
-        y: -15,
-        opacity: 0,
-        rotation: (i) => (i % 2 === 0 ? -12 : 12),
-      },
-      {
-        scale: 1,
-        y: 0,
-        opacity: 1,
-        rotation: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'back.out(2)',
-      }
+      { scale: 0, y: -15, opacity: 0, rotation: (i) => (i % 2 === 0 ? -12 : 12) },
+      { scale: 1, y: 0, opacity: 1, rotation: 0, duration: 0.8, stagger: 0.1, ease: 'back.out(2)' }
     );
 
     const colors = ['#7B61FF', '#3EC96A', '#FF5733', '#FFB830', '#4A90FF'];
 
-    // Master ScrollTrigger Timeline: 100% Physical Path Trajectory & Exact Text Docking (NO FADE)
+    // Master ScrollTrigger timeline — physical path trajectory with exact text docking
     gsap.timeline({
       scrollTrigger: {
         trigger: container,
@@ -73,7 +60,6 @@ export default function Hero() {
             const targetEl = targetSlots[index];
             if (!targetEl) return;
 
-            // Reset transforms temporarily to compute absolute delta offset between initial card & target slot
             gsap.set(card, { x: 0, y: 0 });
             const cardRect = card.getBoundingClientRect();
             const targetRect = targetEl.getBoundingClientRect();
@@ -83,32 +69,19 @@ export default function Hero() {
 
             const activeColor = colors[index % colors.length];
 
-            // 1. Curved Flight Path Trajectory (X linear, Y parabolic arc)
             const curX = deltaX * p;
             const arcY = Math.sin(p * Math.PI) * -35;
             const curY = deltaY * p + arcY;
-
-            // 2. Smooth scale down to match inline line height (1.0 -> 0.85)
             const curScale = 1 - p * 0.15 + Math.sin(p * Math.PI) * 0.15;
-
-            // 3. Rotation straightens out to 0deg when seated in place
             const initialRot = index % 2 === 0 ? -12 : 12;
             const curRot = initialRot * (1 - p);
-
-            // 4. Glow halo during flight, settling cleanly when seated
             const filterEffect =
               p > 0.05 && p < 0.95
                 ? `drop-shadow(0 0 25px ${activeColor}) drop-shadow(0 15px 25px rgba(0,0,0,0.5))`
                 : 'drop-shadow(0 8px 16px rgba(0,0,0,0.3))';
 
-            // NO OPACITY FADE: Keep opacity at 1.0 throughout the entire physical path!
             gsap.set(card, {
-              x: curX,
-              y: curY,
-              scale: curScale,
-              rotation: curRot,
-              opacity: 1,
-              filter: filterEffect,
+              x: curX, y: curY, scale: curScale, rotation: curRot, opacity: 1, filter: filterEffect,
             });
           });
         },
@@ -120,9 +93,14 @@ export default function Hero() {
     };
   }, []);
 
+  const scrollToPlaylists = () => {
+    const el = document.getElementById('playlists');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <section ref={containerRef} id="home" className="hero-section">
-      {/* Decorative Side Graphic Arrow Banners */}
+      {/* Decorative side shapes */}
       <div className="hero-side-shapes" aria-hidden="true">
         <div className="shape-arrow shape-red" />
         <div className="shape-arrow shape-blue" />
@@ -130,32 +108,42 @@ export default function Hero() {
       </div>
 
       <div className="hero-container">
-        {/* Top Landing View Headline */}
+        {/* Headline — white → grey gradient, max 680px */}
         <h1 className="hero-title">
-          <span>Your playlist runs</span>
-          <span>the world</span>
+          Your playlists deserve
+          <br />
+          a real score.
         </h1>
 
-        {/* Subtitle */}
+        {/* Subheadline */}
         <p className="hero-subtitle">
-          Start rating and discovering the best music today.
+          PlaylistIQ is IMDB for Spotify playlists. Find the best music your algorithm won't show you, and see where your own curation ranks globally.
         </p>
 
-        {/* Action Button - Lime Green Pill */}
+        {/* Primary CTA */}
         <div className="hero-cta-wrap">
-          <a href="#playlists" className="lime-pill-btn">
-            <span className="lime-btn-icon">
+          <button className="lime-pill-btn" onClick={scrollToPlaylists}>
+            <span className="lime-btn-icon" aria-hidden="true">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z" fill="#0A0A0A" />
               </svg>
             </span>
-            Explore Playlist Rater
-          </a>
+            Browse playlists
+          </button>
         </div>
 
-        {/* 5 Physical Interacting Vector Icons (Starts under button & travels along path into text lines) */}
+        {/* Proof strip — social proof below primary CTA */}
+        <p className="hero-proof-strip" aria-label="Community stats">
+          <span>14,200 curators</span>
+          <span className="proof-sep" aria-hidden="true">·</span>
+          <span>48,500 playlists rated</span>
+          <span className="proof-sep" aria-hidden="true">·</span>
+          <span>230,000 reviews</span>
+        </p>
+
+        {/* 5 physical interacting vector icons */}
         <div ref={iconsRowRef} className="hero-icons-row" aria-label="Feature categories">
-          {/* 1. Violet Circle - Music Note */}
+          {/* 1. Violet Circle — Music Note */}
           <div className="hero-icon-card icon-violet" title="Playlists">
             <svg viewBox="0 0 100 100" fill="none">
               <circle cx="50" cy="50" r="50" fill="#7B61FF" />
@@ -163,7 +151,7 @@ export default function Hero() {
             </svg>
           </div>
 
-          {/* 2. Green Squircle - Cinema / Tracks */}
+          {/* 2. Green Squircle — Cinema / Tracks */}
           <div className="hero-icon-card icon-green" title="Top Tracks">
             <svg viewBox="0 0 100 100" fill="none">
               <rect width="100" height="100" rx="28" fill="#3EC96A" />
@@ -172,7 +160,7 @@ export default function Hero() {
             </svg>
           </div>
 
-          {/* 3. Red Ghost Arrow - Music Vibes */}
+          {/* 3. Red Ghost Arrow — Music Vibes */}
           <div className="hero-icon-card icon-red" title="Music Vibes">
             <svg viewBox="0 0 120 100" fill="none">
               <path d="M0 24C0 10.7 10.7 0 24 0H70C83.3 0 94 10.7 94 24V32L120 50L94 68V76C94 89.3 83.3 100 70 100H24C10.7 100 0 89.3 0 76V24Z" fill="#FF5733" />
@@ -182,7 +170,7 @@ export default function Hero() {
             </svg>
           </div>
 
-          {/* 4. Yellow Shopping Bag - Listening Rewards */}
+          {/* 4. Yellow Shopping Bag — Listening Rewards */}
           <div className="hero-icon-card icon-yellow" title="Rewards">
             <svg viewBox="0 0 100 100" fill="none">
               <rect width="100" height="100" rx="28" fill="#FFB830" />
@@ -191,8 +179,8 @@ export default function Hero() {
             </svg>
           </div>
 
-          {/* 5. Blue Badges T-shirt - Listening Habits */}
-          <div className="hero-icon-card icon-blue" title="Habits & Badges">
+          {/* 5. Blue Circle — Listening Habits */}
+          <div className="hero-icon-card icon-blue" title="Habits and Badges">
             <svg viewBox="0 0 100 100" fill="none">
               <circle cx="50" cy="50" r="50" fill="#4A90FF" />
               <path d="M32 25L18 36L26 50L34 44V78H66V44L74 50L82 36L68 25C68 25 60 32 50 32C40 32 32 25 32 25Z" fill="#0A0A0A" />
@@ -200,16 +188,16 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* NVG8 Typography Target Docking Section - Exact 4-Line Format matching user screenshot */}
+        {/* NVG8 Typography target docking section */}
         <div className="hero-nvg8-absorption-wrap">
           <div className="caption-wrap">
-            <span className="caption-label">Here’s a fun fact:</span>
+            <span className="caption-label">Here's a fun fact:</span>
             <span className="caption-sub">Today, your playlist rules the web</span>
           </div>
 
           <h2 className="nvg8-title-display">
             <div className="title-row">
-              <span>Your favorite</span>
+              <span>Your favourite</span>
               <span ref={target1Ref} className="inline-target-slot" />
               <span>playlists.</span>
             </div>

@@ -11,17 +11,17 @@
 
 /* ── Custom Properties ── */
 :root {
-  /* Backgrounds */
-  --bg-dark: #0A0A0A;
-  --bg-dark-2: #121212;
+  /* Backgrounds (approved dark-mode set) */
+  --bg-dark: #000000;
+  --bg-dark-2: #181818;
   --bg-surface: #181818;
-  --bg-elevated: #282828;
+  --bg-elevated: #272727;
   --bg-light: #F5F0E8;
-  --bg-accent: #1DB954;
+  --bg-accent: #3EC96A;
   --bg-purple: #6C3FC5;
   --bg-orange: #FF6B35;
 
-  /* 5 Core Brand Colors (Matching NVG8 Design) */
+  /* 5 Core Brand Colors */
   --color-violet: #7B61FF;
   --color-green: #3EC96A;
   --color-red: #FF5733;
@@ -45,14 +45,15 @@
   --text-dark: #0A0A0A;
   --text-dark-secondary: rgba(10, 10, 10, 0.6);
 
-  /* Typography */
-  --font-display: 'Outfit', sans-serif;
-  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Typography — single approved typeface */
+  --font-display: 'Manrope', sans-serif;
+  --font-body: 'Manrope', sans-serif;
 
-  /* Easing */
+  /* Easing — B7 base curve + legacy */
+  --ease-base: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* Borders */
   --border-subtle: rgba(255, 255, 255, 0.06);
@@ -75,6 +76,36 @@ body {
   color: var(--text-primary);
   overflow-x: hidden;
   line-height: 1.6;
+}
+
+/* ── Skip Link ── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  padding: 8px 16px;
+  background: #A3FF12;
+  color: #000000;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  border-radius: 0 0 8px 8px;
+  z-index: 9999;
+  transition: top 200ms var(--ease-base);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ── Text Wrap ── */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+p, li {
+  text-wrap: pretty;
 }
 
 a {

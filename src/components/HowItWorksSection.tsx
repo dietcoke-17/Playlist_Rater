@@ -4,30 +4,30 @@ import './Sections.css';
 const steps = [
   {
     number: '01',
-    icon: '🔍',
-    title: 'Discover',
-    description: 'Browse thousands of community-rated playlists across every genre, mood, and occasion.',
-    color: '#1DB954',
+    icon: '🔗',
+    title: 'Connect Spotify',
+    description: 'Link your account in one click. Your playlists import automatically — nothing to upload.',
+    color: '#3EC96A',
   },
   {
     number: '02',
     icon: '⭐',
-    title: 'Rate',
-    description: 'Score playlists from 1–10, write reviews, and help the community find the best music.',
+    title: 'Rate and review',
+    description: 'Score any playlist from 1 to 10 and write a short review. Community votes shape the charts in real time.',
     color: '#FFD700',
   },
   {
     number: '03',
     icon: '📊',
-    title: 'Analyze',
-    description: 'Dive into audio analytics — tempo, energy, danceability, genre breakdowns, and more.',
+    title: 'Discover top playlists',
+    description: 'Browse the leaderboard by genre, score, or mood. Every entry is ranked by real listener votes.',
     color: '#A855F7',
   },
   {
     number: '04',
-    icon: '🚀',
-    title: 'Share',
-    description: 'Share your favourites, follow top curators, and build your reputation as a tastemaker.',
+    icon: '🏅',
+    title: 'Build your reputation',
+    description: 'Earn Navigator badges as your playlists climb the charts. Your curation record is public and permanent.',
     color: '#FF6B35',
   },
 ];
@@ -42,7 +42,7 @@ export default function HowItWorksSection() {
           <p className="hiw-lead">
             <span className="highlight-badge-icon">🎧</span>
             <span className="highlight-text">Your playlists</span> are more than background noise.
-            They're curated experiences, sonic journeys, and cultural artifacts.
+            They're curated experiences, sonic journeys, and cultural artefacts.
             Yet there's no way to rate, review, and discover them — until now.
           </p>
         </div>

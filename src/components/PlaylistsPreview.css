@@ -1,0 +1,36 @@
+/* ═══════════════════════════════════════════
+   Playlists Preview Section
+   ═══════════════════════════════════════════ */
+
+.preview-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.browse-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 2px solid rgba(10, 10, 10, 0.2);
+  color: var(--text-dark);
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all 300ms var(--ease-base);
+}
+
+.browse-all-btn:hover {
+  background: var(--text-dark);
+  color: #ffffff;
+  border-color: var(--text-dark);
+  transform: translateY(-2px);
+}
+
+.browse-all-btn:active {
+  transform: scale(0.98);
+}
