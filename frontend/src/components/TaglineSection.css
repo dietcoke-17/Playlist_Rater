@@ -15,7 +15,22 @@
   overflow: hidden;
 }
 
+.tagline-section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 750px;
+  height: 350px;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255, 85, 0, 0.08) 0%, rgba(123, 97, 255, 0.04) 50%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
 .tagline-container {
+  position: relative;
+  z-index: 1;
   max-width: 680px;
   width: 100%;
   margin: 0 auto;

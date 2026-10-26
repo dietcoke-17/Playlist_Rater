@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { featuredPlaylists, topRatedPlaylists, type Playlist } from '../data/playlists';
 import { useInView } from '../hooks/useAnimations';
-import { ArrowSquareOut, ArrowsClockwise, Star } from '@phosphor-icons/react';
+import { ArrowSquareOut, ArrowsClockwise, Star, Play, Pause, SpeakerSimpleHigh } from '@phosphor-icons/react';
 import './ProductProofSection.css';
 
 const allPlaylists: Playlist[] = [...topRatedPlaylists, ...featuredPlaylists];
@@ -49,11 +49,43 @@ export default function ProductProofSection() {
   const [selectedGenre, setSelectedGenre] = useState('All genres');
   const [activePlaylistId, setActivePlaylistId] = useState<string>(topRatedPlaylists[0].id);
 
+  // Interactive simulated playback state
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [playbackSeconds, setPlaybackSeconds] = useState(24);
+
+  // Interactive live rating state
+  const [userVote, setUserVote] = useState<number | null>(null);
+  const [voteCountDelta, setVoteCountDelta] = useState(0);
+
   const filteredPlaylists = selectedGenre === 'All genres'
     ? allPlaylists.slice(0, 5)
     : allPlaylists.filter((p) => p.genre.toLowerCase().includes(selectedGenre.toLowerCase())).slice(0, 5);
 
   const activePlaylist = allPlaylists.find((p) => p.id === activePlaylistId) || topRatedPlaylists[0];
+
+  // Playback timer simulation
+  useEffect(() => {
+    let interval: ReturnType<typeof setInterval>;
+    if (isPlaying) {
+      interval = setInterval(() => {
+        setPlaybackSeconds((prev) => (prev >= 225 ? 0 : prev + 1));
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isPlaying]);
+
+  const formatTime = (secs: number) => {
+    const mins = Math.floor(secs / 60);
+    const remainder = secs % 60;
+    return `${mins}:${remainder < 10 ? '0' : ''}${remainder}`;
+  };
+
+  const handleCastVote = (score: number) => {
+    if (userVote === null) {
+      setVoteCountDelta(1);
+    }
+    setUserVote(score);
+  };
 
   const scrollToConverter = () => {
     const el = document.getElementById('converter');
@@ -67,7 +99,8 @@ export default function ProductProofSection() {
         {/* Header */}
         <div className="proof-header">
           <div className="pill-badge pill-badge--dark">
-            <span className="badge-dot dot-yellow" aria-hidden="true" /> Real community data
+            <span className="badge-dot dot-yellow" aria-hidden="true" />
+            <span>Real community data</span>
           </div>
           <h2 className={`proof-title ${isInView ? 'revealed' : ''}`}>
             Current leaderboard standings
@@ -104,6 +137,7 @@ export default function ProductProofSection() {
               </div>
             </div>
 
+            {/* Visual banner with interactive play trigger */}
             <div
               className="spotlight-visual-banner"
               style={{
@@ -113,8 +147,57 @@ export default function ProductProofSection() {
               <span className="spotlight-cover-icon" aria-hidden="true">
                 {activePlaylist.coverIcon}
               </span>
+
+              <button
+                type="button"
+                className="spotlight-play-overlay-btn"
+                onClick={() => setIsPlaying(!isPlaying)}
+                aria-label={isPlaying ? 'Pause audio preview' : 'Play audio preview'}
+              >
+                {isPlaying ? <Pause size={24} weight="fill" /> : <Play size={24} weight="fill" />}
+              </button>
+
               <div className="spotlight-rank-tag">
                 Original on {activePlaylist.sourceService} · Top in {activePlaylist.genre.split('/')[0].trim()}
+              </div>
+            </div>
+
+            {/* Interactive Audio Scrubber (Timmo style) */}
+            <div className="spotlight-scrubber-box">
+              <div className="scrubber-header">
+                <div className="scrubber-status">
+                  <SpeakerSimpleHigh size={15} weight="bold" color={isPlaying ? '#3EC96A' : '#888888'} />
+                  <span>{isPlaying ? 'Preview stream playing' : 'Simulated track preview'}</span>
+                </div>
+                <span className="scrubber-time">{formatTime(playbackSeconds)} / 3:45</span>
+              </div>
+
+              <div
+                className="scrubber-track"
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const pct = (e.clientX - rect.left) / rect.width;
+                  setPlaybackSeconds(Math.round(pct * 225));
+                }}
+              >
+                <div
+                  className="scrubber-fill"
+                  style={{ width: `${(playbackSeconds / 225) * 100}%` }}
+                />
+              </div>
+
+              {/* Live sound wave bars */}
+              <div className={`spotlight-soundwave ${isPlaying ? 'wave-active' : ''}`} aria-hidden="true">
+                {[12, 24, 16, 28, 36, 20, 32, 40, 26, 18, 30, 38, 22, 14].map((h, i) => (
+                  <span
+                    key={i}
+                    className="wave-bar"
+                    style={{
+                      height: `${isPlaying ? h : 6}px`,
+                      animationDelay: `${(i % 4) * 0.12}s`,
+                    }}
+                  />
+                ))}
               </div>
             </div>
 
@@ -130,7 +213,7 @@ export default function ProductProofSection() {
               <div className="spotlight-metrics-row">
                 <div className="spotlight-stat-item">
                   <span className="spotlight-stat-label">Verified reviews</span>
-                  <span className="spotlight-stat-value">{activePlaylist.reviewCount.toLocaleString()}</span>
+                  <span className="spotlight-stat-value">{(activePlaylist.reviewCount + voteCountDelta).toLocaleString()}</span>
                 </div>
                 <div className="spotlight-stat-item">
                   <span className="spotlight-stat-label">Tracks</span>
@@ -142,7 +225,30 @@ export default function ProductProofSection() {
                 </div>
               </div>
 
-              {/* Multi-app availability chips */}
+              {/* Interactive community vote widget */}
+              <div className="spotlight-rate-box">
+                <div className="rate-box-header">
+                  <span className="rate-box-title">Cast your 1 to 10 rating:</span>
+                  {userVote !== null && (
+                    <span className="rate-box-feedback">Vote saved in global consensus</span>
+                  )}
+                </div>
+                <div className="rate-score-strip">
+                  {[7, 8, 9, 10].map((score) => (
+                    <button
+                      key={score}
+                      type="button"
+                      className={`score-pill-btn ${userVote === score ? 'active' : ''}`}
+                      onClick={() => handleCastVote(score)}
+                      aria-label={`Vote ${score} out of 10`}
+                    >
+                      {score}.0
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Multi app availability chips */}
               <div className="spotlight-available-section">
                 <span className="available-label">Available to open on:</span>
                 <div className="available-services-chips">
@@ -187,7 +293,7 @@ export default function ProductProofSection() {
           {/* Interactive Leaderboard List */}
           <div className="proof-leaderboard-col">
             <div className="leaderboard-heading-row">
-              <span className="leaderboard-col-title">Rank &amp; collection</span>
+              <span className="leaderboard-col-title">Rank and collection</span>
               <span className="leaderboard-col-title text-right">Score</span>
             </div>
 
@@ -200,10 +306,16 @@ export default function ProductProofSection() {
                     role="listitem"
                     tabIndex={0}
                     className={`leaderboard-row-item ${isSelected ? 'selected' : ''}`}
-                    onClick={() => setActivePlaylistId(playlist.id)}
+                    onClick={() => {
+                      setActivePlaylistId(playlist.id);
+                      setUserVote(null);
+                      setVoteCountDelta(0);
+                    }}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         setActivePlaylistId(playlist.id);
+                        setUserVote(null);
+                        setVoteCountDelta(0);
                       }
                     }}
                     aria-label={`Rank ${idx + 1}: ${playlist.title} curated by ${playlist.curator}, rating ${playlist.rating}`}
@@ -251,7 +363,7 @@ export default function ProductProofSection() {
           </div>
         </div>
 
-        {/* Real Customer & Listener Evidence Quotes */}
+        {/* Real Customer and Listener Evidence Quotes */}
         <div className="proof-reviews-container">
           <div className="proof-reviews-header">
             <span className="reviews-eyebrow">Listener impressions</span>
