@@ -13,40 +13,39 @@
   font-family: var(--font-body, 'Manrope', -apple-system, sans-serif);
 }
 
-/* 56px subtle grid overlay matching Timmo */
+/* 56px subtle grid overlay matching Timmo, rendered once without heavy mask compositing */
 .popular-grid-lines {
-  position: absolute;
+  position: fixed;
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
   background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 15%, #000 30%, transparent 85%);
   z-index: 0;
+  transform: translateZ(0);
 }
 
 .popular-spotlight {
   position: absolute;
   top: -120px;
   left: 50%;
-  transform: translateX(-50%);
-  width: 900px;
-  height: 500px;
-  background: radial-gradient(circle at 50% 30%, rgba(29, 185, 84, 0.06) 0%, rgba(255, 255, 255, 0.02) 40%, transparent 70%);
+  transform: translateX(-50%) translateZ(0);
+  width: 800px;
+  height: 400px;
+  background: radial-gradient(circle at 50% 30%, rgba(29, 185, 84, 0.04) 0%, rgba(255, 255, 255, 0.015) 40%, transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
 
-/* Top Sticky Header */
+/* Top Sticky Header with hardware acceleration and opaque background to prevent scroll lag */
 .popular-top-bar {
   position: sticky;
   top: 0;
   z-index: 40;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(10, 10, 10, 0.95);
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  transform: translateZ(0);
 }
 
 .popular-top-container {
@@ -373,6 +372,8 @@
   padding-bottom: 12px;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  -webkit-overflow-scrolling: touch;
+  contain: layout;
 }
 
 .curator-card {
@@ -386,14 +387,16 @@
   border-radius: 12px;
   padding: 20px 14px;
   cursor: pointer;
-  transition: all 200ms ease;
   color: #ffffff;
+  transform: translateZ(0);
+  contain: layout style;
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .curator-card:hover {
   background: #181818;
   border-color: rgba(255, 255, 255, 0.18);
-  transform: translateY(-3px);
+  transform: translateY(-3px) translateZ(0);
 }
 
 .curator-card.selected {
@@ -503,7 +506,7 @@
   }
 }
 
-/* Individual Spotify Style Card */
+/* Individual Spotify Style Card with Hardware Acceleration and Layout Containment */
 .spotify-playlist-card {
   background: #121212;
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -512,14 +515,19 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  transition: all 220ms ease;
   position: relative;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout style;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 380px;
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), background-color 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
 }
 
 .spotify-playlist-card:hover {
   background: #1a1a1a;
   border-color: rgba(255, 255, 255, 0.16);
-  transform: translateY(-4px);
+  transform: translateY(-4px) translateZ(0);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
 }
 
@@ -537,7 +545,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 300ms ease;
+  transition: transform 260ms ease;
+  will-change: transform;
 }
 
 .spotify-playlist-card:hover .card-artwork-img {
@@ -560,7 +569,7 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   opacity: 0;
   transform: translateY(8px);
-  transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 180ms ease, transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .spotify-playlist-card:hover .card-floating-play {
@@ -577,8 +586,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.88);
   border: 1px solid rgba(255, 255, 255, 0.15);
   color: #ffffff;
   padding: 4px 9px;
@@ -588,6 +596,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  pointer-events: none;
 }
 
 .card-details {
@@ -739,14 +748,15 @@
 .inside-playlist-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
+  contain: strict;
 }
 
 .inside-playlist-modal {
@@ -760,17 +770,18 @@
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9);
-  animation: modalSlideUp 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  animation: modalSlideUp 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(0);
 }
 
 @keyframes modalSlideUp {
   from {
     opacity: 0;
-    transform: translateY(24px) scale(0.98);
+    transform: translateY(16px) scale(0.99) translateZ(0);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(1) translateZ(0);
   }
 }
 
@@ -807,8 +818,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.88);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #1ed760;
   padding: 4px 10px;
@@ -818,6 +828,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  pointer-events: none;
 }
 
 .inside-info-box {
@@ -1699,14 +1710,15 @@
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 20px;
-  animation: fadeInModal 200ms ease;
+  animation: fadeInModal 180ms ease;
+  contain: strict;
 }
 
 .publish-modal-card {

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useCallback, useDeferredValue, memo } from 'react';
 import {
   ArrowLeft,
   MagnifyingGlass,
@@ -41,10 +41,276 @@ const CATEGORIES = [
   { id: 'pop', label: 'Alt Pop and Acoustic', count: 2 },
 ];
 
+/* Memoized Curator Card to eliminate carousel scrolling lag */
+interface CuratorCardItemProps {
+  curator: typeof curatorsList[0];
+  isSelected: boolean;
+  onSelect: (handle: string) => void;
+}
+
+const CuratorCardItem = memo(function CuratorCardItem({
+  curator,
+  isSelected,
+  onSelect,
+}: CuratorCardItemProps) {
+  return (
+    <button
+      type="button"
+      className={`curator-card ${isSelected ? 'selected' : ''}`}
+      onClick={() => onSelect(curator.handle)}
+      aria-label={`Filter by allowed curator ${curator.name}`}
+    >
+      <div className="curator-avatar-frame">
+        <img
+          src={curator.avatar}
+          alt={curator.name}
+          className="curator-avatar-img"
+          loading="lazy"
+          decoding="async"
+        />
+        {curator.verified && (
+          <span className="curator-verified-dot" title="Verified Curator">
+            <CheckCircle size={14} weight="fill" />
+          </span>
+        )}
+      </div>
+      <span className="curator-card-name">{curator.name}</span>
+      <span className="curator-card-handle">{curator.handle}</span>
+
+      <div className="curator-permission-pill">
+        <span className="green-permission-dot" />
+        <span>Public Display Active</span>
+      </div>
+
+      <div className="curator-card-meta">
+        <span className="curator-rating">
+          <Star size={11} weight="fill" /> {curator.rating}
+        </span>
+        <span className="curator-listeners">{curator.playlistsCount} curations</span>
+      </div>
+    </button>
+  );
+});
+
+/* Memoized Playlist Card to isolate re-renders and deliver 60fps grid scrolling */
+interface PlaylistCardItemProps {
+  playlist: Playlist;
+  userGivenRating?: number;
+  isRatingOpen: boolean;
+  onOpenInside: (p: Playlist) => void;
+  onSelectPlaylist?: (p: Playlist) => void;
+  onToggleRating: (id: string) => void;
+  onRate: (id: string, score: number, e?: React.MouseEvent) => void;
+}
+
+const PlaylistCardItem = memo(function PlaylistCardItem({
+  playlist,
+  userGivenRating,
+  isRatingOpen,
+  onOpenInside,
+  onSelectPlaylist,
+  onToggleRating,
+  onRate,
+}: PlaylistCardItemProps) {
+  return (
+    <div
+      className="spotify-playlist-card"
+      onClick={() => onOpenInside(playlist)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onOpenInside(playlist);
+        }
+      }}
+      aria-label={`Inspect ${playlist.title} playlist`}
+    >
+      {/* Square Artwork with floating hover play button */}
+      <div className="card-artwork-wrapper">
+        <img
+          src={playlist.coverImage}
+          alt={playlist.title}
+          className="card-artwork-img"
+          loading="lazy"
+          decoding="async"
+        />
+        <div className="card-floating-play" title="Inspect playlist tracks">
+          <Play size={20} weight="fill" />
+        </div>
+        <div className="card-rating-badge">
+          <Star size={11} weight="fill" />
+          <span>{playlist.rating}</span>
+        </div>
+      </div>
+
+      {/* Card Content */}
+      <div className="card-details">
+        <h3 className="card-title" title={playlist.title}>
+          {playlist.title}
+        </h3>
+        <p className="card-curator">
+          by <span>{playlist.curator}</span>
+        </p>
+        <p className="card-desc">
+          {playlist.description}
+        </p>
+
+        <div className="card-footer-meta">
+          <span className="card-genre-pill">{playlist.genre}</span>
+          <span className="card-track-count">{playlist.trackCount} tracks</span>
+        </div>
+
+        {/* Interactive Community Rating Bar on Card */}
+        <div
+          className="card-rating-widget"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="rating-widget-info">
+            <span className="community-score-label">
+              <Star size={12} weight="fill" color="#eab308" />
+              <strong>{playlist.rating}</strong> / 10 ({playlist.reviewCount || 1} votes)
+            </span>
+            <button
+              type="button"
+              className={`rate-trigger-btn ${userGivenRating ? 'voted' : ''}`}
+              onClick={() => onToggleRating(playlist.id)}
+            >
+              {userGivenRating ? `You: ${userGivenRating}.0 ★` : 'Rate (1 to 10)'}
+            </button>
+          </div>
+
+          {/* 1 to 10 Rating Selector Popover */}
+          {isRatingOpen && (
+            <div className="rating-selector-popover" role="dialog" aria-label="Select score">
+              <span className="popover-title">Rate this curation:</span>
+              <div className="score-buttons-row">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((score) => (
+                  <button
+                    key={score}
+                    type="button"
+                    className={`score-select-btn ${userGivenRating === score ? 'active' : ''}`}
+                    onClick={(e) => onRate(playlist.id, score, e)}
+                  >
+                    {score}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Card Actions Row */}
+        <div className="card-action-bar">
+          <button
+            type="button"
+            className="card-inspect-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenInside(playlist);
+            }}
+          >
+            <span>Inspect Tracks</span>
+          </button>
+          <button
+            type="button"
+            className="card-open-native-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onSelectPlaylist) {
+                onSelectPlaylist(playlist);
+              } else {
+                window.open(playlist.sampleUrl, '_blank', 'noopener,noreferrer');
+              }
+            }}
+            aria-label={`Open ${playlist.title} in native app`}
+          >
+            <span>Open</span>
+            <ArrowUpRight size={13} weight="bold" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+/* Memoized Leaderboard Row */
+interface LeaderboardRowItemProps {
+  item: Playlist;
+  idx: number;
+  onOpenInside: (p: Playlist) => void;
+}
+
+const LeaderboardRowItem = memo(function LeaderboardRowItem({
+  item,
+  idx,
+  onOpenInside,
+}: LeaderboardRowItemProps) {
+  return (
+    <div
+      className="lb-table-row"
+      role="listitem"
+      onClick={() => onOpenInside(item)}
+    >
+      <div className="lb-col-rank">
+        <span className={`lb-rank-num ${idx === 0 ? 'gold' : idx === 1 ? 'silver' : idx === 2 ? 'bronze' : ''}`}>
+          {idx + 1}
+        </span>
+      </div>
+
+      <div className="lb-col-title lb-title-cell">
+        <img src={item.coverImage} alt={item.title} className="lb-cover-thumb" loading="lazy" decoding="async" />
+        <div className="lb-title-group">
+          <span className="lb-playlist-name">{item.title}</span>
+          <span className="lb-playlist-curator">Curated by {item.curator} ({item.curatorHandle})</span>
+        </div>
+      </div>
+
+      <div className="lb-col-genre">
+        <span className="lb-genre-badge">{item.genre}</span>
+      </div>
+
+      <div className="lb-col-match">
+        <span className="lb-match-pill">
+          <CheckCircle size={12} weight="fill" />
+          <span>100% matched</span>
+        </span>
+      </div>
+
+      <div className="lb-col-rating">
+        <span className="lb-score-text">
+          <Star size={13} weight="fill" color="#eab308" />
+          <strong>{item.rating}</strong> / 10
+        </span>
+      </div>
+
+      <div className="lb-col-action" onClick={(e) => e.stopPropagation()}>
+        <button
+          type="button"
+          className="lb-inspect-row-btn"
+          onClick={() => onOpenInside(item)}
+        >
+          Inspect
+        </button>
+        <a
+          href={item.sampleUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="lb-play-row-btn"
+          aria-label={`Open ${item.title}`}
+        >
+          <Play size={12} weight="fill" />
+        </a>
+      </div>
+    </div>
+  );
+});
+
 export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPublish = false }: PopularPageProps) {
   const [playlists, setPlaylists] = useState<Playlist[]>(() => getCommunityPlaylists());
   const [userRatings, setUserRatings] = useState<Record<string, number>>(() => getUserRatings());
   const [searchQuery, setSearchQuery] = useState('');
+  const deferredSearch = useDeferredValue(searchQuery);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedCurator, setSelectedCurator] = useState<string | null>(null);
   const [inspectingPlaylist, setInspectingPlaylist] = useState<Playlist | null>(null);
@@ -74,16 +340,17 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
     }
   }, [initialOpenPublish]);
 
-  // Filtered playlists
+  // Filtered playlists using deferred search query for non-blocking UI typing
   const filteredPlaylists = useMemo(() => {
+    const q = deferredSearch.trim().toLowerCase();
     return playlists.filter((p) => {
       const matchesSearch =
-        searchQuery === '' ||
-        p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.curator.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.genre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (p.tracks && p.tracks.some((t) => t.title.toLowerCase().includes(searchQuery.toLowerCase()) || t.artist.toLowerCase().includes(searchQuery.toLowerCase())));
+        !q ||
+        p.title.toLowerCase().includes(q) ||
+        p.curator.toLowerCase().includes(q) ||
+        p.genre.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        (p.tracks && p.tracks.some((t) => t.title.toLowerCase().includes(q) || t.artist.toLowerCase().includes(q)));
 
       const matchesCurator = !selectedCurator || p.curatorHandle === selectedCurator;
 
@@ -98,45 +365,52 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
 
       return matchesSearch && matchesCurator && matchesCategory;
     });
-  }, [playlists, searchQuery, selectedCurator, selectedCategory]);
+  }, [playlists, deferredSearch, selectedCurator, selectedCategory]);
 
   // Ranked Leaderboard Sort
   const rankedPlaylists = useMemo(() => {
     return [...playlists].sort((a, b) => b.rating - a.rating);
   }, [playlists]);
 
-  const handleOpenInside = (playlist: Playlist) => {
+  const handleOpenInside = useCallback((playlist: Playlist) => {
     setInspectingPlaylist(playlist);
     setConvertSuccess(null);
-  };
+  }, []);
 
-  const handleCloseInside = () => {
+  const handleCloseInside = useCallback(() => {
     setInspectingPlaylist(null);
     setPlayingTrackId(null);
     setConvertSuccess(null);
-  };
+  }, []);
 
-  const handleTogglePlay = (trackId: string) => {
+  const handleTogglePlay = useCallback((trackId: string) => {
     setPlayingTrackId((prev) => (prev === trackId ? null : trackId));
-  };
+  }, []);
 
-  const handleConvertAction = (playlist: Playlist) => {
+  const handleConvertAction = useCallback((playlist: Playlist) => {
     setConvertSuccess(`Successfully recreated ${playlist.trackCount} tracks in ${targetConvertService}! Ready to open in native player.`);
     setTimeout(() => {
       setConvertSuccess(null);
     }, 4500);
-  };
+  }, [targetConvertService]);
 
-  const handleRate = (playlistId: string, score: number, e?: React.MouseEvent) => {
+  const handleToggleRating = useCallback((id: string) => {
+    setActiveRatingCardId((prev) => (prev === id ? null : id));
+  }, []);
+
+  const handleSelectCurator = useCallback((handle: string) => {
+    setSelectedCurator((prev) => (prev === handle ? null : handle));
+    setActiveTab('playlists');
+  }, []);
+
+  const handleRate = useCallback((playlistId: string, score: number, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     const { updatedPlaylist, userRatings: updatedRatings } = rateCommunityPlaylist(playlistId, score);
     setUserRatings({ ...updatedRatings });
 
     if (updatedPlaylist) {
       setPlaylists((prev) => prev.map((item) => (item.id === playlistId ? updatedPlaylist : item)));
-      if (inspectingPlaylist && inspectingPlaylist.id === playlistId) {
-        setInspectingPlaylist(updatedPlaylist);
-      }
+      setInspectingPlaylist((prev) => (prev && prev.id === playlistId ? updatedPlaylist : prev));
     }
 
     setActiveRatingCardId(null);
@@ -144,7 +418,7 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
     setTimeout(() => {
       setRatingToast(null);
     }, 3500);
-  };
+  }, []);
 
   const handlePublishSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -408,49 +682,14 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
             </div>
 
             <div className="curators-carousel">
-              {curatorsList.map((curator) => {
-                const isSelected = selectedCurator === curator.handle;
-                return (
-                  <button
-                    key={curator.id}
-                    type="button"
-                    className={`curator-card ${isSelected ? 'selected' : ''}`}
-                    onClick={() => {
-                      setSelectedCurator(isSelected ? null : curator.handle);
-                      setActiveTab('playlists');
-                    }}
-                    aria-label={`Filter by allowed curator ${curator.name}`}
-                  >
-                    <div className="curator-avatar-frame">
-                      <img
-                        src={curator.avatar}
-                        alt={curator.name}
-                        className="curator-avatar-img"
-                        loading="lazy"
-                      />
-                      {curator.verified && (
-                        <span className="curator-verified-dot" title="Verified Curator">
-                          <CheckCircle size={14} weight="fill" />
-                        </span>
-                      )}
-                    </div>
-                    <span className="curator-card-name">{curator.name}</span>
-                    <span className="curator-card-handle">{curator.handle}</span>
-
-                    <div className="curator-permission-pill">
-                      <span className="green-permission-dot" />
-                      <span>Public Display Active</span>
-                    </div>
-
-                    <div className="curator-card-meta">
-                      <span className="curator-rating">
-                        <Star size={11} weight="fill" /> {curator.rating}
-                      </span>
-                      <span className="curator-listeners">{curator.playlistsCount} curations</span>
-                    </div>
-                  </button>
-                );
-              })}
+              {curatorsList.map((curator) => (
+                <CuratorCardItem
+                  key={curator.id}
+                  curator={curator}
+                  isSelected={selectedCurator === curator.handle}
+                  onSelect={handleSelectCurator}
+                />
+              ))}
             </div>
           </div>
         </section>
@@ -503,131 +742,18 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
               </div>
             ) : (
               <div className="spotify-cards-grid">
-                {filteredPlaylists.map((playlist) => {
-                  const userGivenRating = userRatings[playlist.id];
-                  const isRatingOpen = activeRatingCardId === playlist.id;
-
-                  return (
-                    <div
-                      key={playlist.id}
-                      className="spotify-playlist-card"
-                      onClick={() => handleOpenInside(playlist)}
-                      role="button"
-                      tabIndex={0}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' || e.key === ' ') {
-                          e.preventDefault();
-                          handleOpenInside(playlist);
-                        }
-                      }}
-                      aria-label={`Inspect ${playlist.title} playlist`}
-                    >
-                      {/* Square Artwork with floating hover play button */}
-                      <div className="card-artwork-wrapper">
-                        <img
-                          src={playlist.coverImage}
-                          alt={playlist.title}
-                          className="card-artwork-img"
-                          loading="lazy"
-                        />
-                        <div className="card-floating-play" title="Inspect playlist tracks">
-                          <Play size={20} weight="fill" />
-                        </div>
-                        <div className="card-rating-badge">
-                          <Star size={11} weight="fill" />
-                          <span>{playlist.rating}</span>
-                        </div>
-                      </div>
-
-                      {/* Card Content */}
-                      <div className="card-details">
-                        <h3 className="card-title" title={playlist.title}>
-                          {playlist.title}
-                        </h3>
-                        <p className="card-curator">
-                          by <span>{playlist.curator}</span>
-                        </p>
-                        <p className="card-desc">
-                          {playlist.description}
-                        </p>
-
-                        <div className="card-footer-meta">
-                          <span className="card-genre-pill">{playlist.genre}</span>
-                          <span className="card-track-count">{playlist.trackCount} tracks</span>
-                        </div>
-
-                        {/* Interactive Community Rating Bar on Card */}
-                        <div
-                          className="card-rating-widget"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          <div className="rating-widget-info">
-                            <span className="community-score-label">
-                              <Star size={12} weight="fill" color="#eab308" />
-                              <strong>{playlist.rating}</strong> / 10 ({playlist.reviewCount || 1} votes)
-                            </span>
-                            <button
-                              type="button"
-                              className={`rate-trigger-btn ${userGivenRating ? 'voted' : ''}`}
-                              onClick={() => setActiveRatingCardId(isRatingOpen ? null : playlist.id)}
-                            >
-                              {userGivenRating ? `You: ${userGivenRating}.0 ★` : 'Rate (1 to 10)'}
-                            </button>
-                          </div>
-
-                          {/* 1 to 10 Rating Selector Popover */}
-                          {isRatingOpen && (
-                            <div className="rating-selector-popover" role="dialog" aria-label="Select score">
-                              <span className="popover-title">Rate this curation:</span>
-                              <div className="score-buttons-row">
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((score) => (
-                                  <button
-                                    key={score}
-                                    type="button"
-                                    className={`score-select-btn ${userGivenRating === score ? 'active' : ''}`}
-                                    onClick={(e) => handleRate(playlist.id, score, e)}
-                                  >
-                                    {score}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Card Actions Row */}
-                        <div className="card-action-bar">
-                          <button
-                            type="button"
-                            className="card-inspect-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleOpenInside(playlist);
-                            }}
-                          >
-                            <span>Inspect Tracks</span>
-                          </button>
-                          <button
-                            type="button"
-                            className="card-open-native-btn"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              if (onSelectPlaylist) {
-                                onSelectPlaylist(playlist);
-                              } else {
-                                window.open(playlist.sampleUrl, '_blank', 'noopener,noreferrer');
-                              }
-                            }}
-                            aria-label={`Open ${playlist.title} in native app`}
-                          >
-                            <span>Open</span>
-                            <ArrowUpRight size={13} weight="bold" />
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                {filteredPlaylists.map((playlist) => (
+                  <PlaylistCardItem
+                    key={playlist.id}
+                    playlist={playlist}
+                    userGivenRating={userRatings[playlist.id]}
+                    isRatingOpen={activeRatingCardId === playlist.id}
+                    onOpenInside={handleOpenInside}
+                    onSelectPlaylist={onSelectPlaylist}
+                    onToggleRating={handleToggleRating}
+                    onRate={handleRate}
+                  />
+                ))}
               </div>
             )}
           </div>
@@ -667,63 +793,12 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
 
               <div className="lb-table-body" role="list">
                 {rankedPlaylists.map((item, idx) => (
-                  <div
+                  <LeaderboardRowItem
                     key={item.id}
-                    className="lb-table-row"
-                    role="listitem"
-                    onClick={() => handleOpenInside(item)}
-                  >
-                    <div className="lb-col-rank">
-                      <span className={`lb-rank-num ${idx === 0 ? 'gold' : idx === 1 ? 'silver' : idx === 2 ? 'bronze' : ''}`}>
-                        {idx + 1}
-                      </span>
-                    </div>
-
-                    <div className="lb-col-title lb-title-cell">
-                      <img src={item.coverImage} alt={item.title} className="lb-cover-thumb" loading="lazy" />
-                      <div className="lb-title-group">
-                        <span className="lb-playlist-name">{item.title}</span>
-                        <span className="lb-playlist-curator">Curated by {item.curator} ({item.curatorHandle})</span>
-                      </div>
-                    </div>
-
-                    <div className="lb-col-genre">
-                      <span className="lb-genre-badge">{item.genre}</span>
-                    </div>
-
-                    <div className="lb-col-match">
-                      <span className="lb-match-pill">
-                        <CheckCircle size={12} weight="fill" />
-                        <span>100% matched</span>
-                      </span>
-                    </div>
-
-                    <div className="lb-col-rating">
-                      <span className="lb-score-text">
-                        <Star size={13} weight="fill" color="#eab308" />
-                        <strong>{item.rating}</strong> / 10
-                      </span>
-                    </div>
-
-                    <div className="lb-col-action" onClick={(e) => e.stopPropagation()}>
-                      <button
-                        type="button"
-                        className="lb-inspect-row-btn"
-                        onClick={() => handleOpenInside(item)}
-                      >
-                        Inspect
-                      </button>
-                      <a
-                        href={item.sampleUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="lb-play-row-btn"
-                        aria-label={`Open ${item.title}`}
-                      >
-                        <Play size={12} weight="fill" />
-                      </a>
-                    </div>
-                  </div>
+                    item={item}
+                    idx={idx}
+                    onOpenInside={handleOpenInside}
+                  />
                 ))}
               </div>
             </div>
@@ -753,6 +828,8 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
                     src={inspectingPlaylist.coverImage}
                     alt={inspectingPlaylist.title}
                     className="inside-cover-img"
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="inside-score-pill">
                     <Star size={13} weight="fill" />
@@ -912,6 +989,7 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
                             alt={track.title}
                             className="track-thumbnail-img"
                             loading="lazy"
+                            decoding="async"
                           />
                           <div className="track-meta">
                             <span className="track-title-text">{track.title}</span>
