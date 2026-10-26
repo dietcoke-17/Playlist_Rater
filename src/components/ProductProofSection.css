@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════
-   Product Proof Section (Leaderboard Standings)
+   Product Proof Section (Leaderboard & Reviews)
    ═══════════════════════════════════════════ */
 
 .proof-section {
@@ -89,6 +89,7 @@
   grid-template-columns: 0.95fr 1.05fr;
   gap: 32px;
   align-items: start;
+  margin-bottom: 64px;
 }
 
 /* ── 1. Spotlight Card ── */
@@ -405,10 +406,155 @@
   margin: 0;
 }
 
+/* ── Real Customer & Listener Evidence Section ── */
+.proof-reviews-container {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 56px;
+}
+
+.proof-reviews-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.reviews-eyebrow {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #3EC96A;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.reviews-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+}
+
+.proof-reviews-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.proof-review-card {
+  background: #272727;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-2xl); /* 16px */
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 300ms var(--ease-base), border-color 300ms var(--ease-base);
+}
+
+.proof-review-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.review-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.review-stars {
+  font-size: 13px;
+  color: #FFB830;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.review-score-tag {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  color: #FFFFFF;
+  background: #181818;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.review-playlist-tag {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.55);
+  background: #181818;
+  padding: 4px 8px;
+  border-radius: var(--radius-lg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.review-quote {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 20px;
+  text-wrap: pretty;
+  flex-grow: 1;
+}
+
+.review-author-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.author-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #7B61FF;
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.author-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.author-role {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
 @media (max-width: 900px) {
   .proof-showcase-grid {
     grid-template-columns: 1fr;
     gap: 32px;
+  }
+  .proof-reviews-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 

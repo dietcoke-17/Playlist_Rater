@@ -205,7 +205,7 @@ export default function Hero() {
             <div className="title-row">
               <span>That</span>
               <span ref={target2Ref} className="inline-target-slot" />
-              <span>top-rated track.</span>
+              <span>top rated track.</span>
             </div>
 
             <div className="title-row">
