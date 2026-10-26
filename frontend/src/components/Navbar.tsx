@@ -4,12 +4,11 @@ import './Navbar.css';
 
 const NAV_LINKS = [
   { label: 'Converter', id: 'converter' },
-  { label: 'Popular', id: 'popular-playlists' },
-  { label: 'Leaderboard', id: 'playlists' },
-  { label: 'FAQ', id: 'faq' },
+  { label: 'Public Curators', id: 'curators' },
+  { label: 'Leaderboard', id: 'leaderboard' },
 ];
 
-const OBSERVED_SECTIONS = ['home', 'converter', 'popular-playlists', 'playlists', 'faq', 'cta'];
+const OBSERVED_SECTIONS = ['home', 'converter'];
 
 interface NavbarProps {
   onOpenLogin?: () => void;
@@ -60,13 +59,24 @@ export default function Navbar({
   }, [currentView]);
 
   const scrollTo = useCallback((id: string) => {
-    if (id === 'popular-playlists' && onOpenPopular) {
+    if ((id === 'curators' || id === 'popular-playlists') && onOpenPopular) {
       onOpenPopular();
       setMenuOpen(false);
       return;
     }
-    if (id === 'playlists' && onOpenLeaderboard) {
+    if ((id === 'leaderboard' || id === 'playlists') && onOpenLeaderboard) {
       onOpenLeaderboard();
+      setMenuOpen(false);
+      return;
+    }
+    if (id === 'converter') {
+      if (currentView !== 'home' && onGoHome) {
+        onGoHome();
+      }
+      setTimeout(() => {
+        const el = document.getElementById('converter');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 50);
       setMenuOpen(false);
       return;
     }
@@ -94,9 +104,9 @@ export default function Navbar({
   }, [menuOpen]);
 
   const isActive = (id: string) => {
-    if (currentView === 'popular' && id === 'popular-playlists') return true;
-    if (currentView === 'leaderboard' && id === 'playlists') return true;
-    if (currentView === 'home' && activeSection === id) return true;
+    if (currentView === 'popular' && (id === 'curators' || id === 'popular-playlists')) return true;
+    if (currentView === 'leaderboard' && (id === 'leaderboard' || id === 'playlists')) return true;
+    if (currentView === 'home' && (activeSection === id || (id === 'converter' && activeSection === 'home'))) return true;
     return false;
   };
 

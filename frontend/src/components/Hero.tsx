@@ -6,6 +6,9 @@ import {
   Star,
   CheckCircle,
   Copy,
+  ArrowUpRight,
+  Plus,
+  UsersThree,
 } from '@phosphor-icons/react';
 import { converterPresets, type StreamingService, type ConverterPreset } from '../data/playlists';
 import './Hero.css';
@@ -26,9 +29,11 @@ const sampleTracks = [
 
 interface HeroProps {
   onOpenLogin?: () => void;
+  onOpenCuratorsDirectory?: () => void;
+  onOpenPublishModal?: () => void;
 }
 
-export default function Hero({ onOpenLogin }: HeroProps) {
+export default function Hero({ onOpenLogin, onOpenCuratorsDirectory, onOpenPublishModal }: HeroProps) {
   const [activeTab, setActiveTab] = useState<'url' | 'library'>('url');
   const [inputUrl, setInputUrl] = useState('https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6');
   const [detectedPreset] = useState<ConverterPreset>(converterPresets[0]);
@@ -310,6 +315,49 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+
+        {/* Navigation to Publicly Allowed Curators & Rated Playlists */}
+        <div className="hero-community-callout">
+          <div className="callout-glass-card">
+            <div className="callout-content-left">
+              <div className="callout-eyebrow-pill">
+                <UsersThree size={14} weight="bold" />
+                <span>COMMUNITY CURATION DIRECTORY</span>
+              </div>
+              <h2 className="callout-title">
+                Public Curators and Community Playlists
+              </h2>
+              <p className="callout-desc">
+                Browse verified creators who authorized public display on Playlitfy. Rate community curations on a 1 to 10 scale, inspect full tracklists, or publish your own playlist library.
+              </p>
+            </div>
+
+            <div className="callout-actions-right">
+              {onOpenCuratorsDirectory && (
+                <button
+                  type="button"
+                  className="callout-primary-btn"
+                  onClick={onOpenCuratorsDirectory}
+                  id="hero-browse-curators-btn"
+                >
+                  <span>Browse Allowed Curators</span>
+                  <ArrowUpRight size={16} weight="bold" />
+                </button>
+              )}
+              {onOpenPublishModal && (
+                <button
+                  type="button"
+                  className="callout-secondary-btn"
+                  onClick={onOpenPublishModal}
+                  id="hero-publish-playlist-btn"
+                >
+                  <Plus size={16} weight="bold" />
+                  <span>Publish Your Playlist</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>

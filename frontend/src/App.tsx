@@ -6,13 +6,6 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import HomeStatementSection from './components/HomeStatementSection';
-import BenefitsSection from './components/BenefitsSection';
-import SpotifyPlaylistsSection from './components/SpotifyPlaylistsSection';
-import SpotifyLeaderboardSection from './components/SpotifyLeaderboardSection';
-import TaglineSection from './components/TaglineSection';
-import FaqSection from './components/FaqSection';
-import CtaSection from './components/CtaSection';
 import Footer from './components/Footer';
 import LoginPage from './components/LoginPage';
 import LeaderboardPage from './components/LeaderboardPage';
@@ -27,12 +20,13 @@ function getInitialView(): AppView {
   const path = window.location.pathname;
   if (path === '/login' || window.location.hash === '#login') return 'login';
   if (path === '/leaderboard' || window.location.hash === '#leaderboard') return 'leaderboard';
-  if (path === '/popular' || window.location.hash === '#popular') return 'popular';
+  if (path === '/popular' || path === '/curators' || window.location.hash === '#popular' || window.location.hash === '#curators') return 'popular';
   return 'home';
 }
 
 function MainAppContent() {
   const [view, setView] = useState<AppView>(getInitialView);
+  const [openPublishModalDirectly, setOpenPublishModalDirectly] = useState(false);
 
   const navigateTo = useCallback((newView: AppView) => {
     setView(newView);
@@ -52,7 +46,7 @@ function MainAppContent() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Initialize Lenis Smooth Scroll synced with GSAP on Home view
+  // Initialize Lenis Smooth Scroll on Home view
   useEffect(() => {
     if (view !== 'home') return;
 
@@ -87,7 +81,7 @@ function MainAppContent() {
     };
   }, [view]);
 
-  // When a playlist is selected from the Spotify cards or leaderboard
+  // When a playlist is selected from directory
   const handleSelectPlaylist = useCallback((playlist: Playlist) => {
     const converterEl = document.getElementById('converter');
     if (converterEl && view === 'home') {
@@ -104,8 +98,12 @@ function MainAppContent() {
   if (view === 'popular') {
     return (
       <PopularPage
-        onBack={() => navigateTo('home')}
+        onBack={() => {
+          setOpenPublishModalDirectly(false);
+          navigateTo('home');
+        }}
         onSelectPlaylist={handleSelectPlaylist}
+        initialOpenPublish={openPublishModalDirectly}
       />
     );
   }
@@ -125,45 +123,31 @@ function MainAppContent() {
       <Navbar
         onOpenLogin={() => navigateTo('login')}
         onOpenLeaderboard={() => navigateTo('leaderboard')}
-        onOpenPopular={() => navigateTo('popular')}
+        onOpenPopular={() => {
+          setOpenPublishModalDirectly(false);
+          navigateTo('popular');
+        }}
         onGoHome={() => navigateTo('home')}
         currentView={view}
       />
 
       <main id="main-content">
-        {/* Above the fold: Hero Landing Section with Spotify dark palette */}
-        <Hero onOpenLogin={() => navigateTo('login')} />
-
-        {/* 1. Problem and solution */}
-        <HomeStatementSection />
-
-        {/* 2. Three to five benefits tied to real product outcomes */}
-        <BenefitsSection />
-
-        {/* 3. Spotify Cards for Popular and Top Playlists */}
-        <SpotifyPlaylistsSection
-          onSelectPlaylist={handleSelectPlaylist}
-          onOpenPopularPage={() => navigateTo('popular')}
+        {/* Landing Page: Universal Converter and button to Public Curators */}
+        <Hero
+          onOpenLogin={() => navigateTo('login')}
+          onOpenCuratorsDirectory={() => {
+            setOpenPublishModalDirectly(false);
+            navigateTo('popular');
+          }}
+          onOpenPublishModal={() => {
+            setOpenPublishModalDirectly(true);
+            navigateTo('popular');
+          }}
         />
-
-        {/* 4. Spotify Charts Table for Current Leaderboard Standings */}
-        <SpotifyLeaderboardSection
-          onOpenFullLeaderboard={() => navigateTo('leaderboard')}
-          onSelectPlaylist={handleSelectPlaylist}
-        />
-
-        {/* 5. A distinctive benefit or tagline section */}
-        <TaglineSection />
-
-        {/* 7. FAQ addressing the actual objections */}
-        <FaqSection />
-
-        {/* 8. Final CTA */}
-        <CtaSection onOpenLogin={() => navigateTo('login')} />
       </main>
 
-      {/* Complete Footer */}
-      <Footer />
+      {/* Minimal clean footer */}
+      <Footer onOpenCurators={() => navigateTo('popular')} />
     </div>
   );
 }

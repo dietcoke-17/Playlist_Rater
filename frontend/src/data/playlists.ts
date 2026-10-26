@@ -33,6 +33,7 @@ export interface Playlist {
   sampleUrl: string;
   description: string;
   tracks: PlaylistTrack[];
+  allowedPublic?: boolean;
 }
 
 export interface Curator {
@@ -45,6 +46,8 @@ export interface Curator {
   rating: number;
   playlistsCount: number;
   listenersCount: string;
+  allowedPublic?: boolean;
+  bio?: string;
 }
 
 export interface ConverterPreset {
@@ -553,3 +556,81 @@ export const twitterReviews: TwitterReview[] = [
     views: '22.8K',
   },
 ];
+
+const COMMUNITY_PLAYLISTS_STORAGE_KEY = 'playlitfy_community_playlists_v1';
+const USER_RATINGS_STORAGE_KEY = 'playlitfy_user_ratings_v1';
+
+export function getCommunityPlaylists(): Playlist[] {
+  try {
+    const raw = typeof window !== 'undefined' ? localStorage.getItem(COMMUNITY_PLAYLISTS_STORAGE_KEY) : null;
+    if (raw) {
+      const parsed: Playlist[] = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch {
+    // fallback
+  }
+  const initial = popularSpotifyPlaylists.map((p) => ({ ...p, allowedPublic: true }));
+  try {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(COMMUNITY_PLAYLISTS_STORAGE_KEY, JSON.stringify(initial));
+    }
+  } catch {}
+  return initial;
+}
+
+export function saveCommunityPlaylists(list: Playlist[]): void {
+  try {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(COMMUNITY_PLAYLISTS_STORAGE_KEY, JSON.stringify(list));
+    }
+  } catch {}
+}
+
+export function publishCommunityPlaylist(newPlaylist: Playlist): Playlist[] {
+  const current = getCommunityPlaylists();
+  const updated = [{ ...newPlaylist, allowedPublic: true }, ...current];
+  saveCommunityPlaylists(updated);
+  return updated;
+}
+
+export function getUserRatings(): Record<string, number> {
+  try {
+    const raw = typeof window !== 'undefined' ? localStorage.getItem(USER_RATINGS_STORAGE_KEY) : null;
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return {};
+}
+
+export function rateCommunityPlaylist(playlistId: string, score: number): { updatedPlaylist?: Playlist; userRatings: Record<string, number> } {
+  const ratings = getUserRatings();
+  ratings[playlistId] = score;
+  try {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(USER_RATINGS_STORAGE_KEY, JSON.stringify(ratings));
+    }
+  } catch {}
+
+  const current = getCommunityPlaylists();
+  const idx = current.findIndex((p) => p.id === playlistId);
+  let updatedPlaylist: Playlist | undefined;
+
+  if (idx !== -1) {
+    const item = current[idx];
+    const prevCount = item.reviewCount || 100;
+    const prevRating = item.rating || 9.0;
+    const newRating = Number(((prevRating * prevCount + score) / (prevCount + 1)).toFixed(1));
+    updatedPlaylist = {
+      ...item,
+      rating: newRating,
+      reviewCount: prevCount + 1,
+    };
+    current[idx] = updatedPlaylist;
+    saveCommunityPlaylists(current);
+  }
+
+  return { updatedPlaylist, userRatings: ratings };
+}
+

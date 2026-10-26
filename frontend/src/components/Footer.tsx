@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import './Footer.css';
 
-export default function Footer() {
+interface FooterProps {
+  onOpenCurators?: () => void;
+}
+
+export default function Footer({ onOpenCurators }: FooterProps) {
   const [activeModal, setActiveModal] = useState<'privacy' | 'terms' | null>(null);
 
   const scrollTo = (id: string) => {
@@ -52,18 +56,11 @@ export default function Footer() {
             <button type="button" className="footer-nav-btn" onClick={() => scrollTo('converter')}>
               Converter
             </button>
-            <button type="button" className="footer-nav-btn" onClick={() => scrollTo('problem-solution')}>
-              The problem
-            </button>
-            <button type="button" className="footer-nav-btn" onClick={() => scrollTo('features')}>
-              Benefits
-            </button>
-            <button type="button" className="footer-nav-btn" onClick={() => scrollTo('playlists')}>
-              Leaderboard
-            </button>
-            <button type="button" className="footer-nav-btn" onClick={() => scrollTo('faq')}>
-              FAQ
-            </button>
+            {onOpenCurators && (
+              <button type="button" className="footer-nav-btn" onClick={onOpenCurators}>
+                Public Curators
+              </button>
+            )}
             <button
               type="button"
               className="footer-nav-btn footer-legal-btn"
