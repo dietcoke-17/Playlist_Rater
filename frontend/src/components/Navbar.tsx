@@ -1,32 +1,38 @@
 import { useEffect, useState, useCallback } from 'react';
+import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
 const NAV_LINKS = [
-  { label: 'Home', id: 'home' },
   { label: 'Converter', id: 'converter' },
-  { label: 'Benefits', id: 'features' },
-  { label: 'How it works', id: 'how-it-works' },
+  { label: 'Popular', id: 'popular-playlists' },
   { label: 'Leaderboard', id: 'playlists' },
+  { label: 'Reviews', id: 'reviews' },
   { label: 'FAQ', id: 'faq' },
 ];
 
-// IDs observed for scroll-spy (superset of nav links)
-const OBSERVED_SECTIONS = ['home', 'converter', 'problem-solution', 'features', 'how-it-works', 'playlists', 'top-playlists', 'tagline', 'faq', 'cta'];
+const OBSERVED_SECTIONS = ['home', 'converter', 'popular-playlists', 'playlists', 'reviews', 'faq', 'cta'];
 
-export default function Navbar() {
+interface NavbarProps {
+  onOpenLogin?: () => void;
+  onOpenLeaderboard?: () => void;
+  currentView?: 'home' | 'login' | 'leaderboard';
+}
+
+export default function Navbar({ onOpenLogin, onOpenLeaderboard, currentView = 'home' }: NavbarProps) {
+  const { user, isLoggedIn } = useAuth();
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Navbar background on scroll
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 30);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Scroll-spy — highlight nav item matching current section in viewport
   useEffect(() => {
+    if (currentView !== 'home') return;
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -44,16 +50,19 @@ export default function Navbar() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [currentView]);
 
-  // Smooth scroll helper
   const scrollTo = useCallback((id: string) => {
+    if (id === 'leaderboard-page' && onOpenLeaderboard) {
+      onOpenLeaderboard();
+      setMenuOpen(false);
+      return;
+    }
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
     setMenuOpen(false);
-  }, []);
+  }, [onOpenLeaderboard]);
 
-  // Escape closes mobile menu
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setMenuOpen(false);
@@ -62,14 +71,12 @@ export default function Navbar() {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, []);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [menuOpen]);
 
-  const isActive = (id: string) =>
-    id === 'home' ? activeSection === 'home' : activeSection === id;
+  const isActive = (id: string) => activeSection === id;
 
   return (
     <>
@@ -79,16 +86,17 @@ export default function Navbar() {
         aria-label="Primary navigation"
       >
         <div className="liquid-nav-container">
-          {/* Logo */}
+          {/* Brand Logo (Timmo capsule style) */}
           <button
             className="nav-logo-pill"
             onClick={() => scrollTo('home')}
-            aria-label="PlaylistIQ — go to top"
+            aria-label="PlaylistIQ go to top"
           >
-            <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="36" height="36" rx="9" fill="#FF5500" />
-              <path d="M12 24 L24 12 M24 12 H15 M24 12 V21" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
+              <rect width="36" height="36" rx="9" fill="#1DB954" />
+              <path d="M12 24 L24 12 M24 12 H15 M24 12 V21" stroke="#000000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
+            <span className="nav-logo-name">PlaylistIQ</span>
           </button>
 
           {/* Desktop nav links */}
@@ -106,11 +114,36 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right: CTA + hamburger */}
+          {/* Right side: Login Button + CTA + Hamburger */}
           <div className="nav-right">
-            <button className="nav-action-btn" onClick={() => scrollTo('converter')}>
-              Convert playlist
+            {/* Timmo style Login / Workspace Pill Button */}
+            {isLoggedIn && user ? (
+              <button
+                id="nav-user-btn"
+                className="nav-user-pill"
+                onClick={onOpenLogin}
+                title="Open Music Workspace"
+              >
+                <img src={user.avatar} alt={user.name} className="nav-user-avatar" />
+                <span className="nav-user-name">Workspace</span>
+              </button>
+            ) : (
+              <button
+                id="nav-login-btn"
+                className="nav-login-btn"
+                onClick={onOpenLogin}
+              >
+                Login
+              </button>
+            )}
+
+            <button
+              className="nav-action-btn"
+              onClick={() => scrollTo('converter')}
+            >
+              Convert
             </button>
+
             <button
               className={`nav-hamburger ${menuOpen ? 'open' : ''}`}
               onClick={() => setMenuOpen((prev) => !prev)}
@@ -126,7 +159,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile full-height slide panel */}
+      {/* Mobile drawer panel */}
       <div
         id="nav-mobile-panel"
         className={`nav-mobile-panel ${menuOpen ? 'open' : ''}`}
@@ -137,15 +170,27 @@ export default function Navbar() {
             <button
               key={link.id}
               className="nav-mobile-item"
-              style={{ transitionDelay: menuOpen ? `${80 + i * 60}ms` : '0ms' }}
+              style={{ transitionDelay: menuOpen ? `${80 + i * 50}ms` : '0ms' }}
               onClick={() => scrollTo(link.id)}
             >
               {link.label}
             </button>
           ))}
+
+          <button
+            className="nav-mobile-item login"
+            style={{ transitionDelay: menuOpen ? `${80 + NAV_LINKS.length * 50}ms` : '0ms' }}
+            onClick={() => {
+              setMenuOpen(false);
+              onOpenLogin?.();
+            }}
+          >
+            {isLoggedIn ? 'Music Workspace' : 'Sign In / Login'}
+          </button>
+
           <button
             className="nav-mobile-cta"
-            style={{ transitionDelay: menuOpen ? `${80 + NAV_LINKS.length * 60}ms` : '0ms' }}
+            style={{ transitionDelay: menuOpen ? `${80 + (NAV_LINKS.length + 1) * 50}ms` : '0ms' }}
             onClick={() => scrollTo('converter')}
           >
             Convert playlist

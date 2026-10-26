@@ -1,0 +1,435 @@
+/* ==========================================================================
+   PlaylistIQ — Dedicated Full Leaderboard Page Styles
+   Spotify Charts Theme
+   ========================================================================== */
+
+.full-leaderboard-root {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #080808;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.full-leaderboard-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: rgba(8, 8, 8, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 0;
+}
+
+.full-leaderboard-nav-container {
+  max-width: 1120px;
+  width: 100%;
+  padding: 0 24px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.full-lb-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 16px;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.full-lb-back-btn:hover {
+  background: #242424;
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.full-lb-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.full-lb-brand-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #a3a3a3;
+  text-transform: uppercase;
+}
+
+.full-lb-live-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #1DB954;
+  background: rgba(29, 185, 84, 0.1);
+  border: 1px solid rgba(29, 185, 84, 0.25);
+  padding: 4px 10px;
+  border-radius: 9999px;
+}
+
+.live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #1DB954;
+  box-shadow: 0 0 6px #1DB954;
+}
+
+/* Hero */
+.full-lb-hero {
+  padding: 48px 0 28px;
+  background: radial-gradient(circle at 50% 0%, rgba(29, 185, 84, 0.06), transparent 70%);
+  text-align: center;
+}
+
+.full-lb-hero-container {
+  max-width: 720px;
+  width: 100%;
+  padding: 0 24px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.full-lb-badge {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #1DB954;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.full-lb-title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  margin: 0 0 12px;
+}
+
+.full-lb-subtitle {
+  font-size: 14px;
+  color: #a3a3a3;
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+
+.full-lb-search-box {
+  width: 100%;
+  max-width: 480px;
+}
+
+.full-lb-search-input {
+  width: 100%;
+  padding: 12px 18px;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.full-lb-search-input:focus {
+  border-color: #1DB954;
+}
+
+/* Main */
+.full-lb-main {
+  flex: 1;
+  padding: 24px 0 80px;
+}
+
+.full-lb-container {
+  max-width: 1120px;
+  width: 100%;
+  padding: 0 24px;
+  margin: 0 auto;
+}
+
+/* Genre Pills */
+.full-lb-genres-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+
+.full-lb-genres-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.full-lb-genre-btn {
+  display: inline-flex;
+  align-items: center;
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 7px 16px;
+  border-radius: 9999px;
+  color: #a3a3a3;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.full-lb-genre-btn:hover {
+  background: #202020;
+  color: #ffffff;
+}
+
+.full-lb-genre-btn.active {
+  background: #2a2a2a;
+  border-color: rgba(255, 255, 255, 0.24);
+  color: #ffffff;
+}
+
+/* Table Wrapper */
+.full-lb-table-wrapper {
+  background: #101010;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.full-lb-table-head {
+  display: grid;
+  grid-template-columns: 50px 1fr 160px 140px 110px 120px 90px;
+  align-items: center;
+  padding: 12px 20px;
+  background: #141414;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.flb-th {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #737373;
+  text-transform: uppercase;
+}
+
+.flb-rank {
+  text-align: center;
+}
+
+.flb-action {
+  text-align: right;
+}
+
+.full-lb-table-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-lb-row {
+  display: grid;
+  grid-template-columns: 50px 1fr 160px 140px 110px 120px 90px;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.full-lb-row:last-child {
+  border-bottom: none;
+}
+
+.full-lb-row:hover {
+  background-color: #1a1a1a;
+}
+
+.flb-td {
+  display: flex;
+  align-items: center;
+}
+
+.flb-rank {
+  justify-content: center;
+}
+
+.flb-rank-badge {
+  font-size: 13px;
+  font-weight: 700;
+  color: #737373;
+}
+
+.flb-rank-badge.gold {
+  color: #f59e0b;
+}
+
+.flb-rank-badge.silver {
+  color: #e2e8f0;
+}
+
+.flb-rank-badge.bronze {
+  color: #d97706;
+}
+
+.flb-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+  padding-right: 16px;
+}
+
+.flb-cover-img {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
+.flb-text-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.flb-playlist-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flb-curator-name {
+  font-size: 12px;
+  color: #737373;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flb-handle {
+  color: #525252;
+}
+
+.flb-genre-pill {
+  font-size: 12px;
+  color: #a3a3a3;
+  background: #181818;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.flb-platform-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 9999px;
+}
+
+.flb-platform-badge.spotify {
+  color: #1ed760;
+  border: 1px solid rgba(29, 185, 84, 0.25);
+  background: rgba(29, 185, 84, 0.08);
+}
+
+.flb-platform-badge.applemusic {
+  color: #fa2d48;
+  border: 1px solid rgba(250, 45, 72, 0.25);
+  background: rgba(250, 45, 72, 0.08);
+}
+
+.flb-platform-badge.youtubemusic {
+  color: #ff4e4e;
+  border: 1px solid rgba(255, 78, 78, 0.25);
+  background: rgba(255, 78, 78, 0.08);
+}
+
+.flb-reviews-count {
+  font-size: 12px;
+  color: #737373;
+}
+
+.flb-score-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #1c1c1c;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.flb-score-val {
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.flb-score-base {
+  font-size: 10px;
+  color: #666666;
+}
+
+.flb-action {
+  justify-content: flex-end;
+}
+
+.flb-open-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #242424;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 6px 14px;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.flb-open-btn:hover {
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .full-lb-table-head {
+    display: none;
+  }
+
+  .full-lb-row {
+    grid-template-columns: 44px 1fr auto;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .flb-genre,
+  .flb-platform,
+  .flb-stats {
+    display: none;
+  }
+}
