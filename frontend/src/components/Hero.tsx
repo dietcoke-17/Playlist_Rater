@@ -6,7 +6,6 @@ import {
   Star,
   CheckCircle,
   Copy,
-  Sparkle,
 } from '@phosphor-icons/react';
 import { converterPresets, type StreamingService, type ConverterPreset } from '../data/playlists';
 import './Hero.css';
@@ -15,8 +14,8 @@ const SERVICES: { name: StreamingService; color: string }[] = [
   { name: 'Apple Music', color: '#FA2D48' },
   { name: 'Spotify', color: '#1DB954' },
   { name: 'YouTube Music', color: '#FF0000' },
-  { name: 'TIDAL', color: '#00FFFF' },
   { name: 'Amazon Music', color: '#00A8E1' },
+  { name: 'TIDAL', color: '#00FFFF' },
 ];
 
 const sampleTracks = [
@@ -31,8 +30,8 @@ interface HeroProps {
 
 export default function Hero({ onOpenLogin }: HeroProps) {
   const [activeTab, setActiveTab] = useState<'url' | 'library'>('url');
-  const [inputUrl, setInputUrl] = useState(converterPresets[0].url);
-  const [detectedPreset, setDetectedPreset] = useState<ConverterPreset>(converterPresets[0]);
+  const [inputUrl, setInputUrl] = useState('https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6');
+  const [detectedPreset] = useState<ConverterPreset>(converterPresets[0]);
   const [targetService, setTargetService] = useState<StreamingService>('Apple Music');
   const [converting, setConverting] = useState(false);
   const [conversionStep, setConversionStep] = useState(0);
@@ -40,21 +39,6 @@ export default function Hero({ onOpenLogin }: HeroProps) {
   const [userRating, setUserRating] = useState<number | null>(null);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
-
-  // Quick preset selector
-  const handleSelectPreset = (preset: ConverterPreset) => {
-    setInputUrl(preset.url);
-    setDetectedPreset(preset);
-    setConverted(false);
-    setUserRating(null);
-    setRatingSubmitted(false);
-    setConversionStep(0);
-    if (preset.sourceService === 'Apple Music') {
-      setTargetService('Spotify');
-    } else {
-      setTargetService('Apple Music');
-    }
-  };
 
   const handleConvert = (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,36 +78,29 @@ export default function Hero({ onOpenLogin }: HeroProps) {
   };
 
   return (
-    <section id="home" className="hero-section" aria-label="Introduction and universal playlist converter">
-      {/* Ambient background glow in subtle Spotify green and neutral dark */}
-      <div className="hero-ambient-glow" aria-hidden="true" />
+    <section id="home" className="hero-section" aria-label="Universal playlist converter">
+      {/* Timmo style subtle graphic grid lines overlay */}
+      <div className="hero-grid-lines" aria-hidden="true" />
+      <div className="hero-ambient-spotlight" aria-hidden="true" />
 
       <div className="hero-container">
-        {/* Clean Timmo style category pill indicator */}
-        <div className="hero-pill-badge" role="status">
-          <span className="hero-pill-dot" aria-hidden="true" />
-          <span>Universal music hub · One stop playlist converter</span>
-          <Sparkle size={13} weight="fill" color="#1DB954" />
-        </div>
-
-        {/* Clean authoritative headline */}
+        {/* Sleek confident headline */}
         <h1 className="hero-title">
           Every playlist in one place.
           <br />
           Open in any music app.
         </h1>
 
-        {/* Subtitle */}
+        {/* Minimal, necessary subheadline */}
         <p className="hero-subtitle">
-          Fetch any public or authorized playlist from Spotify, Apple Music, or YouTube Music.
-          Open directly in your personal player, recreate across platforms with one click,
-          and discover community ratings on a pure 1 to 10 scale.
+          Universal playlist conversion across Spotify, Apple Music, and YouTube Music.
+          One click transfer with community curation ratings on a pure 1 to 10 scale.
         </p>
 
-        {/* Universal Converter Card Shell with Spotify theme */}
+        {/* Minimalist SaaS Converter Box */}
         <div className="converter-card-shell">
           <div id="converter" className="hero-converter-card">
-            {/* Header row with mode tabs */}
+            {/* Header row with only the method tabs */}
             <div className="converter-header-row">
               <div className="converter-tabs-bar" role="tablist" aria-label="Input method selection">
                 <button
@@ -132,7 +109,7 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                   className={`converter-tab-btn ${activeTab === 'url' ? 'active' : ''}`}
                   onClick={() => setActiveTab('url')}
                 >
-                  <LinkSimple size={16} weight="bold" />
+                  <LinkSimple size={15} weight="bold" />
                   <span>Paste playlist link</span>
                 </button>
                 <button
@@ -141,40 +118,15 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                   className={`converter-tab-btn ${activeTab === 'library' ? 'active' : ''}`}
                   onClick={() => setActiveTab('library')}
                 >
-                  <ArrowsClockwise size={16} weight="bold" />
+                  <ArrowsClockwise size={15} weight="bold" />
                   <span>Connect library</span>
                 </button>
-              </div>
-
-              {/* Status indicator */}
-              <div className="converter-status-tag">
-                <span className="converter-status-dot" />
-                <span className="converter-status-text">LIVE SYNC READY</span>
               </div>
             </div>
 
             {activeTab === 'url' ? (
               <div className="converter-tab-body">
-                {/* Presets row */}
-                <div className="presets-row">
-                  <span className="presets-label">Try sample:</span>
-                  <div className="presets-buttons">
-                    {converterPresets.map((preset) => (
-                      <button
-                        key={preset.id}
-                        type="button"
-                        className={`preset-btn ${detectedPreset.id === preset.id ? 'active' : ''}`}
-                        onClick={() => handleSelectPreset(preset)}
-                      >
-                        <span className="preset-btn-dot" />
-                        <span className="preset-btn-title">{preset.label}</span>
-                        <span className="preset-btn-service">({preset.sourceService})</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Form Input Container */}
+                {/* Clean Form Input Container */}
                 <form onSubmit={handleConvert} className="converter-form">
                   <div className="converter-input-wrapper">
                     <span className="input-icon">
@@ -191,11 +143,11 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                     />
                     <div className="input-source-badge">
                       <span>Source:</span>
-                      <strong>{detectedPreset.sourceService}</strong>
+                      <strong>{inputUrl.includes('apple') ? 'Apple Music' : inputUrl.includes('youtube') ? 'YouTube Music' : 'Spotify'}</strong>
                     </div>
                   </div>
 
-                  {/* Target service selector */}
+                  {/* Target service selector with Timmo refined styling */}
                   <div className="service-selector-block">
                     <span className="service-selector-label">Convert and open in:</span>
                     <div className="service-pills-row" role="radiogroup" aria-label="Target streaming service">
@@ -215,7 +167,7 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                     </div>
                   </div>
 
-                  {/* Primary Convert Action Button */}
+                  {/* Timmo Style Premium Action Button (Clean High Contrast White Pill) */}
                   <button
                     type="submit"
                     disabled={converting || !inputUrl.trim()}
@@ -223,16 +175,16 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                   >
                     {converting ? (
                       <div className="converting-state">
-                        <ArrowsClockwise size={18} className="spin-icon" weight="bold" />
+                        <ArrowsClockwise size={16} className="spin-icon" weight="bold" />
                         <span>
-                          {conversionStep === 1 && 'Resolving tracklist catalogue...'}
-                          {conversionStep === 2 && 'Matching ISRC across services...'}
+                          {conversionStep === 1 && 'Resolving catalogue...'}
+                          {conversionStep === 2 && 'Matching ISRC codes...'}
                           {conversionStep === 3 && `Building playlist in ${targetService}...`}
                         </span>
                       </div>
                     ) : (
                       <>
-                        <ArrowsClockwise size={18} weight="bold" />
+                        <ArrowsClockwise size={16} weight="bold" />
                         <span>Convert and open in {targetService}</span>
                       </>
                     )}
@@ -245,16 +197,16 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                     <div className="result-header">
                       <div className="result-meta">
                         <div className="result-title-row">
-                          <CheckCircle size={20} weight="fill" color="#1DB954" />
+                          <CheckCircle size={18} weight="fill" color="#ffffff" />
                           <h2 className="result-title">{detectedPreset.title}</h2>
                         </div>
                         <p className="result-curator">
-                          Curated by {detectedPreset.curator} · {detectedPreset.trackCount} tracks · {detectedPreset.matchRate}% matched
+                          Curated by {detectedPreset.curator} · {detectedPreset.trackCount} tracks · 100% matched
                         </p>
                       </div>
                       <div className="result-match-badge">
-                        <span className="match-num">{detectedPreset.matchRate}%</span>
-                        <span className="match-label">Match rate</span>
+                        <span className="match-num">100%</span>
+                        <span className="match-label">MATCHED</span>
                       </div>
                     </div>
 
@@ -276,7 +228,7 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                     {/* Rating and Direct App Launch */}
                     <div className="result-action-bar">
                       <div className="rating-box">
-                        <span className="rating-label">Rate this curation:</span>
+                        <span className="rating-label">Rate curation:</span>
                         <div className="rating-stars">
                           {[7, 8, 9, 10].map((num) => (
                             <button
@@ -285,13 +237,13 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                               className={`rating-pill-btn ${userRating === num ? 'selected' : ''}`}
                               onClick={() => handleRate(num)}
                             >
-                              <Star size={12} weight={userRating && userRating >= num ? 'fill' : 'bold'} />
+                              <Star size={11} weight={userRating && userRating >= num ? 'fill' : 'bold'} />
                               <span>{num}.0</span>
                             </button>
                           ))}
                         </div>
                         {ratingSubmitted && (
-                          <span className="rating-confirmed">Vote submitted to global chart</span>
+                          <span className="rating-confirmed">Vote recorded</span>
                         )}
                       </div>
 
@@ -301,7 +253,7 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                           className="copy-share-btn"
                           onClick={handleCopyLink}
                         >
-                          <Copy size={16} />
+                          <Copy size={15} />
                           <span>{copiedLink ? 'Link copied' : 'Share link'}</span>
                         </button>
                         <a
@@ -311,7 +263,7 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                           className="open-in-app-btn"
                         >
                           <span>Open in {targetService}</span>
-                          <ArrowSquareOut size={16} weight="bold" />
+                          <ArrowSquareOut size={15} weight="bold" />
                         </a>
                       </div>
                     </div>
@@ -323,12 +275,11 @@ export default function Hero({ onOpenLogin }: HeroProps) {
               <div className="library-connect-tab">
                 <div className="library-info-block">
                   <div className="library-icon-pill">
-                    <ArrowsClockwise size={24} weight="bold" color="#1DB954" />
+                    <ArrowsClockwise size={22} weight="bold" color="#ffffff" />
                   </div>
-                  <h2 className="library-heading">Authorize your music library</h2>
+                  <h2 className="library-heading">Authorize music library</h2>
                   <p className="library-desc">
-                    Connect Spotify, Apple Music, or YouTube Music to import all your playlists at once,
-                    sync updates automatically, and participate in community curation rankings.
+                    Connect Spotify, Apple Music, or YouTube Music to import all your playlists at once and participate in community curation rankings.
                   </p>
                   <div className="library-actions">
                     <button
@@ -354,34 +305,11 @@ export default function Hero({ onOpenLogin }: HeroProps) {
                     </button>
                   </div>
                   <p className="library-security-note">
-                    Read and playlist write scope only. Your credentials remain private and secure.
+                    Read and playlist write scope only. Secure authentication.
                   </p>
                 </div>
               </div>
             )}
-          </div>
-        </div>
-
-        {/* Clean trust summary strip (no moving marquee, no AI slop) */}
-        <div className="hero-metrics-bar">
-          <div className="metric-cell">
-            <span className="metric-val">84,200</span>
-            <span className="metric-lbl">Playlists converted</span>
-          </div>
-          <div className="metric-divider" />
-          <div className="metric-cell">
-            <span className="metric-val">99.4%</span>
-            <span className="metric-lbl">ISRC catalogue match</span>
-          </div>
-          <div className="metric-divider" />
-          <div className="metric-cell">
-            <span className="metric-val">14,800</span>
-            <span className="metric-lbl">Active music curators</span>
-          </div>
-          <div className="metric-divider" />
-          <div className="metric-cell">
-            <span className="metric-val">1 to 10</span>
-            <span className="metric-lbl">Community rating scale</span>
           </div>
         </div>
       </div>
