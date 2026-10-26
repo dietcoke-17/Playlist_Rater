@@ -1,85 +1,94 @@
 import { useState } from 'react';
+import { ArrowUpRight } from '@phosphor-icons/react';
 import './CtaSection.css';
 
-export default function CtaSection() {
-  const [submitted, setSubmitted] = useState(false);
+interface CtaSectionProps {
+  onOpenLogin?: () => void;
+}
+
+export default function CtaSection({ onOpenLogin }: CtaSectionProps) {
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const scrollToConverter = () => {
+    const el = document.getElementById('converter');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-
-    const trimmed = email.trim();
-    if (!trimmed) {
-      setError('Please enter your email address.');
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-
+    if (!email.trim()) return;
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
       setEmail('');
-    }, 6000);
+    }, 5000);
   };
 
   return (
-    <section id="cta" className="cta-section" aria-label="Join early access">
-      <div className="cta-container">
-        <div className="pill-badge pill-badge--dark">
-          <span className="badge-dot dot-green" aria-hidden="true" /> Early access open
-        </div>
+    <section id="cta" className="cta-section" aria-label="Get started with PlaylistIQ">
+      {/* Timmo style graphic grid overlay */}
+      <div className="cta-grid-lines" aria-hidden="true" />
+      <div className="cta-ambient-glow" aria-hidden="true" />
 
+      <div className="cta-container">
         <h2 className="cta-headline">
           Ready to connect all your playlists at one endpoint?
         </h2>
         <p className="cta-sub">
-          Join over 14,000 curators and listeners syncing playlists across Spotify, Apple Music, and YouTube Music without walled gardens or algorithmic distortion.
+          Paste any playlist URL above to transfer tracks across Spotify, Apple Music, and YouTube Music with direct native playback.
         </p>
 
-        <form className="cta-form-wrapper" onSubmit={handleSubmit} aria-label="Request early access" noValidate>
-          <div className="cta-input-group">
+        {/* Action Buttons Row (Timmo style) */}
+        <div className="cta-buttons-row">
+          <button
+            type="button"
+            className="cta-primary-btn"
+            onClick={scrollToConverter}
+          >
+            <span>Convert a playlist</span>
+            <ArrowUpRight size={16} weight="bold" />
+          </button>
+
+          {onOpenLogin && (
+            <button
+              type="button"
+              className="cta-secondary-btn"
+              onClick={onOpenLogin}
+            >
+              <span>Open Workspace</span>
+            </button>
+          )}
+        </div>
+
+        {/* Optional update notification input */}
+        <form onSubmit={handleSubscribe} className="cta-update-form" aria-label="Subscribe to feature updates">
+          <div className="cta-update-input-wrapper">
             <input
               type="email"
-              className={`cta-email-input ${error ? 'cta-email-input--error' : ''}`}
-              placeholder="Enter your email address"
               value={email}
-              onChange={(e) => {
-                setEmail(e.target.value);
-                if (error) setError('');
-              }}
-              aria-label="Email address"
-              aria-describedby={error ? 'cta-form-error' : undefined}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter email for new platform updates..."
+              className="cta-update-input"
               required
             />
             <button
               type="submit"
-              className={`cta-submit-btn ${submitted ? 'cta-submit-btn--success' : ''}`}
-              disabled={submitted}
+              disabled={submitted || !email.trim()}
+              className="cta-update-btn"
             >
-              {submitted ? '✓ You are on the list' : 'Get early access'}
+              {submitted ? 'Subscribed' : 'Notify me'}
             </button>
           </div>
-
-          {error && (
-            <p id="cta-form-error" className="cta-form-error" role="alert">
-              {error}
-            </p>
-          )}
-
           {submitted && (
-            <p className="cta-form-success" role="status">
-              Welcome aboard. We will send you an invite to convert and rate your first playlist shortly.
+            <p className="cta-success-msg" role="status">
+              You will receive updates when new streaming integrations launch.
             </p>
           )}
         </form>
 
         <p className="cta-guarantee-note">
-          Free forever · No credit card required · Instant cross platform library sync
+          Free to use · No payment details required · Instant cross platform transfer
         </p>
       </div>
     </section>

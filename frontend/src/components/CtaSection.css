@@ -1,13 +1,14 @@
-/* ═══════════════════════════════════════════
-   Final CTA Section Styles
-   ═══════════════════════════════════════════ */
+/* ==========================================================================
+   PlaylistIQ — Timmo Themed Final CTA Section
+   ========================================================================== */
 
 .cta-section {
   position: relative;
-  background: var(--bg-dark); /* #000000 flat background */
-  color: #FFFFFF;
+  background-color: #000000;
+  color: #ffffff;
   padding: 120px 24px 100px;
-  border-bottom: 1px solid var(--border-subtle);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,23 +16,34 @@
   overflow: hidden;
 }
 
-.cta-section::before {
-  content: '';
+/* Subtle graphic grid overlay */
+.cta-grid-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 50% 50%, #000000 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000000 30%, transparent 80%);
+}
+
+.cta-ambient-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 700px;
-  height: 400px;
-  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(62, 201, 106, 0.12) 0%, rgba(255, 85, 0, 0.05) 50%, transparent 75%);
+  width: 600px;
+  height: 350px;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03), transparent 70%);
   pointer-events: none;
-  z-index: 0;
 }
 
 .cta-container {
   position: relative;
   z-index: 1;
-  max-width: 680px;
+  max-width: 640px;
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -40,144 +52,142 @@
 }
 
 .cta-headline {
-  font-family: var(--font-display);
-  font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+  font-size: clamp(2rem, 4vw, 2.75rem);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.025em;
-  color: #FFFFFF;
-  margin-top: 16px;
-  margin-bottom: 16px;
-  text-wrap: balance;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  margin: 0 0 16px;
 }
 
 .cta-sub {
-  font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.72);
-  margin-bottom: 36px;
-  text-wrap: pretty;
-}
-
-/* ── Form Layout ── */
-.cta-form-wrapper {
-  width: 100%;
+  color: #888888;
+  margin: 0 0 32px;
   max-width: 520px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
 }
 
-.cta-input-group {
+/* Buttons Row */
+.cta-buttons-row {
   display: flex;
   align-items: center;
-  background: #181818;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-full);
-  padding: 6px;
-  transition: border-color 200ms var(--ease-base), box-shadow 200ms var(--ease-base);
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
 }
 
-.cta-input-group:focus-within {
-  border-color: #3EC96A;
-  box-shadow: 0 0 16px rgba(62, 201, 106, 0.2);
+.cta-primary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #ffffff;
+  padding: 13px 26px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.12);
 }
 
-.cta-email-input {
+.cta-primary-btn:hover {
+  background: #eaeaea;
+  border-color: #eaeaea;
+  transform: translateY(-1px);
+}
+
+.cta-secondary-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #141414;
+  color: #d4d4d4;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 13px 24px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cta-secondary-btn:hover {
+  background: #1f1f1f;
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Optional Update Form */
+.cta-update-form {
+  width: 100%;
+  max-width: 440px;
+  margin-bottom: 20px;
+}
+
+.cta-update-input-wrapper {
+  display: flex;
+  align-items: center;
+  background: #101010;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  padding: 4px 6px 4px 16px;
+  transition: border-color 0.2s ease;
+}
+
+.cta-update-input-wrapper:focus-within {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.cta-update-input {
   flex: 1;
   background: transparent;
   border: none;
   outline: none;
-  padding: 12px 20px;
-  font-family: var(--font-body);
-  font-size: 15px;
-  color: #FFFFFF;
+  color: #ffffff;
+  font-size: 12px;
+  font-family: inherit;
+  padding: 8px 0;
 }
 
-.cta-email-input::placeholder {
-  color: rgba(255, 255, 255, 0.4);
+.cta-update-input::placeholder {
+  color: #555555;
 }
 
-.cta-email-input--error {
-  color: #FF5733;
-}
-
-.cta-submit-btn {
-  background: #3EC96A;
-  color: #000000;
-  border: none;
-  border-radius: var(--radius-full);
-  padding: 12px 24px;
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 700;
+.cta-update-btn {
+  background: #242424;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  padding: 7px 16px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  transition: transform 200ms var(--ease-base), background-color 200ms var(--ease-base);
+  transition: all 0.2s ease;
 }
 
-.cta-submit-btn:hover:not(:disabled) {
-  background: #4CE07B;
-  transform: translateY(-1px);
+.cta-update-btn:hover:not(:disabled) {
+  background: #333333;
 }
 
-.cta-submit-btn:active:not(:disabled) {
-  transform: scale(0.98);
+.cta-update-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.cta-submit-btn:focus-visible {
-  outline: 2px solid #FFFFFF;
-  outline-offset: 2px;
-}
-
-.cta-submit-btn--success {
-  background: #272727;
-  color: #3EC96A;
-  cursor: default;
-}
-
-.cta-form-error {
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: #FF5733;
-  margin: 0;
-  text-align: left;
-  padding-left: 16px;
-}
-
-.cta-form-success {
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: #3EC96A;
-  margin: 0;
-  line-height: 1.5;
+.cta-success-msg {
+  font-size: 12px;
+  color: #a3a3a3;
+  margin-top: 8px;
 }
 
 .cta-guarantee-note {
-  font-family: var(--font-body);
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+  color: #666666;
   margin: 0;
-}
-
-@media (max-width: 600px) {
-  .cta-section {
-    padding: 80px 16px 64px;
-  }
-  .cta-input-group {
-    flex-direction: column;
-    border-radius: var(--radius-xl);
-    padding: 8px;
-    gap: 8px;
-  }
-  .cta-email-input {
-    width: 100%;
-    padding: 10px 12px;
-  }
-  .cta-submit-btn {
-    width: 100%;
-    padding: 12px;
-  }
 }

@@ -37,8 +37,8 @@ export default function Footer() {
             >
               <div className="footer-logo-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect width="24" height="24" rx="6" fill="#FF5500" />
-                  <path d="M7 17L17 7M17 7H9M17 7V15" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <rect width="24" height="24" rx="6" fill="#ffffff" />
+                  <path d="M7 17L17 7M17 7H9M17 7V15" stroke="#000000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
               <span className="footer-brand-name">PlaylistIQ</span>
@@ -57,9 +57,6 @@ export default function Footer() {
             </button>
             <button type="button" className="footer-nav-btn" onClick={() => scrollTo('features')}>
               Benefits
-            </button>
-            <button type="button" className="footer-nav-btn" onClick={() => scrollTo('how-it-works')}>
-              How it works
             </button>
             <button type="button" className="footer-nav-btn" onClick={() => scrollTo('playlists')}>
               Leaderboard

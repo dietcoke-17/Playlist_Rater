@@ -143,7 +143,7 @@ function MainAppContent() {
         <FaqSection />
 
         {/* 8. Final CTA */}
-        <CtaSection />
+        <CtaSection onOpenLogin={() => navigateTo('login')} />
       </main>
 
       {/* Complete Footer */}
