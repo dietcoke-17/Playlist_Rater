@@ -84,6 +84,7 @@
 /* Progressive Word Reveal Loading States */
 .reveal-word {
   display: inline-block;
+  margin-right: 0.22em;
   opacity: 0.22;
   filter: blur(2px);
   will-change: opacity, filter, transform;

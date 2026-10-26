@@ -57,6 +57,7 @@
 
 .tagline-word {
   display: inline-block;
+  margin-right: 0.28em;
   color: rgba(255, 255, 255, 0.28);
   opacity: 0.85;
   transition: color 500ms var(--ease-base), opacity 500ms var(--ease-base);

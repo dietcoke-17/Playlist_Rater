@@ -129,6 +129,25 @@
   box-shadow: 0 0 65px rgba(163, 255, 18, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.8);
 }
 
+/* ── Proof Strip Below Hero CTA ── */
+.hero-proof-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 16px;
+  margin-bottom: 24px;
+}
+
+.proof-sep {
+  color: #3EC96A;
+  font-weight: 700;
+}
+
 /* ── 5 Physical Interacting Vector Icons (Starts under button) ── */
 .hero-icons-row {
   display: flex;
