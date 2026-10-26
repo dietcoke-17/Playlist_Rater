@@ -1,10 +1,39 @@
 import { useState } from 'react';
 import { useInView } from '../hooks/useAnimations';
+import { Play, Pause, Waves, Sparkle } from '@phosphor-icons/react';
 import './BenefitsSection.css';
+
+// Seeded activity levels for 16 weeks x 7 days = 112 cells (Timmo style contribution heatmap)
+const heatmapData = [
+  // W1-W4
+  [1, 2, 0, 3, 2, 4, 1],
+  [2, 3, 1, 2, 4, 3, 2],
+  [0, 1, 2, 3, 3, 2, 1],
+  [1, 2, 4, 2, 3, 4, 3],
+  // W5-W8
+  [2, 3, 3, 4, 2, 3, 2],
+  [1, 2, 1, 2, 3, 4, 4],
+  [3, 4, 2, 3, 4, 3, 2],
+  [2, 3, 4, 3, 2, 4, 3],
+  // W9-W12
+  [3, 2, 3, 4, 4, 3, 1],
+  [2, 4, 3, 3, 2, 4, 4],
+  [4, 3, 2, 4, 3, 2, 3],
+  [3, 4, 4, 2, 3, 4, 4],
+  // W13-W16
+  [2, 3, 4, 4, 3, 4, 3],
+  [3, 4, 3, 2, 4, 3, 4],
+  [4, 4, 3, 4, 4, 4, 3],
+  [3, 4, 4, 4, 3, 4, 4],
+];
+
+const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export default function BenefitsSection() {
   const { ref, isInView } = useInView();
-  const [activeScoreTab, setActiveScoreTab] = useState<'community' | 'algorithm'>('community');
+  const [activeScoreTab, setActiveScoreTab] = useState<'community' | 'algorithm' | 'heatmap'>('community');
+  const [hoveredCell, setHoveredCell] = useState<{ week: number; day: string; level: number } | null>(null);
+  const [audioSimulationPlaying, setAudioSimulationPlaying] = useState(false);
 
   return (
     <section id="features" className="benefits-section" ref={ref} aria-label="Product benefits">
@@ -12,7 +41,8 @@ export default function BenefitsSection() {
         {/* Eyebrow and Headline */}
         <div className="benefits-header">
           <div className="pill-badge pill-badge--dark">
-            <span className="badge-dot dot-violet" aria-hidden="true" /> Real outcomes
+            <span className="badge-dot dot-violet" aria-hidden="true" />
+            <span>Real outcomes</span>
           </div>
           <h2 className={`benefits-title ${isInView ? 'revealed' : ''}`}>
             Built for listeners who care about great curation
@@ -25,7 +55,7 @@ export default function BenefitsSection() {
 
         {/* Asymmetrical Benefits Layout */}
         <div className="benefits-showcase">
-          {/* 1. Hero Benefit Split Card: Community Consensus vs Algorithmic Churn */}
+          {/* 1. Hero Benefit Split Card: Community Consensus vs Algorithmic Churn vs Heatmap */}
           <div className="benefit-hero-card">
             <div className="benefit-hero-content">
               <span className="benefit-number">01</span>
@@ -44,8 +74,8 @@ export default function BenefitsSection() {
               </div>
             </div>
 
-            {/* Interactive Score Comparison Card */}
-            <div className="benefit-hero-widget" aria-label="Rating comparison widget">
+            {/* Interactive Score & Heatmap Comparison Card (Timmo style) */}
+            <div className="benefit-hero-widget" aria-label="Rating comparison and activity widget">
               <div className="widget-tab-buttons" role="tablist">
                 <button
                   type="button"
@@ -65,9 +95,18 @@ export default function BenefitsSection() {
                 >
                   Streaming algorithm
                 </button>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={activeScoreTab === 'heatmap'}
+                  className={`widget-tab ${activeScoreTab === 'heatmap' ? 'active' : ''}`}
+                  onClick={() => setActiveScoreTab('heatmap')}
+                >
+                  Curator heatmap
+                </button>
               </div>
 
-              {activeScoreTab === 'community' ? (
+              {activeScoreTab === 'community' && (
                 <div className="widget-card-panel">
                   <div className="widget-score-header">
                     <div className="widget-rating-badge">9.4</div>
@@ -100,7 +139,9 @@ export default function BenefitsSection() {
                     </div>
                   </div>
                 </div>
-              ) : (
+              )}
+
+              {activeScoreTab === 'algorithm' && (
                 <div className="widget-card-panel">
                   <div className="widget-score-header">
                     <div className="widget-rating-badge widget-rating-badge--dim">5.8</div>
@@ -134,12 +175,66 @@ export default function BenefitsSection() {
                   </div>
                 </div>
               )}
+
+              {activeScoreTab === 'heatmap' && (
+                <div className="widget-card-panel heatmap-panel">
+                  <div className="heatmap-header">
+                    <span className="heatmap-title">Live curation activity</span>
+                    <span className="heatmap-sub">16 weeks · 112 community audit days</span>
+                  </div>
+
+                  <div className="curator-heatmap-grid" aria-label="Curator daily activity calendar">
+                    {heatmapData.map((week, wIdx) => (
+                      <div key={wIdx} className="heatmap-week-col">
+                        {week.map((level, dIdx) => (
+                          <div
+                            key={dIdx}
+                            className={`heatmap-cell heat-level-${level}`}
+                            onMouseEnter={() =>
+                              setHoveredCell({
+                                week: wIdx + 1,
+                                day: DAYS[dIdx],
+                                level,
+                              })
+                            }
+                            onMouseLeave={() => setHoveredCell(null)}
+                            title={`Week ${wIdx + 1}, ${DAYS[dIdx]}: ${level * 24 + 18} votes cast`}
+                          />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="heatmap-footer">
+                    <div className="heatmap-inspector">
+                      {hoveredCell ? (
+                        <span className="inspector-active">
+                          Week {hoveredCell.week}, {hoveredCell.day} · {hoveredCell.level * 24 + 18} votes cast · 9.4 avg score
+                        </span>
+                      ) : (
+                        <span className="inspector-hint">
+                          4,920 votes logged this week · 99.4% catalog accuracy
+                        </span>
+                      )}
+                    </div>
+                    <div className="heatmap-legend" aria-hidden="true">
+                      <span>Less</span>
+                      <span className="legend-box heat-level-0" />
+                      <span className="legend-box heat-level-1" />
+                      <span className="legend-box heat-level-2" />
+                      <span className="legend-box heat-level-3" />
+                      <span className="legend-box heat-level-4" />
+                      <span>More</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
           {/* 3 Outcome Complementary Grid Cards */}
           <div className="benefits-trio">
-            {/* Benefit 2: Universal Cross-Platform Sync and Recreation */}
+            {/* Benefit 2: Universal Cross Platform Sync and Recreation */}
             <div className="benefit-card">
               <div className="benefit-card-top">
                 <span className="benefit-card-number">02</span>
@@ -160,32 +255,69 @@ export default function BenefitsSection() {
               </div>
             </div>
 
-            {/* Benefit 3: Audio Metrics */}
+            {/* Benefit 3: Audio Metrics with interactive sonic visualizer */}
             <div className="benefit-card">
               <div className="benefit-card-top">
                 <span className="benefit-card-number">03</span>
                 <div className="benefit-icon-badge" style={{ background: '#3EC96A1A', color: '#3EC96A' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M4 18v-4M8 18v-8M12 18V6M16 18v-6M20 18v-10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
-                  </svg>
+                  <Waves size={20} weight="bold" />
                 </div>
               </div>
               <h3 className="benefit-card-title">Inspect real audio metrics before listening</h3>
               <p className="benefit-card-desc">
                 Know the sonic blueprint of any collection. Inspect average tempo, dynamic energy distribution, key coherence, and danceability at a glance.
               </p>
-              <div className="benefit-visual-snippet snippet-metrics">
-                <div className="snippet-stat">
-                  <span className="stat-label">Average tempo</span>
-                  <span className="stat-val">124 BPM</span>
+
+              {/* Interactive Sonic Spectrum Visualizer (Timmo & Mascofast style) */}
+              <div className="sonic-visualizer-container">
+                <div className="sonic-header-row">
+                  <span className="sonic-blueprint-title">Live sonic blueprint</span>
+                  <button
+                    type="button"
+                    className="sonic-play-btn"
+                    onClick={() => setAudioSimulationPlaying(!audioSimulationPlaying)}
+                    aria-label={audioSimulationPlaying ? 'Pause sonic simulation' : 'Play sonic simulation'}
+                  >
+                    {audioSimulationPlaying ? (
+                      <>
+                        <Pause size={12} weight="fill" />
+                        <span>Pause</span>
+                      </>
+                    ) : (
+                      <>
+                        <Play size={12} weight="fill" />
+                        <span>Simulate EQ</span>
+                      </>
+                    )}
+                  </button>
                 </div>
-                <div className="snippet-stat">
-                  <span className="stat-label">Energy level</span>
-                  <span className="stat-val">78%</span>
+
+                <div className={`sonic-frequency-bars ${audioSimulationPlaying ? 'playing' : ''}`} aria-hidden="true">
+                  {[14, 22, 18, 28, 36, 42, 38, 48, 52, 44, 38, 46, 50, 42, 34, 28, 22, 18, 14, 10].map((h, i) => (
+                    <span
+                      key={i}
+                      className="freq-bar"
+                      style={{
+                        height: `${audioSimulationPlaying ? (h * 1.2 > 56 ? 56 : h * 1.2) : h}px`,
+                        animationDelay: `${(i % 5) * 0.15}s`,
+                      }}
+                    />
+                  ))}
                 </div>
-                <div className="snippet-stat">
-                  <span className="stat-label">Valence</span>
-                  <span className="stat-val">Harmonic</span>
+
+                <div className="snippet-stat-grid">
+                  <div className="snippet-stat">
+                    <span className="stat-label">Average tempo</span>
+                    <span className="stat-val">124 BPM</span>
+                  </div>
+                  <div className="snippet-stat">
+                    <span className="stat-label">Energy level</span>
+                    <span className="stat-val">78%</span>
+                  </div>
+                  <div className="snippet-stat">
+                    <span className="stat-label">Harmonic key</span>
+                    <span className="stat-val">F minor</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -195,9 +327,7 @@ export default function BenefitsSection() {
               <div className="benefit-card-top">
                 <span className="benefit-card-number">04</span>
                 <div className="benefit-icon-badge" style={{ background: '#FFB8301A', color: '#FFB830' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h2M18 18h2a2 2 0 002-2v-5a2 2 0 00-2-2h-2M6 9h12v9a6 6 0 01-12 0V9zM10 22h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <Sparkle size={20} weight="fill" />
                 </div>
               </div>
               <h3 className="benefit-card-title">Earn permanent recognition in the Hall of Fame</h3>

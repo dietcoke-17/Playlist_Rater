@@ -6,7 +6,7 @@ import './ProductProofSection.css';
 
 const allPlaylists: Playlist[] = [...topRatedPlaylists, ...featuredPlaylists];
 
-const GENRES = ['All genres', 'Ambient', 'Classical', 'Indie', 'Lo-fi', 'Jazz'];
+const GENRES = ['All genres', 'Ambient', 'Classical', 'Indie', 'Lofi', 'Jazz'];
 
 interface ListenerReview {
   id: string;
