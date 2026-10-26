@@ -37,18 +37,21 @@ export default function Footer() {
             >
               <div className="footer-logo-icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect width="24" height="24" rx="6" fill="#FF5733" />
+                  <rect width="24" height="24" rx="6" fill="#FF5500" />
                   <path d="M7 17L17 7M17 7H9M17 7V15" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
               <span className="footer-brand-name">PlaylistIQ</span>
             </button>
             <p className="footer-tagline">
-              The independent community rating platform for music playlists.
+              The universal cross platform playlist hub and community rating platform.
             </p>
           </div>
 
           <nav className="footer-nav-links" aria-label="Footer links">
+            <button type="button" className="footer-nav-btn" onClick={() => scrollTo('converter')}>
+              Converter
+            </button>
             <button type="button" className="footer-nav-btn" onClick={() => scrollTo('problem-solution')}>
               The problem
             </button>
@@ -86,11 +89,11 @@ export default function Footer() {
         {/* Bottom Disclaimer & Copyright Row */}
         <div className="footer-bottom-row">
           <p className="footer-copyright">
-            © {new Date().getFullYear()} PlaylistIQ. Not affiliated with Spotify AB. All rights reserved.
+            © {new Date().getFullYear()} PlaylistIQ. Not affiliated with Spotify, Apple, or Google. All rights reserved.
           </p>
           <div className="footer-status-pill">
             <span className="status-indicator" aria-hidden="true" />
-            <span>All voting systems operational</span>
+            <span>Universal connection endpoints active</span>
           </div>
         </div>
       </div>
@@ -98,7 +101,7 @@ export default function Footer() {
       {/* Accessible Legal Modal Dialog */}
       {activeModal && (
         <div
-          className="legal-modal-overlay"
+          className="legal-modal-backdrop"
           onClick={() => setActiveModal(null)}
           role="dialog"
           aria-modal="true"
@@ -114,49 +117,53 @@ export default function Footer() {
               </h3>
               <button
                 type="button"
-                className="legal-modal-close-btn"
+                className="legal-modal-close"
                 onClick={() => setActiveModal(null)}
                 aria-label="Close dialog"
               >
                 ✕
               </button>
             </div>
-
             <div className="legal-modal-body">
               {activeModal === 'privacy' ? (
                 <>
                   <p>
-                    <strong>1. Information We Collect:</strong> When you link your Spotify account, we request read-only access to your public playlists and username. We never collect payment information or private listening history.
+                    <strong>Effective date:</strong> October 2026.
                   </p>
                   <p>
-                    <strong>2. How We Use Data:</strong> Community votes and playlist metadata are aggregated to build democratic rankings and calculate transition harmony scores. We do not sell personal data to third party advertisers.
+                    PlaylistIQ values your privacy. We collect only information required to provide community playlist rating, cross platform recreation, and leaderboard rankings.
                   </p>
                   <p>
-                    <strong>3. Your Rights:</strong> You can disconnect your library at any time from your settings or directly within your Spotify account application permissions.
+                    <strong>Library access:</strong> When you connect Spotify, Apple Music, or YouTube Music accounts, PlaylistIQ requests read only access to fetch public and saved playlist metadata (titles, track counts, and cover images). We never alter, overwrite, or sell your listening data.
+                  </p>
+                  <p>
+                    <strong>Analytics:</strong> All scores are aggregated into public community consensus metrics without storing personal listening timestamps.
                   </p>
                 </>
               ) : (
                 <>
                   <p>
-                    <strong>1. Community Guidelines:</strong> Playlist ratings must reflect genuine listener impressions. Vote manipulation, automated botting, and commercial extortion are strictly prohibited and result in permanent disqualification.
+                    <strong>Effective date:</strong> October 2026.
                   </p>
                   <p>
-                    <strong>2. Intellectual Property:</strong> Playlist names, descriptions, and curation order belong to their respective curators. Spotify trademarks and artist catalog metadata remain the property of their respective owners.
+                    By accessing or using PlaylistIQ, you agree to these Terms of Service.
                   </p>
                   <p>
-                    <strong>3. Service Availability:</strong> PlaylistIQ is provided as an independent community tool without commercial warranty.
+                    <strong>Community guidelines:</strong> Ratings must represent genuine human evaluation. Attempted vote brigading or automated scraping is prohibited and will result in immediate exclusion from the leaderboard.
+                  </p>
+                  <p>
+                    <strong>Intellectual property:</strong> All playlist titles and cover assets belong to their respective creators and streaming platforms. PlaylistIQ is an independent rating directory and cross platform bridge.
                   </p>
                 </>
               )}
             </div>
-
             <div className="legal-modal-footer">
               <button
                 type="button"
-                className="legal-modal-done-btn"
+                className="legal-modal-confirm-btn"
                 onClick={() => setActiveModal(null)}
               >
-                I understand
+                Close
               </button>
             </div>
           </div>

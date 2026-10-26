@@ -18,7 +18,8 @@ export default function BenefitsSection() {
             Built for listeners who care about great curation
           </h2>
           <p className="benefits-subtitle">
-            Streaming platforms recommend tracks to satisfy commercial deals. PlaylistIQ rewards track sequencing, sonic harmony, and community taste.
+            Streaming platforms keep you locked in walled gardens and push sponsored algorithms.
+            PlaylistIQ connects all music players at one endpoint and rewards genuine track flow.
           </p>
         </div>
 
@@ -32,7 +33,9 @@ export default function BenefitsSection() {
                 Unbiased community scores replace sponsored recommendations
               </h3>
               <p className="benefit-hero-desc">
-                Every rating comes from an authentic listener vote between 1 and 10. No payola, no label placement, and no manufactured trending tracks. If a playlist ranks high, thousands of music fans verified its flow.
+                Every rating comes from an authentic listener vote between 1 and 10. No payola,
+                no label placement, and no manufactured trending tracks. If a playlist ranks high,
+                thousands of music fans verified its flow.
               </p>
               <div className="benefit-meta-tags">
                 <span className="benefit-tag">1 to 10 score scale</span>
@@ -136,10 +139,31 @@ export default function BenefitsSection() {
 
           {/* 3 Outcome Complementary Grid Cards */}
           <div className="benefits-trio">
-            {/* Benefit 2: Audio Metrics */}
+            {/* Benefit 2: Universal Cross-Platform Sync and Recreation */}
             <div className="benefit-card">
               <div className="benefit-card-top">
                 <span className="benefit-card-number">02</span>
+                <div className="benefit-icon-badge" style={{ background: '#7B61FF1A', color: '#7B61FF' }}>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M21 12a9 9 0 00-9-9 9.75 9.75 0 00-6.74 2.74L3 8M3 3v5h5M3 12a9 9 0 009 9 9.75 9.75 0 006.74-2.74L21 16M21 21v-5h-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              <h3 className="benefit-card-title">One stop solution across all music players</h3>
+              <p className="benefit-card-desc">
+                Never get locked out because you use Apple Music and your friend uses Spotify.
+                Open playlists in your native app or recreate them in your personal library with one click.
+              </p>
+              <div className="benefit-visual-snippet snippet-sync">
+                <span className="sync-pulse" aria-hidden="true" />
+                <span className="sync-text">98.4% match rate · Spotify, Apple, YouTube, TIDAL</span>
+              </div>
+            </div>
+
+            {/* Benefit 3: Audio Metrics */}
+            <div className="benefit-card">
+              <div className="benefit-card-top">
+                <span className="benefit-card-number">03</span>
                 <div className="benefit-icon-badge" style={{ background: '#3EC96A1A', color: '#3EC96A' }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M4 18v-4M8 18v-8M12 18V6M16 18v-6M20 18v-10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"/>
@@ -166,10 +190,10 @@ export default function BenefitsSection() {
               </div>
             </div>
 
-            {/* Benefit 3: Hall of Fame */}
+            {/* Benefit 4: Hall of Fame */}
             <div className="benefit-card">
               <div className="benefit-card-top">
-                <span className="benefit-card-number">03</span>
+                <span className="benefit-card-number">04</span>
                 <div className="benefit-icon-badge" style={{ background: '#FFB8301A', color: '#FFB830' }}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h2M18 18h2a2 2 0 002-2v-5a2 2 0 00-2-2h-2M6 9h12v9a6 6 0 01-12 0V9zM10 22h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -178,7 +202,8 @@ export default function BenefitsSection() {
               </div>
               <h3 className="benefit-card-title">Earn permanent recognition in the Hall of Fame</h3>
               <p className="benefit-card-desc">
-                Curators who maintain an average score above 9.0 enter the global leaderboard. Earn verified badges that travel with your profile.
+                Curators who maintain an average score above 9.0 enter the global leaderboard.
+                Build your independent following as the platform userbase expands worldwide.
               </p>
               <div className="benefit-visual-snippet snippet-badge">
                 <div className="curator-rank-pill">
@@ -186,26 +211,6 @@ export default function BenefitsSection() {
                   <span>9.0+ Hall of Fame Curator</span>
                 </div>
                 <span className="curator-verified-tag">✓ Verified ranking</span>
-              </div>
-            </div>
-
-            {/* Benefit 4: Instant Spotify Sync */}
-            <div className="benefit-card">
-              <div className="benefit-card-top">
-                <span className="benefit-card-number">04</span>
-                <div className="benefit-icon-badge" style={{ background: '#7B61FF1A', color: '#7B61FF' }}>
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M21 12a9 9 0 00-9-9 9.75 9.75 0 00-6.74 2.74L3 8M3 3v5h5M3 12a9 9 0 009 9 9.75 9.75 0 006.74-2.74L21 16M21 21v-5h-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </div>
-              </div>
-              <h3 className="benefit-card-title">Instant synchronization with your Spotify library</h3>
-              <p className="benefit-card-desc">
-                Connect your account in one tap. Your public playlists import in seconds, and track additions on Spotify update automatically on PlaylistIQ.
-              </p>
-              <div className="benefit-visual-snippet snippet-sync">
-                <span className="sync-pulse" aria-hidden="true" />
-                <span className="sync-text">Auto sync enabled · Zero upload required</span>
               </div>
             </div>
           </div>

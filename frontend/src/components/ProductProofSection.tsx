@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { featuredPlaylists, topRatedPlaylists, type Playlist } from '../data/playlists';
 import { useInView } from '../hooks/useAnimations';
+import { ArrowSquareOut, ArrowsClockwise, Star } from '@phosphor-icons/react';
 import './ProductProofSection.css';
 
 const allPlaylists: Playlist[] = [...topRatedPlaylists, ...featuredPlaylists];
@@ -19,19 +20,19 @@ interface ListenerReview {
 const listenerReviews: ListenerReview[] = [
   {
     id: 'rev-1',
-    author: 'Marcus Vance',
-    role: 'Verified listener · 142 ratings',
-    rating: 9.6,
-    playlistTitle: 'Classical Masterworks',
-    quote: 'The track sequencing here is exceptional. The dynamic transition between movements is flawless. Deserves every bit of that score.',
+    author: 'Elena Rostova',
+    role: 'Hall of Fame curator · 9.5 avg score',
+    rating: 9.5,
+    playlistTitle: 'Indie Discoveries',
+    quote: 'I curate on Spotify, but half my audience listens on Apple Music. PlaylistIQ lets them open the tracklist in their native app or recreate it in seconds, and my community rating jumped to 9.5.',
   },
   {
     id: 'rev-2',
-    author: 'Elena Rostova',
-    role: 'Hall of Fame curator · Score 9.5',
-    rating: 9.5,
-    playlistTitle: 'Indie Discoveries',
-    quote: 'Finally a platform where curators get recognized for track flow rather than commercial payola. Discovered four artists Spotify never surfaced.',
+    author: 'Marcus Vance',
+    role: 'Verified listener · 142 ratings',
+    rating: 9.7,
+    playlistTitle: 'Classical Masterworks',
+    quote: 'Found an incredible classical collection curated on Apple Music and converted it straight into my personal Spotify library with 100% track matches. The community score was completely spot on.',
   },
   {
     id: 'rev-3',
@@ -39,7 +40,7 @@ const listenerReviews: ListenerReview[] = [
     role: 'Producer and DJ · 88 ratings',
     rating: 9.6,
     playlistTitle: 'Coding Flow State',
-    quote: 'The tempo consistency and harmonic progression make this my daily reference. You can see the sonic blueprint before pressing play.',
+    quote: 'Having one universal endpoint where anyone can rate track flow on a 1 to 10 scale regardless of what streaming app they pay for is a breath of fresh air for real music curation.',
   },
 ];
 
@@ -53,6 +54,11 @@ export default function ProductProofSection() {
     : allPlaylists.filter((p) => p.genre.toLowerCase().includes(selectedGenre.toLowerCase())).slice(0, 5);
 
   const activePlaylist = allPlaylists.find((p) => p.id === activePlaylistId) || topRatedPlaylists[0];
+
+  const scrollToConverter = () => {
+    const el = document.getElementById('converter');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
 
   return (
     <section id="playlists" className="proof-section" ref={ref} aria-label="Product proof and community leaderboard">
@@ -93,7 +99,8 @@ export default function ProductProofSection() {
             <div className="spotlight-header">
               <span className="spotlight-badge">Leaderboard spotlight</span>
               <div className="spotlight-score-pill">
-                ★ {activePlaylist.rating.toFixed(1)}
+                <Star size={14} weight="fill" color="#FF5500" />
+                <span>{activePlaylist.rating.toFixed(1)}</span>
               </div>
             </div>
 
@@ -107,13 +114,18 @@ export default function ProductProofSection() {
                 {activePlaylist.coverIcon}
               </span>
               <div className="spotlight-rank-tag">
-                Top rated in {activePlaylist.genre.split('/')[0].trim()}
+                Original on {activePlaylist.sourceService} · Top in {activePlaylist.genre.split('/')[0].trim()}
               </div>
             </div>
 
             <div className="spotlight-content">
-              <h3 className="spotlight-title">{activePlaylist.title}</h3>
-              <p className="spotlight-curator">Curated by {activePlaylist.curator}</p>
+              <div className="spotlight-title-row">
+                <div>
+                  <h3 className="spotlight-title">{activePlaylist.title}</h3>
+                  <p className="spotlight-curator">Curated by {activePlaylist.curator}</p>
+                </div>
+                <span className="spotlight-source-pill">{activePlaylist.sourceService}</span>
+              </div>
 
               <div className="spotlight-metrics-row">
                 <div className="spotlight-stat-item">
@@ -130,19 +142,44 @@ export default function ProductProofSection() {
                 </div>
               </div>
 
-              <div className="spotlight-criteria-box">
-                <div className="criteria-header">
-                  <span className="criteria-title">Verified score criteria</span>
-                  <span className="criteria-status">Consensus reached</span>
+              {/* Multi-app availability chips */}
+              <div className="spotlight-available-section">
+                <span className="available-label">Available to open on:</span>
+                <div className="available-services-chips">
+                  {activePlaylist.serviceLinks.map((link) => (
+                    <a
+                      key={link.service}
+                      href={link.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="available-service-chip"
+                    >
+                      <ArrowSquareOut size={13} weight="bold" />
+                      <span>{link.service}</span>
+                    </a>
+                  ))}
                 </div>
-                <div className="criteria-item">
-                  <span>Track transition flow</span>
-                  <span className="criteria-val">{(activePlaylist.rating * 0.98).toFixed(1)}</span>
-                </div>
-                <div className="criteria-item">
-                  <span>Tracklist freshness</span>
-                  <span className="criteria-val">{(activePlaylist.rating * 0.96).toFixed(1)}</span>
-                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="spotlight-actions-row">
+                <a
+                  href={activePlaylist.sampleUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="spotlight-open-app-btn"
+                >
+                  <ArrowSquareOut size={16} weight="bold" />
+                  <span>Open in {activePlaylist.sourceService}</span>
+                </a>
+                <button
+                  type="button"
+                  className="spotlight-convert-btn"
+                  onClick={scrollToConverter}
+                >
+                  <ArrowsClockwise size={16} weight="bold" />
+                  <span>Recreate in other apps</span>
+                </button>
               </div>
             </div>
           </div>
@@ -182,7 +219,10 @@ export default function ProductProofSection() {
                     </div>
 
                     <div className="row-text-info">
-                      <h4 className="row-playlist-title">{playlist.title}</h4>
+                      <div className="row-title-and-badge">
+                        <h4 className="row-playlist-title">{playlist.title}</h4>
+                        <span className="row-platform-badge">{playlist.sourceService}</span>
+                      </div>
                       <div className="row-playlist-meta">
                         <span>{playlist.curator}</span>
                         <span className="meta-sep" aria-hidden="true">·</span>
@@ -193,7 +233,8 @@ export default function ProductProofSection() {
                     </div>
 
                     <div className="row-score-badge">
-                      ★ {playlist.rating.toFixed(1)}
+                      <Star size={12} weight="fill" color="#FF5500" />
+                      <span>{playlist.rating.toFixed(1)}</span>
                     </div>
                   </div>
                 );
@@ -204,7 +245,7 @@ export default function ProductProofSection() {
             <div className="proof-evidence-callout">
               <div className="evidence-icon" aria-hidden="true">✓</div>
               <p className="evidence-text">
-                Every score on the leaderboard is derived from community ratings, verified listen history, and transition harmony metrics.
+                Every score on the leaderboard is derived from community ratings, verified listen history, and transition harmony metrics across all music apps.
               </p>
             </div>
           </div>

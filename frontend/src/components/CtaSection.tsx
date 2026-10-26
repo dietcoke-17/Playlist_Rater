@@ -35,10 +35,10 @@ export default function CtaSection() {
         </div>
 
         <h2 className="cta-headline">
-          Ready to find your next favourite playlist?
+          Ready to connect all your playlists at one endpoint?
         </h2>
         <p className="cta-sub">
-          Join over 14,000 curators and listeners discovering authentic music without algorithm distortion.
+          Join over 14,000 curators and listeners syncing playlists across Spotify, Apple Music, and YouTube Music without walled gardens or algorithmic distortion.
         </p>
 
         <form className="cta-form-wrapper" onSubmit={handleSubmit} aria-label="Request early access" noValidate>
@@ -73,13 +73,13 @@ export default function CtaSection() {
 
           {submitted && (
             <p className="cta-form-success" role="status">
-              Welcome aboard. We will send you an invite to rate your first playlist shortly.
+              Welcome aboard. We will send you an invite to convert and rate your first playlist shortly.
             </p>
           )}
         </form>
 
         <p className="cta-guarantee-note">
-          Free forever · No credit card required · Instant Spotify library sync
+          Free forever · No credit card required · Instant cross platform library sync
         </p>
       </div>
     </section>

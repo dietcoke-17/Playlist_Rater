@@ -567,3 +567,126 @@
     gap: 8px;
   }
 }
+
+/* Multi-app Spotlight and Leaderboard Additions */
+.spotlight-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.spotlight-source-pill {
+  font-size: 11px;
+  font-weight: 600;
+  color: #D0D0D0;
+  background-color: #181818;
+  border: 1px solid #313131;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.spotlight-available-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.available-label {
+  font-size: 12px;
+  color: #888888;
+}
+
+.available-services-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.available-service-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #181818;
+  border: 1px solid #313131;
+  color: #C0C0C0;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.available-service-chip:hover {
+  border-color: #FF5500;
+  color: #FFFFFF;
+  background-color: #222222;
+}
+
+.spotlight-actions-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.spotlight-open-app-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #FFFFFF;
+  color: #000000;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.spotlight-open-app-btn:hover {
+  background-color: #E0E0E0;
+  transform: translateY(-1px);
+}
+
+.spotlight-convert-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #181818;
+  border: 1px solid #313131;
+  color: #FFFFFF;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.spotlight-convert-btn:hover {
+  background-color: #222222;
+  border-color: #FF5500;
+}
+
+.row-title-and-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.row-platform-badge {
+  font-size: 10px;
+  font-weight: 600;
+  color: #888888;
+  background-color: #181818;
+  border: 1px solid #313131;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+

@@ -12,39 +12,39 @@ interface FaqItem {
 const faqData: FaqItem[] = [
   {
     id: 'faq-0',
-    question: 'How is PlaylistIQ different from Spotify recommendations?',
-    answer: 'Spotify optimizes recommendations to maximize platform listening time and fulfill commercial catalogue arrangements. PlaylistIQ is independent and community driven. The top playlists rank high because thousands of verified listeners gave them 9.0 or higher scores, not because an advertising deal paid for placement.',
-    category: 'Ranking',
+    question: 'How does cross platform playlist recreation work if I do not have the creator music app?',
+    answer: 'If someone shares a Spotify playlist but you listen on Apple Music or YouTube Music, PlaylistIQ matches the track titles, artist names, and audio metadata against your target service catalogue. You can save and recreate the exact playlist in your personal music app in seconds with over 98% track accuracy.',
+    category: 'Conversion',
   },
   {
     id: 'faq-1',
-    question: 'Is PlaylistIQ free, or is there a credit card required?',
-    answer: 'PlaylistIQ is completely free. You can browse the top 250 leaderboards, submit ratings, and sync your curated playlists without ever entering payment details or signing up for a trial.',
-    category: 'Pricing',
+    question: 'Which music apps and streaming platforms are currently supported?',
+    answer: 'PlaylistIQ connects with Spotify, Apple Music, YouTube Music, TIDAL, Amazon Music, and SoundCloud. You can paste public playlist links from any of these services or link your personal accounts to manage your entire curation in one place.',
+    category: 'Compatibility',
   },
   {
     id: 'faq-2',
-    question: 'How do you prevent review manipulation and fake ratings?',
-    answer: 'Our scoring engine uses weighted community consensus. Ratings from listeners with verified playback history carry higher trust, and sudden vote bursts from unverified accounts are flagged and excluded from the leaderboard calculation.',
-    category: 'Security',
+    question: 'Can I open any playlist directly inside my native music application?',
+    answer: 'Yes. Every playlist on PlaylistIQ includes direct deep links that launch the collection inside your installed desktop or mobile app with one click, so you never lose your native listening experience.',
+    category: 'Playback',
   },
   {
     id: 'faq-3',
-    question: 'Will connecting Spotify modify or overwrite my playlists?',
-    answer: 'Never. PlaylistIQ requests standard read access to import your public playlist names, track titles, and cover art. We never alter your Spotify account, add tracks without permission, or modify your saved library.',
-    category: 'Library',
+    question: 'How do community ratings work and how is review manipulation prevented?',
+    answer: 'Our scoring engine uses weighted community consensus on a pure 1 to 10 scale. Ratings from listeners with verified playback history carry higher weight, and sudden vote bursts from unverified accounts are automatically filtered out from the global charts.',
+    category: 'Scoring',
   },
   {
     id: 'faq-4',
-    question: 'What qualifies a playlist for the 9.0 and above Hall of Fame?',
-    answer: 'To enter the Hall of Fame, a playlist must accumulate at least 250 unique listener ratings and maintain an overall score of 9.0 or higher across track transitions, curation originality, and repeat listen frequency.',
-    category: 'Curators',
+    question: 'Will linking my streaming accounts alter or delete my existing playlists?',
+    answer: 'Never. PlaylistIQ requests standard read access to import your public track titles, playlist names, and cover art. We never delete tracks, alter your saved library, or modify your streaming account without explicit permission.',
+    category: 'Security',
   },
   {
     id: 'faq-5',
-    question: 'Can independent curators build a following on the platform?',
-    answer: 'Yes. Every curator receives a dedicated profile displaying their overall score average, Hall of Fame placements, and earned badges. Listeners can follow your profile to get notified whenever you publish a new collection.',
-    category: 'Community',
+    question: 'Is PlaylistIQ free or is a paid subscription required?',
+    answer: 'PlaylistIQ is completely free. You can convert playlist links, browse the top 250 leaderboards, launch native music apps, and rate curations without ever entering payment details or signing up for a trial.',
+    category: 'Pricing',
   },
 ];
 
@@ -68,7 +68,7 @@ export default function FaqSection() {
             Frequently asked questions
           </h2>
           <p className="faq-subtitle">
-            Everything you need to know about community ratings, library sync, and curator rankings.
+            Everything you need to know about cross platform conversion, native app playback, and community scores.
           </p>
         </div>
 

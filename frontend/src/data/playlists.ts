@@ -1,3 +1,11 @@
+export type StreamingService = 'Spotify' | 'Apple Music' | 'YouTube Music' | 'TIDAL' | 'Amazon Music' | 'SoundCloud';
+
+export interface ServiceLink {
+  service: StreamingService;
+  url: string;
+  available: boolean;
+}
+
 export interface Playlist {
   id: string;
   title: string;
@@ -9,27 +17,77 @@ export interface Playlist {
   coverIcon: string;
   genre: string;
   duration: string;
+  sourceService: StreamingService;
+  serviceLinks: ServiceLink[];
+  matchedPercentage: number;
+  sampleUrl: string;
 }
 
-export interface Feature {
-  icon: string;
+export interface ConverterPreset {
+  id: string;
+  label: string;
+  url: string;
+  sourceService: StreamingService;
   title: string;
-  description: string;
-  color: string;
+  trackCount: number;
+  curator: string;
+  matchRate: number;
 }
+
+export const converterPresets: ConverterPreset[] = [
+  {
+    id: 'preset-1',
+    label: 'Late Night Chill',
+    url: 'https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6',
+    sourceService: 'Spotify',
+    title: 'Late Night Chill and Focus',
+    trackCount: 52,
+    curator: 'Sarah Vance',
+    matchRate: 98,
+  },
+  {
+    id: 'preset-2',
+    label: 'Neo Classical Study',
+    url: 'https://music.apple.com/us/playlist/neo-classical-essentials/pl.u-380128',
+    sourceService: 'Apple Music',
+    title: 'Neo Classical Essentials',
+    trackCount: 44,
+    curator: 'Julian Croft',
+    matchRate: 100,
+  },
+  {
+    id: 'preset-3',
+    label: 'Tokyo City Pop',
+    url: 'https://music.youtube.com/playlist?list=PL4fGSI1pDJn7t8f',
+    sourceService: 'YouTube Music',
+    title: 'Tokyo Midnight Grooves',
+    trackCount: 38,
+    curator: 'Kenji Sato',
+    matchRate: 96,
+  },
+];
 
 export const featuredPlaylists: Playlist[] = [
   {
     id: '1',
     title: 'Late Night Vibes',
     curator: 'Sarah K.',
-    rating: 9.2,
+    rating: 9.4,
     reviewCount: 2847,
     trackCount: 64,
     coverGradient: ['#1DB954', '#064E3B'],
     coverIcon: '🌙',
     genre: 'Lo-fi / Chill',
     duration: '3h 42m',
+    sourceService: 'Spotify',
+    matchedPercentage: 100,
+    sampleUrl: 'https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6',
+    serviceLinks: [
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/37i9dQZF1DX4WYpdgoIcn6', available: true },
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/late-night-vibes', available: true },
+      { service: 'YouTube Music', url: 'https://music.youtube.com/playlist?list=PL_late_night', available: true },
+      { service: 'TIDAL', url: 'https://tidal.com/playlist/late-night', available: true },
+    ],
   },
   {
     id: '2',
@@ -42,6 +100,14 @@ export const featuredPlaylists: Playlist[] = [
     coverIcon: '🔥',
     genre: 'Hip-Hop / EDM',
     duration: '4h 15m',
+    sourceService: 'Apple Music',
+    matchedPercentage: 97,
+    sampleUrl: 'https://music.apple.com/us/playlist/workout-beast-mode',
+    serviceLinks: [
+      { service: 'Apple Music', url: 'https://music.apple.com/us/playlist/workout-beast-mode', available: true },
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/workout-beast-mode', available: true },
+      { service: 'YouTube Music', url: 'https://music.youtube.com/playlist?list=workout', available: true },
+    ],
   },
   {
     id: '3',
@@ -54,6 +120,15 @@ export const featuredPlaylists: Playlist[] = [
     coverIcon: '💎',
     genre: 'Indie / Alt',
     duration: '2h 58m',
+    sourceService: 'YouTube Music',
+    matchedPercentage: 98,
+    sampleUrl: 'https://music.youtube.com/playlist?list=indie_gems',
+    serviceLinks: [
+      { service: 'YouTube Music', url: 'https://music.youtube.com/playlist?list=indie_gems', available: true },
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/indie-discoveries', available: true },
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/indie-discoveries', available: true },
+      { service: 'TIDAL', url: 'https://tidal.com/playlist/indie-discoveries', available: true },
+    ],
   },
   {
     id: '4',
@@ -66,18 +141,34 @@ export const featuredPlaylists: Playlist[] = [
     coverIcon: '🚗',
     genre: 'Rock / Pop',
     duration: '4h 30m',
+    sourceService: 'Spotify',
+    matchedPercentage: 100,
+    sampleUrl: 'https://open.spotify.com/playlist/road-trip-classics',
+    serviceLinks: [
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/road-trip-classics', available: true },
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/road-trip-classics', available: true },
+      { service: 'Amazon Music', url: 'https://music.amazon.com/playlists/road-trip', available: true },
+    ],
   },
   {
     id: '5',
     title: 'Jazz After Hours',
     curator: 'BlueNote',
-    rating: 9.4,
+    rating: 9.6,
     reviewCount: 987,
     trackCount: 38,
     coverGradient: ['#3B82F6', '#1E3A5F'],
     coverIcon: '🎷',
     genre: 'Jazz / Soul',
     duration: '2h 20m',
+    sourceService: 'TIDAL',
+    matchedPercentage: 99,
+    sampleUrl: 'https://tidal.com/playlist/jazz-after-hours',
+    serviceLinks: [
+      { service: 'TIDAL', url: 'https://tidal.com/playlist/jazz-after-hours', available: true },
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/jazz-after-hours', available: true },
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/jazz-after-hours', available: true },
+    ],
   },
   {
     id: '6',
@@ -90,6 +181,14 @@ export const featuredPlaylists: Playlist[] = [
     coverIcon: '✨',
     genre: 'Pop / Dance',
     duration: '3h 10m',
+    sourceService: 'Apple Music',
+    matchedPercentage: 95,
+    sampleUrl: 'https://music.apple.com/playlist/y2k-pop',
+    serviceLinks: [
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/y2k-pop', available: true },
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/y2k-pop', available: true },
+      { service: 'YouTube Music', url: 'https://music.youtube.com/playlist?list=y2k-pop', available: true },
+    ],
   },
 ];
 
@@ -105,6 +204,14 @@ export const topRatedPlaylists: Playlist[] = [
     coverIcon: '🎻',
     genre: 'Classical',
     duration: '5h 12m',
+    sourceService: 'Apple Music',
+    matchedPercentage: 100,
+    sampleUrl: 'https://music.apple.com/playlist/classical-masterworks',
+    serviceLinks: [
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/classical-masterworks', available: true },
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/classical-masterworks', available: true },
+      { service: 'TIDAL', url: 'https://tidal.com/playlist/classical-masterworks', available: true },
+    ],
   },
   {
     id: '11',
@@ -117,6 +224,14 @@ export const topRatedPlaylists: Playlist[] = [
     coverIcon: '💻',
     genre: 'Ambient / Electronic',
     duration: '6h 45m',
+    sourceService: 'Spotify',
+    matchedPercentage: 99,
+    sampleUrl: 'https://open.spotify.com/playlist/coding-flow',
+    serviceLinks: [
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/coding-flow', available: true },
+      { service: 'YouTube Music', url: 'https://music.youtube.com/playlist?list=coding-flow', available: true },
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/coding-flow', available: true },
+    ],
   },
   {
     id: '12',
@@ -129,6 +244,14 @@ export const topRatedPlaylists: Playlist[] = [
     coverIcon: '☀️',
     genre: 'Acoustic / Folk',
     duration: '2h 48m',
+    sourceService: 'Spotify',
+    matchedPercentage: 98,
+    sampleUrl: 'https://open.spotify.com/playlist/acoustic-morning',
+    serviceLinks: [
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/acoustic-morning', available: true },
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/acoustic-morning', available: true },
+      { service: 'Amazon Music', url: 'https://music.amazon.com/playlists/acoustic-morning', available: true },
+    ],
   },
   {
     id: '13',
@@ -141,6 +264,14 @@ export const topRatedPlaylists: Playlist[] = [
     coverIcon: '🎧',
     genre: 'Techno / House',
     duration: '5h 30m',
+    sourceService: 'SoundCloud',
+    matchedPercentage: 94,
+    sampleUrl: 'https://soundcloud.com/playlists/underground-beats',
+    serviceLinks: [
+      { service: 'SoundCloud', url: 'https://soundcloud.com/playlists/underground-beats', available: true },
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/underground-beats', available: true },
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/underground-beats', available: true },
+    ],
   },
   {
     id: '14',
@@ -153,44 +284,13 @@ export const topRatedPlaylists: Playlist[] = [
     coverIcon: '🌧️',
     genre: 'Dream Pop / Shoegaze',
     duration: '3h 15m',
-  },
-];
-
-export const features: Feature[] = [
-  {
-    icon: '⭐',
-    title: 'Rate any playlist 1 to 10',
-    description: 'Score playlists the way film fans score movies. Your vote feeds the global ranking, not the streaming algorithm.',
-    color: '#FFD700',
-  },
-  {
-    icon: '🔍',
-    title: 'Find what the algorithm misses',
-    description: 'Browse community-ranked playlists by genre, mood, and score. No editorial curation, no hidden agenda.',
-    color: '#3EC96A',
-  },
-  {
-    icon: '📊',
-    title: 'See inside any playlist',
-    description: 'Tempo, energy, danceability, genre split — real audio metrics, not just vibes.',
-    color: '#3B82F6',
-  },
-  {
-    icon: '🏆',
-    title: 'Compete on the leaderboard',
-    description: 'Top 250 playlists, genre charts, and a Hall of Fame for scores above 9.0. Submit yours and see where you rank.',
-    color: '#A855F7',
-  },
-  {
-    icon: '👥',
-    title: 'Follow tastemakers',
-    description: 'See what the people with the best scores are listening to this week. Build your own following as a curator.',
-    color: '#EC4899',
-  },
-  {
-    icon: '🎯',
-    title: 'Match your mood',
-    description: 'Tell PlaylistIQ how you feel and it surfaces the highest-rated playlist for that exact moment.',
-    color: '#FF6B35',
+    sourceService: 'YouTube Music',
+    matchedPercentage: 97,
+    sampleUrl: 'https://music.youtube.com/playlist?list=rainy-day',
+    serviceLinks: [
+      { service: 'YouTube Music', url: 'https://music.youtube.com/playlist?list=rainy-day', available: true },
+      { service: 'Spotify', url: 'https://open.spotify.com/playlist/rainy-day', available: true },
+      { service: 'Apple Music', url: 'https://music.apple.com/playlist/rainy-day', available: true },
+    ],
   },
 ];

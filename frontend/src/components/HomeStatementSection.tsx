@@ -83,30 +83,31 @@ export default function HomeStatementSection() {
           </div>
           <h2 className="statement-text">
             <span className="badge-inline-pill">
-              <span className="badge-icon">❖</span> Your playlists
+              <span className="badge-icon">❖</span> Walled gardens
             </span>{' '}
-            <span className="reveal-word">reflect</span>{' '}
+            <span className="reveal-word">trap</span>{' '}
             <span className="reveal-word">your</span>{' '}
-            <span className="reveal-word">true</span>{' '}
-            <span className="reveal-word">musical</span>{' '}
-            <span className="reveal-word">identity,</span>{' '}
-            <span className="reveal-word">yet</span>{' '}
+            <span className="reveal-word">music.</span>{' '}
+            <span className="reveal-word">When</span>{' '}
+            <span className="reveal-word">friends</span>{' '}
+            <span className="reveal-word">share</span>{' '}
+            <span className="reveal-word">playlists</span>{' '}
+            <span className="reveal-word">from</span>{' '}
+            <span className="reveal-word">another</span>{' '}
+            <span className="reveal-word">app,</span>{' '}
+            <span className="reveal-word">you</span>{' '}
+            <span className="reveal-word">hit</span>{' '}
+            <span className="reveal-word">a</span>{' '}
+            <span className="reveal-word">wall,</span>{' '}
+            <span className="reveal-word">while</span>{' '}
             <span className="reveal-word">streaming</span>{' '}
             <span className="reveal-word">algorithms</span>{' '}
             <span className="reveal-word">flatten</span>{' '}
             <span className="reveal-word">everything</span>{' '}
             <span className="reveal-word">into</span>{' '}
-            <span className="reveal-word">monotonous</span>{' '}
-            <span className="reveal-word">recommendations</span>{' '}
-            <span className="reveal-word">without</span>{' '}
-            <span className="reveal-word">ever</span>{' '}
-            <span className="reveal-word">giving</span>{' '}
-            <span className="reveal-word">independent</span>{' '}
-            <span className="reveal-word">curators</span>{' '}
-            <span className="reveal-word">the</span>{' '}
-            <span className="reveal-word">recognition</span>{' '}
-            <span className="reveal-word">they</span>{' '}
-            <span className="reveal-word">earn.</span>
+            <span className="reveal-word">recycled</span>{' '}
+            <span className="reveal-word">commercial</span>{' '}
+            <span className="reveal-word">tracks.</span>
           </h2>
         </div>
 
@@ -116,46 +117,46 @@ export default function HomeStatementSection() {
             <span className="statement-tag-dot solution-dot" aria-hidden="true" /> The solution
           </div>
           <h3 className="statement-heading-sub">
-            <span className="reveal-word">A</span>{' '}
-            <span className="reveal-word">transparent</span>{' '}
-            <span className="reveal-word">community</span>{' '}
-            <span className="reveal-word">scoring</span>{' '}
-            <span className="reveal-word">system.</span>
+            <span className="reveal-word">One</span>{' '}
+            <span className="reveal-word">endpoint</span>{' '}
+            <span className="reveal-word">connecting</span>{' '}
+            <span className="reveal-word">every</span>{' '}
+            <span className="reveal-word">playlist.</span>
           </h3>
           <p className="statement-text-secondary">
             <span className="reveal-word">With</span>{' '}
             <span className="brand-badge-pill">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <rect width="24" height="24" rx="6" fill="#FF5733" />
+                <rect width="24" height="24" rx="6" fill="#FF5500" />
                 <path d="M7 17L17 7M17 7H9M17 7V15" stroke="#FFFFFF" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               <span>PlaylistIQ</span>
             </span>{' '}
             <span className="reveal-word">you</span>{' '}
-            <span className="reveal-word">explore</span>{' '}
-            <span className="reveal-word">playlists</span>{' '}
-            <span className="reveal-word">scored</span>{' '}
+            <span className="reveal-word">can</span>{' '}
+            <span className="reveal-word">fetch</span>{' '}
+            <span className="reveal-word">any</span>{' '}
+            <span className="reveal-word">public</span>{' '}
+            <span className="reveal-word">link,</span>{' '}
+            <span className="reveal-word">launch</span>{' '}
+            <span className="reveal-word">in</span>{' '}
+            <span className="reveal-word">your</span>{' '}
+            <span className="reveal-word">native</span>{' '}
+            <span className="reveal-word">app,</span>{' '}
+            <span className="reveal-word">recreate</span>{' '}
+            <span className="reveal-word">tracks</span>{' '}
+            <span className="reveal-word">across</span>{' '}
+            <span className="reveal-word">services,</span>{' '}
+            <span className="reveal-word">and</span>{' '}
+            <span className="reveal-word">rate</span>{' '}
+            <span className="reveal-word">curation</span>{' '}
+            <span className="reveal-word">on</span>{' '}
+            <span className="reveal-word">a</span>{' '}
+            <span className="reveal-word">pure</span>{' '}
             <span className="reveal-word">1</span>{' '}
             <span className="reveal-word">to</span>{' '}
             <span className="reveal-word">10</span>{' '}
-            <span className="reveal-word">by</span>{' '}
-            <span className="reveal-word">real</span>{' '}
-            <span className="reveal-word">listeners,</span>{' '}
-            <span className="reveal-word">inspect</span>{' '}
-            <span className="reveal-word">harmonic</span>{' audio '}
-            <span className="reveal-word">analytics,</span>{' '}
-            <span className="reveal-word">and</span>{' '}
-            <span className="reveal-word">climb</span>{' '}
-            <span className="reveal-word">global</span>{' '}
-            <span className="reveal-word">charts</span>{' '}
-            <span className="reveal-word">based</span>{' '}
-            <span className="reveal-word">strictly</span>{' '}
-            <span className="reveal-word">on</span>{' '}
-            <span className="reveal-word">track</span>{' '}
-            <span className="reveal-word">flow</span>{' '}
-            <span className="reveal-word">and</span>{' '}
-            <span className="reveal-word">sonic</span>{' '}
-            <span className="reveal-word">quality.</span>
+            <span className="reveal-word">scale.</span>
           </p>
         </div>
       </div>

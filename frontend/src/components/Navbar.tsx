@@ -3,14 +3,15 @@ import './Navbar.css';
 
 const NAV_LINKS = [
   { label: 'Home', id: 'home' },
+  { label: 'Converter', id: 'converter' },
   { label: 'Benefits', id: 'features' },
   { label: 'How it works', id: 'how-it-works' },
-  { label: 'Playlists', id: 'playlists' },
+  { label: 'Leaderboard', id: 'playlists' },
   { label: 'FAQ', id: 'faq' },
 ];
 
 // IDs observed for scroll-spy (superset of nav links)
-const OBSERVED_SECTIONS = ['home', 'problem-solution', 'features', 'how-it-works', 'playlists', 'top-playlists', 'tagline', 'faq', 'cta'];
+const OBSERVED_SECTIONS = ['home', 'converter', 'problem-solution', 'features', 'how-it-works', 'playlists', 'top-playlists', 'tagline', 'faq', 'cta'];
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -85,7 +86,7 @@ export default function Navbar() {
             aria-label="PlaylistIQ — go to top"
           >
             <svg width="34" height="34" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="36" height="36" rx="9" fill="#FF5733" />
+              <rect width="36" height="36" rx="9" fill="#FF5500" />
               <path d="M12 24 L24 12 M24 12 H15 M24 12 V21" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </button>
@@ -107,8 +108,8 @@ export default function Navbar() {
 
           {/* Right: CTA + hamburger */}
           <div className="nav-right">
-            <button className="nav-action-btn" onClick={() => scrollTo('cta')}>
-              Get early access
+            <button className="nav-action-btn" onClick={() => scrollTo('converter')}>
+              Convert playlist
             </button>
             <button
               className={`nav-hamburger ${menuOpen ? 'open' : ''}`}
@@ -145,9 +146,9 @@ export default function Navbar() {
           <button
             className="nav-mobile-cta"
             style={{ transitionDelay: menuOpen ? `${80 + NAV_LINKS.length * 60}ms` : '0ms' }}
-            onClick={() => scrollTo('cta')}
+            onClick={() => scrollTo('converter')}
           >
-            Get early access
+            Convert playlist
           </button>
         </nav>
       </div>
