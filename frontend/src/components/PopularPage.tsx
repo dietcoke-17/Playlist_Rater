@@ -23,6 +23,7 @@ import {
   type Playlist,
   type StreamingService,
 } from '../data/playlists';
+import { api } from '../lib/api';
 import './PopularPage.css';
 
 interface PopularPageProps {
@@ -413,6 +414,11 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
       setInspectingPlaylist((prev) => (prev && prev.id === playlistId ? updatedPlaylist : prev));
     }
 
+    // Submit vote to backend API asynchronously
+    api.submitRating(playlistId, score).catch((err) => {
+      console.warn('Backend vote sync notice:', err);
+    });
+
     setActiveRatingCardId(null);
     setRatingToast(`Your rating of ${score}.0 recorded! Thank you for curating.`);
     setTimeout(() => {
@@ -476,6 +482,18 @@ export default function PopularPage({ onBack, onSelectPlaylist, initialOpenPubli
         },
       ],
     };
+
+    // If Spotify playlist and user gave explicit curator permission, sync to backend
+    if (pubConsent && pubUrl.includes('spotify.com/playlist')) {
+      api.publishPlaylist({
+        spotifyPlaylistUrl: pubUrl.trim(),
+        genre: pubGenre,
+        description: pubDesc.trim(),
+        allowPublic: true,
+      }).catch((err) => {
+        console.warn('Backend playlist publish notice:', err);
+      });
+    }
 
     const updated = publishCommunityPlaylist(newPlaylist);
     setPlaylists(updated);

@@ -12,7 +12,7 @@
 
 const BASE_URL: string =
   import.meta.env.VITE_API_URL ??
-  'http://127.0.0.1:5001/playlitfy/us-central1/api/api/v1';
+  'http://localhost:5001/api/v1';
 
 // ── Auth helpers ──────────────────────────────────────────────────────────────
 

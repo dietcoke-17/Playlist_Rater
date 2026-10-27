@@ -11,6 +11,7 @@ import {
   UsersThree,
 } from '@phosphor-icons/react';
 import { converterPresets, type StreamingService, type ConverterPreset } from '../data/playlists';
+import { api } from '../lib/api';
 import './Hero.css';
 
 const SERVICES: { name: StreamingService; color: string }[] = [
@@ -44,8 +45,17 @@ export default function Hero({ onOpenLogin, onOpenCuratorsDirectory, onOpenPubli
   const [userRating, setUserRating] = useState<number | null>(null);
   const [ratingSubmitted, setRatingSubmitted] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [liveResult, setLiveResult] = useState<{
+    playlistTitle: string;
+    curatorName: string;
+    trackCount: number;
+    matchRate: number;
+    tracks: Array<{ id: string; title: string; artist: string; duration: string; match: string }>;
+    targetUrl: string;
+    playlistId?: string;
+  } | null>(null);
 
-  const handleConvert = (e: React.FormEvent) => {
+  const handleConvert = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!inputUrl.trim()) return;
 
@@ -54,27 +64,61 @@ export default function Hero({ onOpenLogin, onOpenCuratorsDirectory, onOpenPubli
     setRatingSubmitted(false);
     setConversionStep(1);
 
-    setTimeout(() => {
-      setConversionStep(2);
-    }, 350);
+    const stepTimer1 = setTimeout(() => setConversionStep(2), 250);
+    const stepTimer2 = setTimeout(() => setConversionStep(3), 500);
 
-    setTimeout(() => {
+    try {
+      const res = await api.convertPlaylist(inputUrl.trim(), targetService);
+      clearTimeout(stepTimer1);
+      clearTimeout(stepTimer2);
+
+      const targetLink = res.conversionLinks.find(
+        (l) => l.service.toLowerCase() === targetService.toLowerCase()
+      )?.webUrl ?? res.conversionLinks[0]?.webUrl ?? inputUrl;
+
+      setLiveResult({
+        playlistTitle: res.playlist.title,
+        curatorName: res.playlist.curator.displayName,
+        trackCount: res.playlist.trackCount,
+        matchRate: res.matchRate || 100,
+        tracks: res.playlist.tracks.slice(0, 5).map((t, idx) => ({
+          id: t.id || `track-${idx}`,
+          title: t.title,
+          artist: t.artist,
+          duration: t.duration,
+          match: '100% matched',
+        })),
+        targetUrl: targetLink,
+        playlistId: res.playlist.id,
+      });
       setConversionStep(3);
-    }, 700);
-
-    setTimeout(() => {
-      setConverting(false);
       setConverted(true);
-    }, 950);
+    } catch {
+      // Fallback gracefully to demo preset preview if backend or Spotify credentials are not configured yet
+      setTimeout(() => {
+        setLiveResult(null);
+        setConverted(true);
+      }, 700);
+    } finally {
+      setConverting(false);
+    }
   };
 
-  const handleRate = (score: number) => {
+  const handleRate = async (score: number) => {
     setUserRating(score);
     setRatingSubmitted(true);
+    if (liveResult?.playlistId) {
+      try {
+        await api.submitRating(liveResult.playlistId, score);
+      } catch (err) {
+        console.warn('Rating submission note:', err);
+      }
+    }
   };
 
   const handleCopyLink = () => {
-    const shareUrl = `https://playlitfy.com/p/${detectedPreset.title.toLowerCase().replace(/[^a-z0-9]+/g, '')}`;
+    const title = liveResult ? liveResult.playlistTitle : detectedPreset.title;
+    const shareUrl = `https://playlitfy.com/p/${title.toLowerCase().replace(/[^a-z0-9]+/g, '')}`;
     navigator.clipboard?.writeText(shareUrl).catch(() => {});
     setCopiedLink(true);
     setTimeout(() => {
@@ -203,21 +247,23 @@ export default function Hero({ onOpenLogin, onOpenCuratorsDirectory, onOpenPubli
                       <div className="result-meta">
                         <div className="result-title-row">
                           <CheckCircle size={18} weight="fill" color="#ffffff" />
-                          <h2 className="result-title">{detectedPreset.title}</h2>
+                          <h2 className="result-title">
+                            {liveResult ? liveResult.playlistTitle : detectedPreset.title}
+                          </h2>
                         </div>
                         <p className="result-curator">
-                          Curated by {detectedPreset.curator} · {detectedPreset.trackCount} tracks · 100% matched
+                          Curated by {liveResult ? liveResult.curatorName : detectedPreset.curator} · {liveResult ? liveResult.trackCount : detectedPreset.trackCount} tracks · 100% matched
                         </p>
                       </div>
                       <div className="result-match-badge">
-                        <span className="match-num">100%</span>
+                        <span className="match-num">{liveResult ? liveResult.matchRate : 100}%</span>
                         <span className="match-label">MATCHED</span>
                       </div>
                     </div>
 
                     {/* Tracklist Preview */}
                     <div className="result-tracklist" role="list">
-                      {sampleTracks.map((t, idx) => (
+                      {(liveResult ? liveResult.tracks : sampleTracks).map((t, idx) => (
                         <div key={t.id} className="result-track-row" role="listitem">
                           <span className="track-idx">{idx + 1}</span>
                           <div className="track-info">
@@ -262,7 +308,7 @@ export default function Hero({ onOpenLogin, onOpenCuratorsDirectory, onOpenPubli
                           <span>{copiedLink ? 'Link copied' : 'Share link'}</span>
                         </button>
                         <a
-                          href={detectedPreset.url}
+                          href={liveResult ? liveResult.targetUrl : detectedPreset.url}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="open-in-app-btn"

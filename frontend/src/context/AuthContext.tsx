@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { api, setToken, clearToken } from '../lib/api';
 
 export interface ConnectedServices {
   spotify: boolean;
@@ -32,7 +33,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserProfile | null>(() => {
     try {
-      const storedToken = localStorage.getItem('token');
+      const storedToken = localStorage.getItem('token') || localStorage.getItem('playlitfy_token');
       const storedUser = localStorage.getItem('user');
       if (storedToken && storedUser) {
         return JSON.parse(storedUser);
@@ -47,6 +48,45 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const clearToast = useCallback(() => {
     setToastMessage(null);
+  }, []);
+
+  // Check for Spotify OAuth ?token= query param on redirect
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tokenFromUrl = urlParams.get('token');
+    if (tokenFromUrl) {
+      setToken(tokenFromUrl);
+      localStorage.setItem('token', tokenFromUrl);
+
+      api.getMe()
+        .then(({ user: apiUser }) => {
+          const profile: UserProfile = {
+            id: apiUser.id,
+            name: apiUser.display_name,
+            email: apiUser.email,
+            avatar: apiUser.avatar_url || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
+            connectedServices: {
+              spotify: true,
+              appleMusic: false,
+              youtubeMusic: false,
+              google: false,
+            },
+            syncedPlaylistsCount: apiUser.playlists_count,
+            totalRatingsCount: Math.round(apiUser.avg_rating * 10),
+          };
+          setUser(profile);
+          localStorage.setItem('user', JSON.stringify(profile));
+          setToastMessage(`Welcome back, ${profile.name}! Spotify library linked.`);
+        })
+        .catch(() => {
+          // If network / API error, keep token and fall back
+        })
+        .finally(() => {
+          // Clean up query string from address bar
+          const cleanUrl = window.location.pathname + window.location.hash;
+          window.history.replaceState({}, document.title, cleanUrl);
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -97,6 +137,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 
   const logout = useCallback(() => {
+    clearToken();
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
