@@ -1,0 +1,117 @@
+/* Aceternity Following Pointer Styles - Studio Monochromatic Theme */
+
+.follower-pointer-card-container {
+  position: relative;
+  overflow: visible;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure native cursor is completely hidden on card AND all internal children */
+.follower-pointer-card-container,
+.follower-pointer-card-container * {
+  cursor: none !important;
+}
+
+.follower-pointer-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 999;
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
+}
+
+.follower-pointer-wrapper.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Authentic Aceternity SVG Cursor Arrow - Point (14, 2) calibrated to exact (0, 0) */
+.follower-pointer-arrow {
+  width: 22px;
+  height: 22px;
+  transform-origin: 14px 2px;
+  transform: translate(-14px, -2px) rotate(-70deg);
+  color: #FFFFFF;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.9));
+  flex-shrink: 0;
+}
+
+/* Studio Monochromatic Pill */
+.follower-pointer-pill {
+  margin-top: 10px;
+  margin-left: 14px;
+  padding: 5px 12px;
+  background: rgba(9, 9, 11, 0.95);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 9999px;
+  color: #FFFFFF;
+  font-family: var(--font-mono, monospace), system-ui, -apple-system, sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Pill internal styling helper classes */
+.follower-curator-preview,
+.follower-bento-preview {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.follower-curator-name {
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 11px;
+}
+
+.follower-pill-sep {
+  color: #52525B;
+  font-size: 10px;
+}
+
+.follower-pill-avatar {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #27272A;
+  color: #FFFFFF;
+  font-size: 9px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.follower-pill-badge {
+  color: #A1A1AA;
+  font-size: 10px;
+}
+
+.follower-pill-rating {
+  color: #FAFAFA;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}

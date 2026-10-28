@@ -1,0 +1,71 @@
+/* Aceternity Wobble Card - Design & Development Studio Monochromatic Palette */
+
+.aceternity-wobble-card-container {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  will-change: transform;
+  isolation: isolate;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.aceternity-wobble-card-container:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+}
+
+/* Studio Crosshairs */
+.wobble-crosshair {
+  position: absolute;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.18);
+  pointer-events: none;
+  z-index: 5;
+  user-select: none;
+  line-height: 1;
+}
+
+.wobble-crosshair-tl {
+  top: 14px;
+  left: 14px;
+}
+
+.wobble-crosshair-tr {
+  top: 14px;
+  right: 14px;
+}
+
+/* Authentic Aceternity Radial Dot Pattern */
+.wobble-card-noise-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 0);
+  background-size: 18px 18px;
+  mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000000 60%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 65% 65% at 50% 50%, #000000 60%, transparent 100%);
+  opacity: 0.6;
+}
+
+/* Content Container */
+.wobble-card-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (max-width: 640px) {
+  .wobble-card-content {
+    padding: 24px 20px;
+  }
+}

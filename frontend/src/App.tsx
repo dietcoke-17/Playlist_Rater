@@ -10,7 +10,13 @@ import Footer from './components/Footer';
 import LoginPage from './components/LoginPage';
 import LeaderboardPage from './components/LeaderboardPage';
 import PopularPage from './components/PopularPage';
+import SpotifyPlaylistsSection from './components/SpotifyPlaylistsSection';
+import CtaSection from './components/CtaSection';
+import BentoGrid from './components/aceternity/BentoGrid';
+import LampEffect from './components/aceternity/LampEffect';
 import type { Playlist } from './data/playlists';
+
+import 'lenis/dist/lenis.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -46,7 +52,7 @@ function MainAppContent() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Initialize Lenis Smooth Scroll on Home view
+  // Initialize Lenis Smooth Scroll on Home view with authentic MacBook fluid inertia
   useEffect(() => {
     if (view !== 'home') return;
 
@@ -54,17 +60,13 @@ function MainAppContent() {
     if (prefersReduced) return;
 
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      lerp: 0.08,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.5,
       smoothWheel: true,
+      overscroll: true,
+      autoResize: true,
     });
-
-    let reqId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      reqId = requestAnimationFrame(raf);
-    }
-    reqId = requestAnimationFrame(raf);
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -75,7 +77,6 @@ function MainAppContent() {
     gsap.ticker.lagSmoothing(0);
 
     return () => {
-      cancelAnimationFrame(reqId);
       gsap.ticker.remove(tickerCb);
       lenis.destroy();
     };
@@ -132,7 +133,7 @@ function MainAppContent() {
       />
 
       <main id="main-content">
-        {/* Landing Page: Universal Converter and button to Public Curators */}
+        {/* Aceternity Hero with Spotlight, Sparkles, FlipWords, 3D Mockup Window */}
         <Hero
           onOpenLogin={() => navigateTo('login')}
           onOpenCuratorsDirectory={() => {
@@ -144,6 +145,39 @@ function MainAppContent() {
             navigateTo('popular');
           }}
         />
+
+        {/* Aceternity Bento Grid with Realtime EQ Visualizer, Community Consensus, 1-Click Launch, Lossless ISRC */}
+        <BentoGrid />
+
+        {/* Live Community Playlists & Curations Showcase */}
+        <SpotifyPlaylistsSection
+          onSelectPlaylist={handleSelectPlaylist}
+          onOpenPopularPage={() => {
+            setOpenPublishModalDirectly(false);
+            navigateTo('popular');
+          }}
+        />
+
+        {/* Aceternity Iconic Lamp Effect Illuminating the Protocol Statement */}
+        <LampEffect>
+          <div className="lamp-heading-container">
+            <div className="lamp-eyebrow-pill">
+              <span>03 // THE PROTOCOL</span>
+            </div>
+            <h2 className="lamp-headline">
+              Curate without boundaries. <br />
+              <span className="lamp-headline-gradient">
+                Your music belongs on every device.
+              </span>
+            </h2>
+            <p className="lamp-description">
+              Zero algorithmic payola, zero platform lock-in. Experience pure listener-driven ratings and seamless cross-DSP sync with 99.8% lossless ISRC precision.
+            </p>
+          </div>
+        </LampEffect>
+
+        {/* Aceternity Background Beams Elevated CTA */}
+        <CtaSection onOpenLogin={() => navigateTo('login')} />
       </main>
 
       {/* Minimal clean footer */}

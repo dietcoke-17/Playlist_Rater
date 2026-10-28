@@ -1,0 +1,51 @@
+.aceternity-flip-words-container {
+  display: inline-block;
+  position: relative;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.aceternity-flip-word {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  animation: flipWordIn 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.flip-word-segment {
+  display: inline-flex;
+  align-items: center;
+}
+
+.flip-letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(18px) scale(0.92);
+  filter: blur(8px);
+  animation: letterFadeIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.flip-space {
+  display: inline;
+}
+
+@keyframes letterFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.92);
+    filter: blur(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes flipWordIn {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,70 @@
+.aceternity-moving-border-btn-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5px;
+  overflow: hidden;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  isolation: isolate;
+}
+
+.aceternity-moving-border-btn-wrapper:hover {
+  transform: translateY(-1.5px) scale(1.01);
+}
+
+.aceternity-moving-border-btn-wrapper:active {
+  transform: translateY(0.5px) scale(0.99);
+}
+
+.aceternity-border-glow {
+  position: absolute;
+  inset: -200%;
+  width: 500%;
+  height: 500%;
+  background: conic-gradient(
+    from 0deg at 50% 50%,
+    transparent 0deg,
+    rgba(255, 255, 255, 0.85) 60deg,
+    rgba(161, 161, 170, 0.3) 120deg,
+    transparent 180deg,
+    transparent 360deg
+  );
+  animation: borderRotate 4s linear infinite;
+  z-index: 0;
+}
+
+@keyframes borderRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.aceternity-moving-border-content {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  background-color: #09090b;
+  color: #ffffff;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  backdrop-filter: blur(16px);
+  z-index: 1;
+  transition: background-color 0.2s ease;
+}
+
+.aceternity-moving-border-btn-wrapper:hover .aceternity-moving-border-content {
+  background-color: #121216;
+}

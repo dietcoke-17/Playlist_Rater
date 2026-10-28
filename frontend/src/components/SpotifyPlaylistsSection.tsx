@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ArrowUpRight, Play, Star } from '@phosphor-icons/react';
 import { popularSpotifyPlaylists, type Playlist } from '../data/playlists';
+import { FollowerPointerCard } from './aceternity/FollowingPointer';
 import './SpotifyPlaylistsSection.css';
 
 interface SpotifyPlaylistsSectionProps {
@@ -12,7 +13,6 @@ const CATEGORIES = ['All Playlists', 'Chill & Lo Fi', 'Electronic & Dance', 'Cla
 
 export default function SpotifyPlaylistsSection({ onSelectPlaylist, onOpenPopularPage }: SpotifyPlaylistsSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState('All Playlists');
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const filteredPlaylists = popularSpotifyPlaylists.filter((item) => {
     if (selectedCategory === 'All Playlists') return true;
@@ -75,69 +75,81 @@ export default function SpotifyPlaylistsSection({ onSelectPlaylist, onOpenPopula
           ))}
         </div>
 
-        {/* Spotify Card Grid */}
+        {/* Spotify Card Grid with Aceternity Follower Pointer */}
         <div className="spotify-card-grid">
           {filteredPlaylists.map((playlist) => (
-            <div
+            <FollowerPointerCard
               key={playlist.id}
-              className="spotify-card"
-              onMouseEnter={() => setHoveredId(playlist.id)}
-              onMouseLeave={() => setHoveredId(null)}
-              onClick={() => handleCardClick(playlist)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleCardClick(playlist);
-                }
-              }}
-              aria-label={`${playlist.title} by ${playlist.curator}, rated ${playlist.rating} out of 10`}
+              className="spotify-card-follower"
+              title={
+                <div className="follower-curator-preview">
+                  <span className="follower-pill-avatar">
+                    {playlist.curator.charAt(0).toUpperCase()}
+                  </span>
+                  <span className="follower-curator-name">{playlist.curator}</span>
+                  <span className="follower-pill-sep">·</span>
+                  <span className="follower-pill-rating">★ {playlist.rating}</span>
+                </div>
+              }
             >
-              {/* Artwork wrapper with floating Spotify Play Button */}
-              <div className="spotify-card-artwork">
-                <img
-                  src={playlist.coverImage}
-                  alt={playlist.title}
-                  className="spotify-artwork-img"
-                  loading="lazy"
-                />
+              <div
+                className="spotify-card"
+                onClick={() => handleCardClick(playlist)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardClick(playlist);
+                  }
+                }}
+                aria-label={`${playlist.title} by ${playlist.curator}, rated ${playlist.rating} out of 10`}
+              >
+                {/* Artwork wrapper with floating Spotify Play Button */}
+                <div className="spotify-card-artwork">
+                  <img
+                    src={playlist.coverImage}
+                    alt={playlist.title}
+                    className="spotify-artwork-img"
+                    loading="lazy"
+                  />
 
-                {/* Platform Tag */}
-                <span className={`spotify-platform-tag ${playlist.sourceService.toLowerCase().replace(/\s+/g, '')}`}>
-                  {playlist.sourceService}
-                </span>
+                  {/* Platform Tag */}
+                  <span className={`spotify-platform-tag ${playlist.sourceService.toLowerCase().replace(/\s+/g, '')}`}>
+                    {playlist.sourceService}
+                  </span>
 
-                {/* Authentic Floating Spotify Play Button */}
-                <button
-                  type="button"
-                  className={`spotify-floating-play-btn ${hoveredId === playlist.id ? 'visible' : ''}`}
-                  aria-label={`Play ${playlist.title}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(playlist.sampleUrl, '_blank', 'noopener,noreferrer');
-                  }}
-                >
-                  <Play size={22} weight="fill" color="#000000" />
-                </button>
-              </div>
+                  {/* Authentic Floating Spotify Play Button */}
+                  <button
+                    type="button"
+                    className="spotify-floating-play-btn"
+                    aria-label={`Play ${playlist.title}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(playlist.sampleUrl, '_blank', 'noopener,noreferrer');
+                    }}
+                  >
+                    <Play size={22} weight="fill" color="#000000" />
+                  </button>
+                </div>
 
-              {/* Card Meta */}
-              <div className="spotify-card-content">
-                <h3 className="spotify-card-title">{playlist.title}</h3>
-                <p className="spotify-card-desc">{playlist.description}</p>
+                {/* Card Meta */}
+                <div className="spotify-card-content">
+                  <h3 className="spotify-card-title">{playlist.title}</h3>
+                  <p className="spotify-card-desc">{playlist.description}</p>
 
-                <div className="spotify-card-footer">
-                  <div className="spotify-rating-badge">
-                    <Star size={13} weight="fill" color="#1DB954" />
-                    <span className="rating-num">{playlist.rating}</span>
-                    <span className="rating-scale">/ 10</span>
+                  <div className="spotify-card-footer">
+                    <div className="spotify-rating-badge">
+                      <Star size={13} weight="fill" color="#1DB954" />
+                      <span className="rating-num">{playlist.rating}</span>
+                      <span className="rating-scale">/ 10</span>
+                    </div>
+
+                    <span className="spotify-track-count">{playlist.trackCount} tracks</span>
                   </div>
-
-                  <span className="spotify-track-count">{playlist.trackCount} tracks</span>
                 </div>
               </div>
-            </div>
+            </FollowerPointerCard>
           ))}
         </div>
       </div>

@@ -4,11 +4,12 @@ import './Navbar.css';
 
 const NAV_LINKS = [
   { label: 'Converter', id: 'converter' },
-  { label: 'Public Curators', id: 'curators' },
+  { label: 'Protocol', id: 'features' },
+  { label: 'Curators', id: 'curators' },
   { label: 'Leaderboard', id: 'leaderboard' },
 ];
 
-const OBSERVED_SECTIONS = ['home', 'converter'];
+const OBSERVED_SECTIONS = ['home', 'converter', 'features', 'popular-playlists'];
 
 interface NavbarProps {
   onOpenLogin?: () => void;
@@ -31,7 +32,14 @@ export default function Navbar({
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30);
+    let lastScrolled = false;
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 30;
+      if (isScrolled !== lastScrolled) {
+        lastScrolled = isScrolled;
+        setScrolled(isScrolled);
+      }
+    };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -69,13 +77,13 @@ export default function Navbar({
       setMenuOpen(false);
       return;
     }
-    if (id === 'converter') {
+    if (id === 'converter' || id === 'features' || id === 'faq') {
       if (currentView !== 'home' && onGoHome) {
         onGoHome();
       }
       setTimeout(() => {
-        const el = document.getElementById('converter');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: id === 'converter' ? 'center' : 'start' });
       }, 50);
       setMenuOpen(false);
       return;

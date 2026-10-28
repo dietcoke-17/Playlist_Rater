@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { ArrowUpRight } from '@phosphor-icons/react';
+import { BackgroundBeams } from './aceternity/BackgroundBeams';
 import './CtaSection.css';
 
 interface CtaSectionProps {
@@ -12,7 +13,7 @@ export default function CtaSection({ onOpenLogin }: CtaSectionProps) {
 
   const scrollToConverter = () => {
     const el = document.getElementById('converter');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -27,27 +28,34 @@ export default function CtaSection({ onOpenLogin }: CtaSectionProps) {
 
   return (
     <section id="cta" className="cta-section" aria-label="Get started with Playlitfy">
-      {/* Timmo style graphic grid overlay */}
+      {/* Studio Background Beams */}
+      <BackgroundBeams />
+
+      {/* Studio Graphic Grid Overlay */}
       <div className="cta-grid-lines" aria-hidden="true" />
       <div className="cta-ambient-glow" aria-hidden="true" />
 
       <div className="cta-container">
+        <div className="cta-badge-pill">
+          <span>06 // UNIVERSAL PROTOCOL</span>
+        </div>
+
         <h2 className="cta-headline">
-          Ready to connect all your playlists at one endpoint?
+          Ready to unlock every playlist across your music ecosystem?
         </h2>
         <p className="cta-sub">
-          Paste any playlist URL above to transfer tracks across Spotify, Apple Music, and YouTube Music with direct native playback.
+          Paste any Spotify, Apple Music, or YouTube Music URL to instantly transfer tracks with lossless ISRC matching and direct native app launch.
         </p>
 
-        {/* Action Buttons Row (Timmo style) */}
+        {/* Studio Action Buttons Row */}
         <div className="cta-buttons-row">
           <button
             type="button"
             className="cta-primary-btn"
             onClick={scrollToConverter}
           >
-            <span>Convert a playlist</span>
-            <ArrowUpRight size={16} weight="bold" />
+            <span>Convert a Playlist Now</span>
+            <ArrowUpRight size={15} weight="bold" />
           </button>
 
           {onOpenLogin && (
@@ -56,19 +64,19 @@ export default function CtaSection({ onOpenLogin }: CtaSectionProps) {
               className="cta-secondary-btn"
               onClick={onOpenLogin}
             >
-              <span>Open Workspace</span>
+              <span>Open Music Workspace</span>
             </button>
           )}
         </div>
 
-        {/* Optional update notification input */}
-        <form onSubmit={handleSubscribe} className="cta-update-form" aria-label="Subscribe to feature updates">
+        {/* Studio Email Notification Form */}
+        <form onSubmit={handleSubscribe} className="cta-update-form" aria-label="Subscribe to updates">
           <div className="cta-update-input-wrapper">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter email for new platform updates..."
+              placeholder="Enter email for platform & ISRC updates..."
               className="cta-update-input"
               required
             />
@@ -86,10 +94,6 @@ export default function CtaSection({ onOpenLogin }: CtaSectionProps) {
             </p>
           )}
         </form>
-
-        <p className="cta-guarantee-note">
-          Free to use · No payment details required · Instant cross platform transfer
-        </p>
       </div>
     </section>
   );

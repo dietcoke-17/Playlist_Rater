@@ -12,17 +12,17 @@
   overflow: hidden;
 }
 
-/* Subtle graphic grid overlay */
+/* Structural Studio Grid overlay */
 .cta-grid-lines {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-  background-size: 56px 56px;
-  mask-image: radial-gradient(ellipse at 50% 50%, #000000 30%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000000 30%, transparent 80%);
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at 50% 50%, #000000 35%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000000 35%, transparent 80%);
 }
 
 .cta-ambient-glow {
@@ -38,8 +38,8 @@
 
 .cta-container {
   position: relative;
-  z-index: 1;
-  max-width: 640px;
+  z-index: 2;
+  max-width: 680px;
   width: 100%;
   margin: 0 auto;
   display: flex;
@@ -47,24 +47,41 @@
   align-items: center;
 }
 
+.cta-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  margin-bottom: 24px;
+}
+
 .cta-headline {
   font-size: clamp(2rem, 4vw, 2.75rem);
   font-weight: 700;
   line-height: 1.15;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.035em;
   color: #ffffff;
   margin: 0 0 16px;
+  text-wrap: balance;
 }
 
 .cta-sub {
   font-size: 15px;
   line-height: 1.6;
-  color: #888888;
+  color: #71717a;
   margin: 0 0 32px;
   max-width: 520px;
+  text-wrap: pretty;
 }
 
-/* Buttons Row */
+/* Studio Action Buttons */
 .cta-buttons-row {
   display: flex;
   align-items: center;
@@ -81,18 +98,18 @@
   background: #ffffff;
   color: #000000;
   border: 1px solid #ffffff;
-  padding: 13px 26px;
+  padding: 11px 24px;
   border-radius: 9999px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   box-shadow: 0 4px 16px rgba(255, 255, 255, 0.12);
 }
 
 .cta-primary-btn:hover {
-  background: #eaeaea;
-  border-color: #eaeaea;
+  background: #e4e4e7;
+  border-color: #e4e4e7;
   transform: translateY(-1px);
 }
 
@@ -100,10 +117,10 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #141414;
-  color: #d4d4d4;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 13px 24px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #d4d4d8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 11px 22px;
   border-radius: 9999px;
   font-size: 13px;
   font-weight: 600;
@@ -112,13 +129,13 @@
 }
 
 .cta-secondary-btn:hover {
-  background: #1f1f1f;
-  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
   transform: translateY(-1px);
 }
 
-/* Optional Update Form */
+/* Studio Notification Form */
 .cta-update-form {
   width: 100%;
   max-width: 440px;
@@ -128,7 +145,7 @@
 .cta-update-input-wrapper {
   display: flex;
   align-items: center;
-  background: #101010;
+  background: #09090b;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 9999px;
   padding: 4px 6px 4px 16px;
@@ -151,16 +168,16 @@
 }
 
 .cta-update-input::placeholder {
-  color: #555555;
+  color: #52525b;
 }
 
 .cta-update-btn {
-  background: #242424;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #18181b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   color: #ffffff;
   padding: 7px 16px;
   border-radius: 9999px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
@@ -168,7 +185,7 @@
 }
 
 .cta-update-btn:hover:not(:disabled) {
-  background: #333333;
+  background: #27272a;
 }
 
 .cta-update-btn:disabled {
@@ -177,13 +194,7 @@
 }
 
 .cta-success-msg {
-  font-size: 12px;
-  color: #a3a3a3;
+  font-size: 11px;
+  color: #a1a1aa;
   margin-top: 8px;
-}
-
-.cta-guarantee-note {
-  font-size: 12px;
-  color: #666666;
-  margin: 0;
 }
