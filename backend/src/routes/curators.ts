@@ -3,6 +3,7 @@
  *
  * GET  /api/v1/curators               – paginated public curator list
  * GET  /api/v1/curators/:id           – single curator profile + playlists
+ * GET  /api/v1/curators/top-tier      – get top-tier curators only
  * POST /api/v1/curators/opt-in        – curator opts-in to public directory (auth required)
  * POST /api/v1/curators/opt-out       – curator opts-out  (auth required)
  * PUT  /api/v1/curators/profile       – update bio / genres (auth required)
@@ -158,6 +159,55 @@ curatorRouter.get(
       }
 
       return res.json({ curator });
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
+// ── GET /curators/top-tier ─────────────────────────────────────────────────────
+curatorRouter.get(
+  '/top-tier',
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { limit = '20' } = req.query as Record<string, string>;
+      const limitNum = Math.min(50, Math.max(1, parseInt(limit, 10)));
+
+      // Get curators with high total_score (>= 0.8)
+      const { data: rankings, error: rankingError } = await supabase
+        .from('curator_rankings')
+        .select('user_id, total_score, follower_tier, specialty_genres')
+        .gte('total_score', 0.8)
+        .order('total_score', { ascending: false })
+        .limit(limitNum);
+
+      if (rankingError) throw rankingError;
+
+      if (!rankings || rankings.length === 0) {
+        return res.json({ curators: [] });
+      }
+
+      // Get curator details
+      const userIds = rankings.map((r) => r.user_id);
+      const { data: curators, error: curatorError } = await supabase
+        .from('users')
+        .select('id, display_name, avatar_url, bio, genres, followers_count, playlists_count, avg_rating')
+        .in('id', userIds);
+
+      if (curatorError) throw curatorError;
+
+      // Merge rankings with curator details
+      const mergedCurators = rankings.map((ranking) => {
+        const curator = curators?.find((c) => c.id === ranking.user_id);
+        return {
+          ...curator,
+          quality_score: ranking.total_score,
+          follower_tier: ranking.follower_tier,
+          specialty_genres: ranking.specialty_genres,
+        };
+      });
+
+      return res.json({ curators: mergedCurators });
     } catch (err) {
       next(err);
     }

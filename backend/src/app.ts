@@ -6,11 +6,15 @@
 import express from 'express';
 import cors from 'cors';
 import { authRouter } from './routes/auth';
+import { platformAuthRouter } from './routes/platform-auth';
 import { spotifyRouter } from './routes/spotify';
 import { curatorRouter } from './routes/curators';
 import { ratingsRouter } from './routes/ratings';
 import { convertRouter } from './routes/convert';
 import { playlistRouter } from './routes/playlists';
+import { moodsRouter } from './routes/moods';
+import { tasteRouter } from './routes/taste';
+import { connectedServicesRouter } from './routes/connected-services';
 import { errorHandler } from './middleware/errorHandler';
 import { requireAuth } from './middleware/requireAuth';
 
@@ -49,13 +53,17 @@ app.get('/api/v1/health', (_req, res) => {
 
 // ── Public routes (no auth required) ─────────────────────────────────────────
 app.use('/api/v1/auth', authRouter);        // /auth/spotify, /auth/callback, /auth/logout
+app.use('/api/v1/auth', platformAuthRouter); // /auth/apple, /auth/youtube, /auth/tidal, /auth/amazon
 app.use('/api/v1/spotify', spotifyRouter);  // /spotify/playlist, /spotify/search
 app.use('/api/v1/convert', convertRouter);  // /convert – builds cross-service deep-links
 app.use('/api/v1/curators', curatorRouter); // GET /curators – public directory
 app.use('/api/v1/ratings', ratingsRouter);  // GET /ratings/:playlistId, POST (public votes)
+app.use('/api/v1/moods', moodsRouter);      // GET /moods, GET /moods/:id/playlists
 
 // ── Protected routes (JWT required) ──────────────────────────────────────────
 app.use('/api/v1/playlists', requireAuth, playlistRouter); // curator playlist management
+app.use('/api/v1/taste', requireAuth, tasteRouter); // taste profile and recommendations
+app.use('/api/v1/connected-services', requireAuth, connectedServicesRouter); // platform connections
 
 // ── Error handler ─────────────────────────────────────────────────────────────
 app.use(errorHandler);

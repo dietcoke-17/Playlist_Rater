@@ -352,6 +352,104 @@ export const api = {
   async removePlaylist(id: string): Promise<{ success: boolean }> {
     return apiFetch(`/playlists/${id}`, { method: 'DELETE' });
   },
+
+  // ── Platform Auth ───────────────────────────────────────────────────────────
+
+  /** Redirect to Apple Music OAuth */
+  initiateAppleLogin(): void {
+    window.location.href = `${BASE_URL}/auth/apple`;
+  },
+
+  /** Redirect to YouTube Music OAuth */
+  initiateYoutubeLogin(): void {
+    window.location.href = `${BASE_URL}/auth/youtube`;
+  },
+
+  /** Redirect to TIDAL OAuth */
+  initiateTidalLogin(): void {
+    window.location.href = `${BASE_URL}/auth/tidal`;
+  },
+
+  /** Redirect to Amazon Music OAuth */
+  initiateAmazonLogin(): void {
+    window.location.href = `${BASE_URL}/auth/amazon`;
+  },
+
+  // ── Connected Services ──────────────────────────────────────────────────────
+
+  /** List user's connected platforms */
+  async getConnectedServices(): Promise<{ platforms: Array<{ platform: string; platform_user_id?: string }> }> {
+    return apiFetch('/connected-services');
+  },
+
+  /** Connect a platform */
+  async connectPlatform(platform: string, data: { access_token: string; refresh_token?: string; platform_user_id?: string }): Promise<{ success: boolean }> {
+    return apiFetch(`/connected-services/${platform}/connect`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
+
+  /** Disconnect a platform */
+  async disconnectPlatform(platform: string): Promise<{ success: boolean }> {
+    return apiFetch(`/connected-services/${platform}`, { method: 'DELETE' });
+  },
+
+  /** Get playlists from a connected platform */
+  async getPlatformPlaylists(platform: string): Promise<{ playlists: any[] }> {
+    return apiFetch(`/connected-services/${platform}/playlists`);
+  },
+
+  /** Sync playlists from a platform */
+  async syncPlatformPlaylists(platform: string): Promise<{ success: boolean; message: string }> {
+    return apiFetch(`/connected-services/${platform}/sync`, { method: 'POST' });
+  },
+
+  // ── Moods ─────────────────────────────────────────────────────────────────
+
+  /** List all available moods */
+  async getMoods(): Promise<{ moods: Array<{ id: string; name: string; emoji: string; description: string; color_hex: string }> }> {
+    return apiFetch('/moods');
+  },
+
+  /** Get playlists for a specific mood */
+  async getPlaylistsByMood(moodId: string, limit?: number, offset?: number): Promise<{ playlists: any[] }> {
+    const params = new URLSearchParams({
+      ...(limit && { limit: String(limit) }),
+      ...(offset && { offset: String(offset) }),
+    });
+    return apiFetch(`/moods/${moodId}/playlists${params ? `?${params}` : ''}`);
+  },
+
+  /** Detect mood for a playlist */
+  async detectPlaylistMood(playlistId: string): Promise<{ success: boolean; moods: Array<{ name: string; confidence: number }> }> {
+    return apiFetch(`/moods/playlist/${playlistId}/detect`, { method: 'POST' });
+  },
+
+  // ── Taste ─────────────────────────────────────────────────────────────────
+
+  /** Get user's taste profile */
+  async getTasteProfile(): Promise<{ profile: any }> {
+    return apiFetch('/taste/profile');
+  },
+
+  /** Trigger taste analysis */
+  async analyzeTaste(): Promise<{ success: boolean; profile: any }> {
+    return apiFetch('/taste/analyze', { method: 'POST' });
+  },
+
+  /** Get taste-based recommendations */
+  async getTasteRecommendations(): Promise<{ playlists: any[]; reasoning: string }> {
+    return apiFetch('/taste/recommendations');
+  },
+
+  // ── Curators ───────────────────────────────────────────────────────────────
+
+  /** Get top-tier curators */
+  async getTopTierCurators(limit?: number): Promise<{ curators: any[] }> {
+    const params = limit ? `?limit=${limit}` : '';
+    return apiFetch(`/curators/top-tier${params}`);
+  },
 };
 
 export { setToken, getToken, clearToken };

@@ -89,6 +89,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
+  // Fetch connected services when logged in
+  useEffect(() => {
+    if (user && api.isLoggedIn()) {
+      api.getConnectedServices()
+        .then(({ platforms }) => {
+          const services: ConnectedServices = {
+            spotify: platforms.some((p) => p.platform === 'spotify'),
+            appleMusic: platforms.some((p) => p.platform === 'apple'),
+            youtubeMusic: platforms.some((p) => p.platform === 'youtube'),
+            google: false,
+          };
+          setUser((prev) => prev ? { ...prev, connectedServices: services } : prev);
+        })
+        .catch(() => {
+          // Ignore error, keep default values
+        });
+    }
+  }, [user]);
+
   useEffect(() => {
     if (!toastMessage) return;
     const timer = setTimeout(() => {
@@ -99,7 +118,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = useCallback(
     async (provider: 'google' | 'spotify' | 'apple' | 'youtube' | 'email', emailInput?: string) => {
-      // Simulate authentic authorization delay
+      // For Spotify, use real OAuth redirect
+      if (provider === 'spotify') {
+        api.initiateSpotifyLogin();
+        return;
+      }
+
+      // For other platforms, use real OAuth redirects
+      if (provider === 'apple') {
+        api.initiateAppleLogin();
+        return;
+      }
+
+      if (provider === 'youtube') {
+        api.initiateYoutubeLogin();
+        return;
+      }
+
+      if (provider === 'tidal') {
+        api.initiateTidalLogin();
+        return;
+      }
+
+      if (provider === 'amazon') {
+        api.initiateAmazonLogin();
+        return;
+      }
+
+      // For email and google (if not implemented), use simulated login
       await new Promise((resolve) => setTimeout(resolve, 600));
 
       const providerNames: Record<string, string> = {
