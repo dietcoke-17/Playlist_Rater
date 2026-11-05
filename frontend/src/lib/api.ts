@@ -10,9 +10,13 @@
  *   const result = await api.convertPlaylist(url, 'Apple Music');
  */
 
+// VITE_API_URL is inlined at build time. In production it MUST be set in the
+// Vercel project env vars (e.g. https://<backend>.vercel.app/api/v1) —
+// Vite does not read runtime env vars.
+// Prod fallback is same-origin /api/v1 so a Vercel rewrite proxy can be used.
 const BASE_URL: string =
   import.meta.env.VITE_API_URL ??
-  'http://localhost:5001/api/v1';
+  (import.meta.env.DEV ? 'http://localhost:5001/api/v1' : '/api/v1');
 
 // ── Auth helpers ──────────────────────────────────────────────────────────────
 

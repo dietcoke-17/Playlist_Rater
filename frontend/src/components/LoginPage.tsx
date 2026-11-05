@@ -26,13 +26,7 @@ export default function LoginPage({ onBack }: LoginPageProps) {
   const handleProviderLogin = async (provider: 'google' | 'spotify' | 'apple' | 'youtube') => {
     setIsSubmitting(true);
     try {
-      // For Spotify, use real OAuth (redirect)
-      if (provider === 'spotify') {
-        window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1'}/auth/spotify`;
-        return;
-      }
-
-      // For other platforms, use real OAuth or simulated
+      // All providers redirect to the backend OAuth flow via the api client
       await login(provider);
     } finally {
       setIsSubmitting(false);
