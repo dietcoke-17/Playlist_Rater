@@ -26,6 +26,9 @@ const ALLOWED_ORIGINS = [
   'http://localhost:4000',
   'https://playlitfy.vercel.app',
   'https://playlitfy.com',
+  // Extra origins via env: comma-separated CORS_ORIGINS, plus FRONTEND_URL
+  ...(process.env.FRONTEND_URL ? [process.env.FRONTEND_URL] : []),
+  ...(process.env.CORS_ORIGINS?.split(',').map((o) => o.trim()).filter(Boolean) ?? []),
 ];
 
 app.use(
