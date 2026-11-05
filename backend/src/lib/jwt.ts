@@ -2,11 +2,13 @@
  * JWT utilities – sign and verify Playlitfy session tokens.
  *
  * The payload stores:
- *   sub          – Spotify user ID
- *   email        – Spotify email
- *   displayName  – Spotify display name
- *   avatarUrl    – first Spotify profile image URL
- *   spotifyId    – alias for sub (kept for clarity in consuming code)
+ *   sub           – Playlitfy users.id (UUID primary key)
+ *   spotifyId     – Spotify user ID (only for Spotify-linked accounts)
+ *   email         – account email
+ *   displayName   – display name
+ *   avatarUrl     – profile image URL
+ *   authProvider  – provider used to sign in (spotify, google, apple, ...)
+ *   platform      – legacy alias, kept for backwards compatibility
  *
  * Required env / Firebase config:
  *   JWT_SECRET   (long random string, min 32 chars)
@@ -23,11 +25,12 @@ const JWT_SECRET: string =
 const JWT_EXPIRES_IN = '7d';
 
 export interface JwtPayload {
-  sub: string;        // User ID
-  spotifyId?: string;
+  sub: string;        // Playlitfy users.id (UUID)
+  spotifyId?: string; // Spotify user ID, when linked
   email?: string;
   displayName?: string;
   avatarUrl?: string;
+  authProvider?: string; // spotify | google | apple | youtube | tidal | amazon
   platform?: string;  // Platform (spotify, apple, youtube, tidal, amazon)
   iat?: number;
   exp?: number;

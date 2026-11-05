@@ -61,7 +61,10 @@ playlistRouter.get(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const spotifyId = req.user!.sub;
+      const spotifyId = req.user!.spotifyId;
+      if (!spotifyId) {
+        return res.status(400).json({ error: 'Spotify account not connected' });
+      }
 
       const { data: user } = await supabase
         .from('users')
@@ -94,7 +97,10 @@ playlistRouter.get(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const spotifyId = req.user!.sub;
+      const spotifyId = req.user!.spotifyId;
+      if (!spotifyId) {
+        return res.status(400).json({ error: 'Spotify account not connected' });
+      }
 
       const { data: user } = await supabase
         .from('users')
@@ -132,7 +138,10 @@ playlistRouter.post(
   '/',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const spotifyId = req.user!.sub;
+      const spotifyId = req.user!.spotifyId;
+      if (!spotifyId) {
+        return res.status(400).json({ error: 'Spotify account not connected' });
+      }
 
       const {
         spotifyPlaylistUrl,
@@ -266,7 +275,10 @@ playlistRouter.put(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const spotifyId = req.user!.sub;
+      const spotifyId = req.user!.spotifyId;
+      if (!spotifyId) {
+        return res.status(400).json({ error: 'Spotify account not connected' });
+      }
 
       const { genre, description, allowPublic } = req.body as {
         genre?: string;
@@ -310,7 +322,10 @@ playlistRouter.delete(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const spotifyId = req.user!.sub;
+      const spotifyId = req.user!.spotifyId;
+      if (!spotifyId) {
+        return res.status(400).json({ error: 'Spotify account not connected' });
+      }
 
       const { data: user } = await supabase
         .from('users')
@@ -346,7 +361,10 @@ playlistRouter.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
-      const spotifyId = req.user!.sub;
+      const spotifyId = req.user!.spotifyId;
+      if (!spotifyId) {
+        return res.status(400).json({ error: 'Spotify account not connected' });
+      }
 
       const { data: user } = await supabase
         .from('users')
@@ -424,7 +442,10 @@ playlistRouter.post(
   '/import-library',
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const spotifyId = req.user!.sub;
+      const spotifyId = req.user!.spotifyId;
+      if (!spotifyId) {
+        return res.status(400).json({ error: 'Spotify account not connected' });
+      }
 
       const { data: user } = await supabase
         .from('users')

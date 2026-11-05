@@ -150,8 +150,11 @@ connectedServicesRouter.get('/:platform/playlists', async (req: Request, res: Re
     let playlists = [];
 
     if (platform === 'spotify') {
+      if (!payload.spotifyId) {
+        return res.status(400).json({ error: 'Spotify account not linked' });
+      }
       const { fetchUserPublicPlaylists } = await import('../lib/spotify');
-      playlists = await fetchUserPublicPlaylists(payload.sub, tokenData.access_token);
+      playlists = await fetchUserPublicPlaylists(payload.spotifyId, tokenData.access_token);
     } else {
       // Other platforms would be implemented similarly
       return res.status(501).json({ error: `${platform} playlist fetching not yet implemented` });

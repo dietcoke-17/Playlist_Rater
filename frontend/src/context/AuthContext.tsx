@@ -50,9 +50,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToastMessage(null);
   }, []);
 
-  // Check for Spotify OAuth ?token= query param on redirect
+  // Check for OAuth ?token= or ?error= query params on redirect
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
+    const errorParam = urlParams.get('error');
+    if (errorParam) {
+      setToastMessage(`Sign-in failed: ${errorParam.replace(/_/g, ' ')}`);
+      const cleanUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, document.title, cleanUrl);
+      return;
+    }
     const tokenFromUrl = urlParams.get('token');
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
@@ -118,9 +125,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = useCallback(
     async (provider: 'google' | 'spotify' | 'apple' | 'youtube' | 'tidal' | 'amazon' | 'email', emailInput?: string) => {
-      // For Spotify, use real OAuth redirect
+      // For Spotify and Google, use real OAuth redirects
       if (provider === 'spotify') {
         api.initiateSpotifyLogin();
+        return;
+      }
+
+      if (provider === 'google') {
+        api.initiateGoogleLogin();
         return;
       }
 
@@ -157,7 +169,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
 
       const resolvedName = emailInput ? emailInput.split('@')[0] : 'Alex Rivera';
-      const resolvedEmail = emailInput || (provider === 'google' ? 'alex.curator@gmail.com' : 'alex.curator@playlitfy.com');
+      const resolvedEmail = emailInput || 'alex.curator@playlitfy.com';
 
       const newUser: UserProfile = {
         id: `usr_${Date.now()}`,
@@ -168,7 +180,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           spotify: false,
           appleMusic: false,
           youtubeMusic: false,
-          google: provider === 'google',
+          google: false,
         },
         syncedPlaylistsCount: 24,
         totalRatingsCount: 88,

@@ -355,6 +355,11 @@ export const api = {
 
   // ── Platform Auth ───────────────────────────────────────────────────────────
 
+  /** Redirect user to Google OAuth authorisation page. */
+  initiateGoogleLogin(): void {
+    window.location.href = `${BASE_URL}/auth/google`;
+  },
+
   /** Redirect to Apple Music OAuth */
   initiateAppleLogin(): void {
     window.location.href = `${BASE_URL}/auth/apple`;

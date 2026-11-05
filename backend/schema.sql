@@ -9,7 +9,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ── users ─────────────────────────────────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS public.users (
   id                        UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  spotify_id                TEXT UNIQUE NOT NULL,
+  spotify_id                TEXT UNIQUE,          -- nullable: non-Spotify sign-ins allowed
+  google_id                 TEXT UNIQUE,
+  apple_id                  TEXT UNIQUE,
+  youtube_channel_id        TEXT UNIQUE,
   email                     TEXT,
   display_name              TEXT NOT NULL,
   avatar_url                TEXT,
@@ -222,6 +225,13 @@ CREATE TABLE IF NOT EXISTS public.curator_rankings (
 );
 
 -- ── Update existing tables ─────────────────────────────────────────────────────
+
+-- Allow non-Spotify accounts (Google / Apple / YouTube / etc.)
+ALTER TABLE public.users ALTER COLUMN spotify_id DROP NOT NULL;
+ALTER TABLE public.users
+ADD COLUMN IF NOT EXISTS google_id TEXT UNIQUE,
+ADD COLUMN IF NOT EXISTS apple_id TEXT UNIQUE,
+ADD COLUMN IF NOT EXISTS youtube_channel_id TEXT UNIQUE;
 
 ALTER TABLE public.users
 ADD COLUMN IF NOT EXISTS location TEXT,

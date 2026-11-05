@@ -220,12 +220,12 @@ curatorRouter.post(
   requireAuth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const userId = req.user!.sub; // Spotify ID, set by requireAuth
+      const userId = req.user!.sub; // users.id UUID, set by requireAuth
 
       const { data: user, error: findErr } = await supabase
         .from('users')
         .select('id, is_curator_public')
-        .eq('spotify_id', userId)
+        .eq('id', userId)
         .single();
 
       if (findErr || !user) {
@@ -275,7 +275,7 @@ curatorRouter.post(
       const { data: user, error: findErr } = await supabase
         .from('users')
         .select('id')
-        .eq('spotify_id', userId)
+        .eq('id', userId)
         .single();
 
       if (findErr || !user) {
@@ -323,7 +323,7 @@ curatorRouter.put(
       const { error } = await supabase
         .from('users')
         .update(updates)
-        .eq('spotify_id', userId);
+        .eq('id', userId);
 
       if (error) throw error;
 
