@@ -1,10 +1,11 @@
 /**
  * Vercel serverless entrypoint.
  *
- * Vercel auto-detects files under /api as serverless functions.
- * The [...path] catch-all routes every /api/* request (including
- * /api/v1/*) into the same Express app used by the Firebase function.
- * Express sees the original request path, so all /api/v1/* routes match.
+ * Vercel deploys every supported file under /api as a function, but does
+ * NOT support catch-all segments like api/[...path].ts (that is a Next.js
+ * feature). Instead this single function serves /api, and vercel.json
+ * rewrites every /api/* request here. Vercel preserves the original
+ * req.url, so the Express app still sees /api/v1/* paths and routes match.
  */
 
 import type { Request, Response } from 'express';
