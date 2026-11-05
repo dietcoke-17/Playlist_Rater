@@ -21,7 +21,7 @@ export interface UserProfile {
 export interface AuthContextType {
   user: UserProfile | null;
   isLoggedIn: boolean;
-  login: (provider: 'google' | 'spotify' | 'apple' | 'youtube' | 'email', email?: string) => Promise<void>;
+  login: (provider: 'google' | 'spotify' | 'apple' | 'youtube' | 'tidal' | 'amazon' | 'email', email?: string) => Promise<void>;
   logout: () => void;
   toggleService: (service: keyof ConnectedServices) => void;
   toastMessage: string | null;
@@ -117,7 +117,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [toastMessage]);
 
   const login = useCallback(
-    async (provider: 'google' | 'spotify' | 'apple' | 'youtube' | 'email', emailInput?: string) => {
+    async (provider: 'google' | 'spotify' | 'apple' | 'youtube' | 'tidal' | 'amazon' | 'email', emailInput?: string) => {
       // For Spotify, use real OAuth redirect
       if (provider === 'spotify') {
         api.initiateSpotifyLogin();
@@ -165,12 +165,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email: resolvedEmail,
         avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
         connectedServices: {
-          spotify: provider === 'spotify' || provider === 'google',
-          appleMusic: provider === 'apple',
-          youtubeMusic: provider === 'youtube',
+          spotify: false,
+          appleMusic: false,
+          youtubeMusic: false,
           google: provider === 'google',
         },
-        syncedPlaylistsCount: provider === 'spotify' ? 18 : 24,
+        syncedPlaylistsCount: 24,
         totalRatingsCount: 88,
       };
 
