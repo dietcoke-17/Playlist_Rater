@@ -1,50 +1,102 @@
 /* ==========================================================================
-   Playlitfy — Timmo Themed Login Page Styles
-   Strict adherence: Manrope, weights <= 700, no italics, no hyphens in text
+   Playlitfy — Wallpeace Aesthetic Login Page Styles
+   Centered glassmorphic card, atmospheric ambient glow, violet/indigo accents
    ========================================================================== */
 
-.login-root {
+.wallpeace-login-root {
   min-height: 100vh;
   width: 100%;
-  background-color: #060606;
+  background-color: #050508;
+  background-image:
+    radial-gradient(ellipse 90% 65% at 50% -10%, rgba(124, 58, 237, 0.22) 0%, rgba(99, 102, 241, 0.12) 45%, transparent 75%),
+    url('/img/hero-bg.svg'),
+    url('/img/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   color: #ffffff;
-  font-family: var(--font-base, 'Manrope', sans-serif);
+  font-family: var(--font-body, 'Inter', 'Manrope', -apple-system, sans-serif);
   position: relative;
   overflow-x: hidden;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+/* Atmospheric Overlay & Grid */
+.wallpeace-login-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(5, 5, 8, 0.45) 0%, rgba(4, 4, 6, 0.85) 70%, #030305 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.wallpeace-login-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse at 50% 50%, #000000 40%, transparent 85%);
+  -webkit-mask-image: radial-gradient(ellipse at 50% 50%, #000000 40%, transparent 85%);
+  z-index: 2;
+}
+
+/* Floating Ambient Glow Orbs */
+.wallpeace-login-blob-1 {
+  top: 10%;
+  left: 15%;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, rgba(99, 102, 241, 0.1) 60%, transparent 80%);
+  z-index: 2;
+}
+
+.wallpeace-login-blob-2 {
+  bottom: 10%;
+  right: 15%;
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(236, 72, 153, 0.22) 0%, rgba(124, 58, 237, 0.12) 60%, transparent 80%);
+  z-index: 2;
 }
 
 /* Toast Notification (Top Centered) */
-.login-toast {
+.wallpeace-login-toast {
   position: fixed;
-  top: 24px;
+  top: 28px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 100;
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 20px;
-  background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 12px 24px;
+  background-color: rgba(18, 16, 28, 0.92);
+  border: 1px solid rgba(139, 92, 246, 0.35);
   border-radius: 9999px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(124, 58, 237, 0.25);
   font-size: 13px;
   font-weight: 600;
   color: #ffffff;
-  animation: loginToastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: wallpeaceToastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.login-toast-icon {
-  color: #22c55e;
+.wallpeace-toast-icon {
+  color: #4ade80;
   flex-shrink: 0;
 }
 
-@keyframes loginToastIn {
+@keyframes wallpeaceToastIn {
   from {
     opacity: 0;
-    transform: translate(-50%, -12px);
+    transform: translate(-50%, -14px);
   }
   to {
     opacity: 1;
@@ -52,365 +104,152 @@
   }
 }
 
-/* Main Split Grid */
-.login-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  min-height: 100vh;
-  width: 100%;
-}
-
-@media (min-width: 1024px) {
-  .login-grid {
-    grid-template-columns: 1.15fr 0.85fr;
-  }
-}
-
-/* --------------------------------------------------------------------------
-   Left Showcase Side (Desktop Only)
-   -------------------------------------------------------------------------- */
-.login-showcase {
+/* Main Container & Centered Glassmorphic Card */
+.wallpeace-login-container {
   position: relative;
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 48px;
-  background-color: #050505;
-  border-right: 1px solid rgba(255, 255, 255, 0.06);
-  overflow: hidden;
-  user-select: none;
-}
-
-@media (min-width: 1024px) {
-  .login-showcase {
-    display: flex;
-  }
-}
-
-/* Spotlight glow tracking mouse pointer */
-.login-spotlight {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-/* Graphic Grid lines overlay matching Timmo */
-.login-grid-lines {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 56px 56px;
-}
-
-.login-ambient-glow {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: radial-gradient(circle at 30% 70%, rgba(255, 85, 0, 0.05), transparent 60%);
-}
-
-.login-showcase-top {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.login-brand-pill {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background-color: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 8px 16px;
-  border-radius: 9999px;
-  backdrop-filter: blur(12px);
-}
-
-.login-brand-text {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: #e5e5e5;
-  text-transform: uppercase;
-}
-
-.login-status-indicator {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  color: #a3a3a3;
-  text-transform: uppercase;
-  background-color: rgba(34, 197, 94, 0.08);
-  border: 1px solid rgba(34, 197, 94, 0.2);
-  padding: 6px 12px;
-  border-radius: 9999px;
-}
-
-.login-status-dot {
-  width: 6px;
-  height: 6px;
-  background-color: #22c55e;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #22c55e;
-}
-
-/* Quote Accent Box */
-.login-quote-box {
-  position: relative;
-  z-index: 3;
-  max-width: 540px;
-  margin: auto 0;
-  padding: 24px 0;
-}
-
-.login-quote-text {
-  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
-  font-weight: 400;
-  line-height: 1.25;
-  color: #f5f5f5;
-  margin-bottom: 24px;
-  letter-spacing: -0.02em;
-}
-
-.login-quote-divider {
-  width: 48px;
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.2);
-  margin-bottom: 20px;
-}
-
-.login-quote-author {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: #d4d4d4;
-  margin-bottom: 6px;
-}
-
-.login-quote-sub {
-  font-size: 12px;
-  color: #737373;
-  line-height: 1.5;
-}
-
-/* Showcase Bottom */
-.login-showcase-bottom {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding-top: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.login-spec-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.login-spec-label {
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: #525252;
-  text-transform: uppercase;
-}
-
-.login-spec-val {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  color: #a3a3a3;
-  text-transform: uppercase;
-}
-
-.login-spec-sep {
-  width: 1px;
-  height: 24px;
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-/* --------------------------------------------------------------------------
-   Right Form Side
-   -------------------------------------------------------------------------- */
-.login-form-side {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 32px 24px;
-  background-color: #0a0a0a;
-}
-
-@media (min-width: 640px) {
-  .login-form-side {
-    padding: 48px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .login-form-side {
-    padding: 56px 48px;
-  }
-}
-
-.login-top-nav {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
   z-index: 10;
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
 }
 
-.login-back-btn {
+.wallpeace-login-card {
+  width: 100%;
+  background: rgba(14, 12, 22, 0.78);
+  border: 1px solid rgba(139, 92, 246, 0.28);
+  border-radius: 24px;
+  padding: 32px;
+  backdrop-filter: blur(36px);
+  -webkit-backdrop-filter: blur(36px);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.75), 0 0 45px rgba(124, 58, 237, 0.18);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wallpeace-login-card:hover {
+  border-color: rgba(167, 139, 250, 0.4);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.85), 0 0 55px rgba(124, 58, 237, 0.24);
+}
+
+/* Header Navigation Inside Card */
+.wallpeace-login-header-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.wallpeace-login-back-btn {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 8px 16px;
   border-radius: 9999px;
-  color: #a3a3a3;
+  color: rgba(255, 255, 255, 0.75);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.login-back-btn:hover {
-  background-color: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.25);
+.wallpeace-login-back-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(139, 92, 246, 0.4);
   color: #ffffff;
+  transform: translateX(-2px);
 }
 
-.login-top-mode {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  color: #525252;
-  text-transform: uppercase;
-}
-
-/* Center Pane */
-.login-center-pane {
-  margin: auto;
-  padding: 24px 0;
-  max-width: 360px;
-  width: 100%;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
+.wallpeace-login-badge {
+  display: inline-flex;
   align-items: center;
-  text-align: center;
-}
-
-.login-title-group {
-  margin-bottom: 12px;
-}
-
-.login-title {
-  font-size: clamp(1.75rem, 3.5vw, 2.25rem);
-  font-weight: 700;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: #ffffff;
-  margin: 0;
-}
-
-.login-subtitle {
+  gap: 6px;
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.12em;
+  color: #c4b5fd;
   text-transform: uppercase;
-  color: #737373;
-  margin-top: 6px;
+  background: rgba(139, 92, 246, 0.12);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  padding: 5px 12px;
+  border-radius: 9999px;
 }
 
-.login-divider {
-  width: 64px;
-  height: 1px;
-  background-color: rgba(255, 255, 255, 0.12);
-  margin: 12px auto;
+/* Brand Header */
+.wallpeace-login-brand-group {
+  text-align: center;
+  margin-bottom: 28px;
 }
 
-.login-tagline-group {
-  margin-bottom: 24px;
-}
-
-.login-tagline-main {
-  font-size: 14px;
-  font-weight: 500;
-  color: #d4d4d4;
-  margin: 0;
-}
-
-.login-tagline-accent {
-  font-size: 14px;
-  font-weight: 700;
-  color: #ff5500;
-  margin: 2px 0 0;
-}
-
-/* Auth Actions Stack */
-.login-actions-container {
-  width: 100%;
+.wallpeace-login-brand-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
 }
 
-/* Mode Tabs Pill */
-.login-tab-pill {
+.wallpeace-login-title {
+  font-family: var(--font-display, 'Inter', sans-serif);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+}
+
+.wallpeace-login-subtitle {
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.62);
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+/* Tabs */
+.wallpeace-tab-pill {
   display: flex;
-  background-color: #141414;
+  background-color: rgba(0, 0, 0, 0.45);
   padding: 4px;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   width: 100%;
+  margin-bottom: 20px;
 }
 
-.login-tab-btn {
+.wallpeace-tab-btn {
   flex: 1;
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 9999px;
   background: none;
   border: none;
   font-size: 12px;
   font-weight: 600;
-  color: #737373;
+  color: rgba(255, 255, 255, 0.55);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.login-tab-btn.active {
-  background-color: #262626;
+.wallpeace-tab-btn.active {
+  background-color: rgba(139, 92, 246, 0.22);
   color: #ffffff;
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.2);
 }
 
 /* Providers Stack */
-.login-providers-stack {
+.wallpeace-providers-stack {
   display: flex;
   flex-direction: column;
   gap: 10px;
   width: 100%;
 }
 
-.login-provider-btn {
+.wallpeace-provider-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -419,82 +258,82 @@
   padding: 13px 20px;
   border-radius: 9999px;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  background-color: #121212;
+  background-color: rgba(255, 255, 255, 0.04);
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
 }
 
-.login-provider-btn:hover {
-  background-color: #1a1a1a;
-  border-color: rgba(255, 255, 255, 0.24);
+.wallpeace-provider-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(139, 92, 246, 0.4);
   transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
 
-.login-provider-btn:active {
-  transform: translateY(0);
-}
-
-.login-provider-btn:disabled {
-  opacity: 0.6;
+.wallpeace-provider-btn:disabled {
+  opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
-.login-provider-btn.google {
+.wallpeace-provider-btn.google {
   background-color: #ffffff;
   color: #000000;
   border-color: #ffffff;
 }
 
-.login-provider-btn.google:hover {
-  background-color: #eaeaea;
-  border-color: #eaeaea;
+.wallpeace-provider-btn.google:hover {
+  background-color: #f1f1f1;
+  border-color: #f1f1f1;
 }
 
 /* Magic Link Form */
-.login-email-form {
+.wallpeace-email-form {
   display: flex;
   flex-direction: column;
   gap: 14px;
   width: 100%;
-  text-align: left;
 }
 
-.login-input-group {
+.wallpeace-input-group-col {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  text-align: left;
 }
 
-.login-input-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  color: #737373;
+.wallpeace-input-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.6);
 }
 
-.login-email-input {
+.wallpeace-email-input {
   width: 100%;
-  padding: 12px 16px;
-  background-color: #141414;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 18px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 9999px;
   color: #ffffff;
-  font-size: 13px;
+  font-size: 14px;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.login-email-input:focus {
-  border-color: #ff5500;
+.wallpeace-email-input:focus {
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25);
+  background-color: rgba(0, 0, 0, 0.7);
 }
 
-.login-email-submit-btn {
+.wallpeace-submit-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -502,189 +341,200 @@
   width: 100%;
   padding: 13px 20px;
   border-radius: 9999px;
-  border: none;
-  background-color: #ff5500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
   color: #ffffff;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.35);
   transition: all 0.2s ease;
 }
 
-.login-email-submit-btn:hover {
-  background-color: #ff6a1f;
+.wallpeace-submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #8b5cf6 0%, #4f46e5 100%);
+  box-shadow: 0 8px 30px rgba(124, 58, 237, 0.5);
+  transform: translateY(-1px);
 }
 
-.login-email-submit-btn:disabled {
+.wallpeace-submit-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.login-spinner {
+.wallpeace-spinner {
   animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 /* Authenticated Connected Card */
-.login-connected-card {
+.wallpeace-connected-card {
   width: 100%;
-  background-color: #121212;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  text-align: left;
+  gap: 20px;
 }
 
-.login-profile-header {
+.wallpeace-profile-header {
   display: flex;
   align-items: center;
   gap: 14px;
-  padding-bottom: 14px;
+  padding-bottom: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.login-profile-avatar {
-  width: 44px;
-  height: 44px;
+.wallpeace-profile-avatar {
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ff5500;
+  border: 2px solid #8b5cf6;
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.4);
 }
 
-.login-profile-info {
+.wallpeace-profile-info {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  text-align: left;
 }
 
-.login-profile-name {
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffffff;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.login-profile-email {
-  font-size: 12px;
-  color: #737373;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.login-service-status-list {
+.wallpeace-profile-name-row {
   display: flex;
-  flex-direction: column;
+  align-items: center;
   gap: 8px;
 }
 
-.login-service-row {
+.wallpeace-profile-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.wallpeace-verified-tag {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 9999px;
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  color: #4ade80;
+}
+
+.wallpeace-profile-email {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 2px;
+}
+
+.wallpeace-services-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.wallpeace-panel-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.06em;
+  margin-bottom: 4px;
+}
+
+.wallpeace-service-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
-  background-color: #171717;
+  padding: 10px 14px;
+  background: rgba(0, 0, 0, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
 }
 
-.login-service-name {
-  font-size: 12px;
-  font-weight: 500;
-  color: #d4d4d4;
+.wallpeace-service-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.login-service-toggle {
-  background: none;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 4px 10px;
+.wallpeace-service-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.wallpeace-service-dot.spotify { background: #1ed760; }
+.wallpeace-service-dot.apple { background: #fa2d48; }
+.wallpeace-service-dot.youtube { background: #ff0000; }
+
+.wallpeace-service-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.wallpeace-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 5px 12px;
   border-radius: 9999px;
   font-size: 11px;
   font-weight: 600;
-  color: #a3a3a3;
+  color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.login-service-toggle.active {
-  background-color: rgba(34, 197, 94, 0.15);
+.wallpeace-toggle-btn.active {
+  background: rgba(34, 197, 94, 0.16);
   border-color: #22c55e;
-  color: #22c55e;
+  color: #4ade80;
 }
 
-.login-connected-actions {
+.wallpeace-login-actions-row {
   display: flex;
-  gap: 8px;
-  padding-top: 8px;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
 }
 
-.login-primary-action-btn {
-  flex: 1;
-  padding: 10px 16px;
-  background-color: #ffffff;
-  color: #000000;
-  border: none;
-  border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+.w-full {
+  width: 100% !important;
 }
 
-.login-primary-action-btn:hover {
-  background-color: #eaeaea;
-}
-
-.login-secondary-action-btn {
-  padding: 10px 16px;
-  background-color: #262626;
-  color: #d4d4d4;
-  border: none;
-  border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.login-secondary-action-btn:hover {
-  background-color: #333333;
-  color: #ffffff;
-}
-
-/* Padlock Security Notice matching Timmo */
-.login-security-notice {
+/* Security Notice Footer */
+.wallpeace-login-footer {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  margin-top: 20px;
-  color: #525252;
+  margin-top: 24px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  text-align: center;
+  line-height: 1.4;
 }
 
-.login-lock-icon {
-  color: #525252;
+.wallpeace-lock-icon {
+  color: #a855f7;
   flex-shrink: 0;
 }
 
-.login-lock-text {
-  font-size: 11px;
-  color: #737373;
-  letter-spacing: 0.02em;
-}
-
-.login-footer-spacer {
-  height: 24px;
+@media (max-width: 520px) {
+  .wallpeace-login-card {
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+  .wallpeace-login-title {
+    font-size: 22px;
+  }
 }
