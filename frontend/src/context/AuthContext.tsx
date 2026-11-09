@@ -135,28 +135,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         email: 'Magic Link Email',
       };
 
-      // Only attempt live backend OAuth redirect if a custom backend is configured and reachable
-      const apiUrl = import.meta.env.VITE_API_URL;
-      const hasLiveBackend = apiUrl && !apiUrl.includes('localhost:5001');
+      // Check if backend is reachable before initiating real OAuth redirect
+      const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001/api/v1';
+      let isBackendAlive = false;
 
-      if (hasLiveBackend && provider !== 'email') {
+      if (provider !== 'email') {
         try {
           const controller = new AbortController();
-          const timeout = setTimeout(() => controller.abort(), 1000);
-          const healthRes = await fetch(`${apiUrl}/health`, { signal: controller.signal });
+          const timeout = setTimeout(() => controller.abort(), 800);
+          const healthRes = await fetch(`${backendUrl}/health`, { signal: controller.signal });
           clearTimeout(timeout);
-
           if (healthRes.ok) {
-            if (provider === 'spotify') { api.initiateSpotifyLogin(); return; }
-            if (provider === 'google') { api.initiateGoogleLogin(); return; }
-            if (provider === 'apple') { api.initiateAppleLogin(); return; }
-            if (provider === 'youtube') { api.initiateYoutubeLogin(); return; }
-            if (provider === 'tidal') { api.initiateTidalLogin(); return; }
-            if (provider === 'amazon') { api.initiateAmazonLogin(); return; }
+            isBackendAlive = true;
           }
         } catch {
-          // Backend is offline/unreachable; proceed with resilient client session
+          // Backend is offline / unreachable
         }
+      }
+
+      if (isBackendAlive) {
+        if (provider === 'spotify') { api.initiateSpotifyLogin(); return; }
+        if (provider === 'google') { api.initiateGoogleLogin(); return; }
+        if (provider === 'apple') { api.initiateAppleLogin(); return; }
+        if (provider === 'youtube') { api.initiateYoutubeLogin(); return; }
+        if (provider === 'tidal') { api.initiateTidalLogin(); return; }
+        if (provider === 'amazon') { api.initiateAmazonLogin(); return; }
       }
 
       // Smooth authentication flow
