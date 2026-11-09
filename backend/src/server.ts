@@ -9,12 +9,14 @@ import app from './app';
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 5001;
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`\n🎧 Playlitfy Backend running at: http://localhost:${PORT}`);
   console.log(`\nAvailable endpoints:`);
   console.log(`  - GET  /api/v1/health`);
   console.log(`  - GET  /api/v1/auth/spotify`);
   console.log(`  - GET  /api/v1/auth/callback`);
+  console.log(`  - GET  /api/v1/auth/google`);
+  console.log(`  - GET  /api/v1/auth/google/callback`);
   console.log(`  - GET  /api/v1/auth/me`);
   console.log(`  - GET  /api/v1/spotify/playlist?url=<spotify_url>`);
   console.log(`  - GET  /api/v1/spotify/users/:spotifyUserId/playlists`);
@@ -28,4 +30,14 @@ app.listen(PORT, () => {
   console.log(`  - GET  /api/v1/playlists`);
   console.log(`  - POST /api/v1/playlists`);
   console.log(`\nReady for requests from frontend.\n`);
+});
+
+server.on('error', (err: any) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`\n❌ Port ${PORT} is already in use by another process.`);
+    console.error(`👉 Run this in your terminal to free port ${PORT}:`);
+    console.error(`   kill -9 $(lsof -t -i:${PORT})\n`);
+  } else {
+    console.error('Server error:', err);
+  }
 });
