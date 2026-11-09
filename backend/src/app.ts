@@ -23,7 +23,11 @@ const app = express();
 // ── CORS ──────────────────────────────────────────────────────────────────────
 const ALLOWED_ORIGINS = [
   'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:5001',
+  'http://127.0.0.1:5001',
   'http://localhost:4000',
+  'http://127.0.0.1:4000',
   'https://playlitfy.vercel.app',
   'https://playlitfy.com',
   // Extra origins via env: comma-separated CORS_ORIGINS, plus FRONTEND_URL
